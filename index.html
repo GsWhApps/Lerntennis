@@ -1,0 +1,1680 @@
+<title>Lern-Tennis</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap">
+<style>
+:root {
+  --court:#1e5c1e;--sand:#faf6ee;--sand-dark:#ede5d0;--sand-border:#d5c9b0;
+  --text:#1a1a1a;--text-muted:#6b6450;--gold:#f5e042;
+  --shadow-sm:0 2px 6px rgba(0,0,0,.18);--shadow-md:0 6px 20px rgba(0,0,0,.26);
+  --shadow-lg:0 12px 40px rgba(0,0,0,.4);
+  --radius-pill:50px;--radius-lg:24px;--radius-sm:10px;
+  color-scheme:light;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;height:100%;overflow:hidden;font-family:'Nunito',sans-serif;
+  user-select:none;-webkit-user-select:none;touch-action:manipulation;background:#111}
+
+/* ── OVERLAYS ── */
+.overlay{position:fixed;inset:0;background:rgba(10,10,10,.75);backdrop-filter:blur(5px);
+  -webkit-backdrop-filter:blur(5px);display:flex;align-items:center;justify-content:center;
+  z-index:100;padding:12px;overflow-y:auto}
+.panel{background:var(--sand);border-radius:var(--radius-lg);padding:38px 32px;
+  width:min(600px,100%);box-shadow:var(--shadow-lg)}
+
+/* ── MENU TYPOGRAPHY ── */
+.logo{font-family:'Fredoka One',sans-serif;font-size:clamp(2.4rem,6vw,3rem);
+  color:var(--court);text-align:center;letter-spacing:.02em}
+.logo-sub{font-size:1rem;color:var(--text-muted);text-align:center;margin:.3em 0 1.3em;font-weight:600}
+.sec-label{font-weight:800;font-size:.88rem;text-transform:uppercase;letter-spacing:.08em;
+  color:var(--text-muted);margin:18px 0 9px}
+
+/* ── CHIPS ── */
+.chip-row{display:flex;gap:7px;flex-wrap:wrap}
+.chip{font-family:'Fredoka One',sans-serif;font-size:1.05rem;padding:10px 18px;
+  border-radius:var(--radius-pill);border:2.5px solid var(--sand-border);
+  background:var(--sand-dark);color:var(--text);cursor:pointer;
+  transition:all .15s;box-shadow:var(--shadow-sm)}
+.chip:active{transform:scale(.95)}
+.chip.active{border-color:var(--court);background:var(--court);color:#fff;
+  box-shadow:0 4px 12px rgba(30,92,30,.4)}
+.chip-sq{width:54px;height:54px;padding:0;display:flex;align-items:center;
+  justify-content:center;font-size:1.35rem}
+.chip-sm{font-size:.9rem;padding:8px 14px}
+
+/* colored category chips */
+.cat-chip{border-color:transparent;color:#fff;opacity:.45;transition:all .18s}
+.cat-chip.active{opacity:1;box-shadow:0 3px 10px rgba(0,0,0,.25)}
+
+/* ── MODE TILES ── */
+.mode-tile{
+  font-family:'Fredoka One',sans-serif;
+  display:flex;flex-direction:column;align-items:center;gap:6px;
+  padding:14px 10px;border-radius:18px;border:2.5px solid var(--sand-border);
+  background:var(--sand-dark);cursor:pointer;transition:all .15s;
+  flex:1;min-width:90px;box-shadow:var(--shadow-sm);
+  -webkit-tap-highlight-color:transparent;
+}
+.mode-tile .tile-ico{font-size:2rem;line-height:1}
+.mode-tile .tile-lbl{font-size:.85rem;color:var(--text);text-align:center;line-height:1.2}
+.mode-tile:active{transform:scale(.95)}
+.mode-tile.active{border-color:var(--court);background:var(--court)}
+.mode-tile.active .tile-lbl{color:#fff}
+.menu-page{display:none}
+.menu-page.active{display:block}
+.mode-header{display:flex;align-items:center;gap:10px;margin-bottom:18px}
+.mode-header .tile-ico{font-size:1.8rem}
+.mode-header h2{font-family:'Fredoka One',sans-serif;font-size:1.5rem;color:var(--court);margin:0}
+.back-btn{display:flex;align-items:center;gap:6px;background:none;border:none;
+  font-family:'Fredoka One',sans-serif;font-size:1rem;color:var(--text-muted);
+  cursor:pointer;padding:0;margin-bottom:20px;-webkit-tap-highlight-color:transparent}
+.back-btn:active{opacity:.7}
+
+/* name inputs */
+.name-row{display:flex;gap:8px;flex-wrap:wrap}
+input.nm{font-family:'Nunito',sans-serif;font-size:1.05rem;font-weight:700;
+  padding:11px 15px;border-radius:var(--radius-sm);border:2.5px solid var(--sand-border);
+  background:var(--sand-dark);color:var(--text);flex:1;min-width:100px;outline:none;
+  transition:border-color .15s}
+input.nm:focus{border-color:var(--court)}
+
+/* math opts */
+.math-opts{display:none;flex-direction:column;gap:8px}
+.math-opts.visible{display:flex}
+
+/* category opts (word types / satzarten) */
+.cat-opts{display:none;flex-direction:column;gap:6px}
+.cat-opts.visible{display:flex}
+
+/* speed sliders */
+.spd-block{display:flex;flex-direction:column;gap:10px}
+.spd-row{display:flex;align-items:center;gap:8px}
+.spd-lbl{font-family:'Fredoka One',sans-serif;font-size:.92rem;color:var(--text-muted);
+  min-width:76px;line-height:1.2}
+.spd-ico{font-size:1.2rem}
+input[type=range].spd{flex:1;accent-color:var(--court);cursor:pointer}
+.spd-val{font-family:'Fredoka One',sans-serif;font-size:1rem;color:var(--court);
+  min-width:18px;text-align:center}
+
+/* start btn */
+#start-btn{display:block;width:100%;margin-top:24px;font-family:'Fredoka One',sans-serif;
+  font-size:1.4rem;padding:18px;border-radius:var(--radius-pill);border:none;
+  background:linear-gradient(135deg,#2e7d32,#1b5e20);color:#fff;cursor:pointer;
+  box-shadow:0 5px 18px rgba(30,92,30,.45);transition:transform .12s,box-shadow .12s;
+  letter-spacing:.02em;-webkit-tap-highlight-color:transparent}
+#start-btn:active{transform:scale(.96)}
+
+/* ── GAME ── */
+#game{width:100%;height:100%;display:none;flex-direction:column}
+
+/* ── SCOREBAR — versteckt, Anzeige direkt auf Spielfeld ── */
+#scorebar{display:none}
+.ps-block{display:flex;flex-direction:column;align-items:center;gap:2px}
+.ps-block.left{align-items:flex-start}
+.ps-block.right{align-items:flex-end}
+.p-name{font-family:'Fredoka One',sans-serif;font-size:clamp(.8rem,2.5vw,1rem);
+  color:rgba(255,255,255,.5);letter-spacing:.02em;transition:color .25s,text-shadow .25s;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:130px}
+.p-name.active{color:var(--gold);text-shadow:0 0 14px rgba(245,224,66,.7)}
+.p-pts{font-family:'Fredoka One',sans-serif;font-size:clamp(2rem,6vw,3rem);
+  color:#fff;line-height:1;text-shadow:0 2px 8px rgba(0,0,0,.5)}
+.p-pts.active{color:var(--gold);text-shadow:0 0 20px rgba(245,224,66,.5)}
+.p-dots{display:flex;gap:4px;align-items:center;flex-wrap:wrap;max-width:140px;margin-top:2px}
+.p-dot{width:11px;height:11px;border-radius:50%;background:rgba(255,255,255,.15);
+  transition:background .25s,transform .3s;border:1.5px solid rgba(255,255,255,.12)}
+.p-dot.filled{background:var(--gold);transform:scale(1.2);
+  box-shadow:0 0 7px rgba(245,224,66,.7)}
+
+/* center controls */
+#score-mid{display:flex;flex-direction:column;align-items:center;gap:3px;flex-shrink:0}
+#score-colon{font-family:'Fredoka One',sans-serif;font-size:clamp(1.4rem,4vw,1.8rem);
+  color:rgba(255,255,255,.3);line-height:1}
+#target-lbl{font-size:.6rem;color:rgba(255,255,255,.28);font-weight:800;letter-spacing:.06em}
+#ctrl-row{display:flex;gap:2px}
+.ctrl-btn{background:none;border:none;cursor:pointer;color:rgba(255,255,255,.55);
+  padding:5px 7px;border-radius:8px;font-size:1.1rem;line-height:1;
+  transition:background .15s,color .15s;-webkit-tap-highlight-color:transparent}
+.ctrl-btn:active{background:rgba(255,255,255,.2);color:#fff}
+
+/* ── COURT AREA ── */
+#court-wrap{flex:1;position:relative;overflow:hidden;min-height:0}
+
+#canvas-area{position:absolute;inset:0}
+#court-canvas{width:100%;height:100%}
+
+/* ── PLAYER OVERLAYS auf Spielfeld ── */
+.player-overlay{
+  position:absolute;top:50%;transform:translateY(-50%);
+  z-index:15;display:flex;flex-direction:column;align-items:center;gap:4px;
+  pointer-events:none;
+}
+.player-overlay.left{left:50%;transform:translate(-100%,-50%);padding-right:18px}
+.player-overlay.right{left:50%;transform:translate(0,-50%);padding-left:18px}
+.p-name{font-family:'Fredoka One',sans-serif;font-size:clamp(.7rem,2vw,.95rem);
+  color:rgba(255,255,255,.55);letter-spacing:.02em;text-shadow:0 1px 4px rgba(0,0,0,.8);
+  white-space:nowrap;transition:color .25s}
+.p-name.active{color:var(--gold);text-shadow:0 0 12px rgba(245,224,66,.8)}
+.p-pts{font-family:'Fredoka One',sans-serif;font-size:clamp(2.2rem,7vw,3.5rem);
+  color:rgba(255,255,255,.85);line-height:1;text-shadow:0 2px 12px rgba(0,0,0,.9)}
+.p-pts.active{color:var(--gold);text-shadow:0 0 24px rgba(245,224,66,.6)}
+.p-dots{display:flex;gap:5px;align-items:center;flex-wrap:wrap;
+  justify-content:center;max-width:120px;margin-top:2px}
+.p-dot{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,.2);
+  transition:background .25s,transform .3s;border:1.5px solid rgba(255,255,255,.15)}
+.p-dot.filled{background:var(--gold);transform:scale(1.25);
+  box-shadow:0 0 6px rgba(245,224,66,.7)}
+
+/* Controls oben mittig */
+#ctrl-bar{
+  position:absolute;top:10px;left:50%;transform:translateX(-50%);
+  z-index:25;display:flex;gap:4px;
+  background:rgba(0,0,0,.45);border-radius:20px;padding:4px 8px;
+  backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
+}
+#target-bar{
+  position:absolute;top:44px;left:50%;transform:translateX(-50%);
+  z-index:25;font-size:.6rem;color:rgba(255,255,255,.35);
+  font-weight:800;letter-spacing:.06em;white-space:nowrap;
+  text-shadow:0 1px 4px rgba(0,0,0,.8);
+}
+
+/* Button-Spalten liegen über dem Spielfeld */
+.btn-col{
+  position:absolute;top:0;bottom:0;
+  width:min(130px,28vw);
+  display:flex;flex-direction:column;
+  gap:6px;padding:10px 7px;justify-content:center;
+  z-index:20;
+  pointer-events:none;
+}
+.btn-col.left{left:0}
+.btn-col.right{right:0}
+.btn-col > *{pointer-events:auto}
+
+/* ── CAT BUTTONS ── */
+.cat-btn{
+  font-family:'Fredoka One',sans-serif;
+  font-size:clamp(.7rem,2vw,.95rem);
+  padding:8px 6px;
+  border-radius:14px;border:none;cursor:pointer;color:#fff;
+  line-height:1.1;text-align:center;
+  width:100%;
+  min-height:48px;max-height:70px;
+  display:flex;align-items:center;justify-content:center;
+  position:relative;overflow:hidden;
+  box-shadow:0 4px 0 rgba(0,0,0,.35),0 6px 14px rgba(0,0,0,.4),inset 0 1px 0 rgba(255,255,255,.3);
+  transition:transform .1s,box-shadow .1s,filter .1s;
+  white-space:normal;word-break:break-word;hyphens:auto;
+  letter-spacing:.01em;
+  -webkit-tap-highlight-color:transparent;touch-action:none;
+  backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px);
+}
+.cat-btn::after{
+  content:'';position:absolute;top:0;left:0;right:0;height:45%;
+  background:linear-gradient(rgba(255,255,255,.22),transparent);
+  pointer-events:none;border-radius:14px 14px 0 0;
+}
+.cat-btn:active{
+  transform:translateY(3px);
+  box-shadow:0 1px 0 rgba(0,0,0,.3),0 2px 5px rgba(0,0,0,.3),inset 0 1px 3px rgba(0,0,0,.2);
+  filter:brightness(.9);
+}
+
+/* ── WORD CHIP ── */
+#word-display{
+  position:absolute;
+  background:var(--gold);color:#1a1200;
+  font-family:'Fredoka One',sans-serif;
+  font-size:clamp(.85rem,2.8vw,1.35rem);
+  padding:8px 16px;border-radius:var(--radius-pill);
+  box-shadow:0 4px 20px rgba(0,0,0,.5),0 0 0 3px rgba(245,224,66,.4);
+  white-space:nowrap;pointer-events:none;z-index:10;
+  max-width:80%;text-align:center;overflow:hidden;text-overflow:ellipsis;
+  transform:translate(-50%,-50%);
+}
+
+/* ── ANALOG CLOCK SVG ── */
+#clock-svg{display:none;position:absolute;transform:translate(-50%,-50%);
+  pointer-events:none;z-index:10;filter:drop-shadow(0 4px 12px rgba(0,0,0,.6))}
+
+/* ── FEEDBACK ── */
+#feedback{position:fixed;top:45%;left:50%;
+  transform:translate(-50%,-50%) scale(.5);
+  font-family:'Fredoka One',sans-serif;
+  font-size:clamp(2rem,7vw,3.5rem);
+  pointer-events:none;z-index:60;opacity:0;
+  transition:opacity .15s,transform .2s;
+  text-shadow:0 3px 16px rgba(0,0,0,.6);letter-spacing:.03em}
+#feedback.show{opacity:1;transform:translate(-50%,-50%) scale(1)}
+
+/* ── PAUSE ── */
+#pause-overlay{position:fixed;inset:0;background:rgba(0,0,0,.65);
+  backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px);
+  display:none;align-items:center;justify-content:center;z-index:80}
+#pause-overlay.visible{display:flex}
+.pause-box{background:var(--sand);border-radius:var(--radius-lg);
+  padding:28px;text-align:center;width:min(360px,90vw);box-shadow:var(--shadow-lg)}
+.pause-box h2{font-family:'Fredoka One',sans-serif;font-size:1.7rem;
+  color:var(--court);margin-bottom:18px}
+.pause-actions{display:flex;gap:10px;margin-top:18px;justify-content:center;flex-wrap:wrap}
+.pause-actions button{font-family:'Fredoka One',sans-serif;font-size:1rem;
+  padding:12px 24px;border:none;border-radius:var(--radius-pill);cursor:pointer;
+  box-shadow:var(--shadow-sm);transition:transform .1s;
+  -webkit-tap-highlight-color:transparent}
+.pause-actions button:active{transform:scale(.95)}
+.btn-resume{background:linear-gradient(135deg,#2e7d32,#1b5e20);color:#fff}
+.btn-to-menu{background:linear-gradient(135deg,#d32f2f,#b71c1c);color:#fff}
+
+/* ── SETTINGS PANEL ── */
+#settings-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);
+  backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);display:none;z-index:85}
+#settings-overlay.visible{display:block}
+#settings-panel{position:fixed;top:0;right:-340px;width:310px;max-width:85vw;
+  height:100%;background:var(--sand);box-shadow:-8px 0 32px rgba(0,0,0,.4);
+  overflow-y:auto;z-index:86;transition:right .28s cubic-bezier(.22,.68,0,1.2);
+  padding:20px 18px 40px}
+#settings-panel.open{right:0}
+.sp-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.sp-header h3{font-family:'Fredoka One',sans-serif;font-size:1.35rem;color:var(--court)}
+.sp-close{background:none;border:none;font-size:1.4rem;cursor:pointer;
+  color:var(--text-muted);padding:4px 8px;border-radius:8px;transition:background .15s}
+.sp-close:active{background:var(--sand-dark)}
+.sp-divider{height:1px;background:var(--sand-border);margin:14px 0}
+.sp-apply{display:block;width:100%;padding:13px;font-family:'Fredoka One',sans-serif;
+  font-size:1rem;border:none;border-radius:var(--radius-pill);cursor:pointer;
+  background:linear-gradient(135deg,#2e7d32,#1b5e20);color:#fff;
+  box-shadow:var(--shadow-sm);-webkit-tap-highlight-color:transparent;margin-top:6px}
+.sp-apply:active{transform:scale(.96)}
+
+/* ── WIN SCREEN ── */
+#win-screen{position:fixed;inset:0;background:rgba(10,10,10,.8);
+  backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
+  display:none;align-items:center;justify-content:center;z-index:100}
+.win-box{background:var(--sand);border-radius:var(--radius-lg);
+  padding:36px 32px;text-align:center;width:min(360px,88vw);
+  box-shadow:var(--shadow-lg);position:relative;z-index:1}
+.win-trophy{font-size:3.5rem;display:block;margin-bottom:.15em;
+  animation:trophyBounce .65s cubic-bezier(.36,.07,.19,.97) .1s both}
+@keyframes trophyBounce{
+  0%{transform:scale(.2) rotate(-20deg);opacity:0}
+  60%{transform:scale(1.2) rotate(6deg)}
+  80%{transform:scale(.92)}
+  100%{transform:scale(1) rotate(0);opacity:1}
+}
+.win-box h2{font-family:'Fredoka One',sans-serif;
+  font-size:clamp(1.5rem,5vw,2.1rem);color:var(--court);margin-bottom:.3em}
+.win-sub{font-size:1rem;color:var(--text-muted);margin-bottom:1.4em;font-weight:700}
+.win-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.win-btns button{font-family:'Fredoka One',sans-serif;font-size:1rem;
+  padding:12px 24px;border:none;border-radius:var(--radius-pill);cursor:pointer;
+  box-shadow:var(--shadow-sm);transition:transform .1s;-webkit-tap-highlight-color:transparent}
+.win-btns button:active{transform:scale(.95)}
+.btn-replay{background:linear-gradient(135deg,#1565c0,#0d47a1);color:#fff}
+.btn-home{background:linear-gradient(135deg,#2e7d32,#1b5e20);color:#fff}
+
+#confetti-canvas{position:fixed;inset:0;pointer-events:none;z-index:99;display:none}
+
+/* ── CONFIRM ── */
+#confirm-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);
+  backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);
+  display:none;align-items:center;justify-content:center;z-index:110}
+#confirm-overlay.visible{display:flex}
+.confirm-box{background:var(--sand);border-radius:var(--radius-lg);
+  padding:28px;text-align:center;width:min(320px,88vw);box-shadow:var(--shadow-lg)}
+.confirm-box p{font-weight:700;color:var(--text);margin-bottom:18px;line-height:1.45}
+.confirm-btns{display:flex;gap:10px;justify-content:center}
+.confirm-btns button{font-family:'Fredoka One',sans-serif;font-size:1rem;
+  padding:10px 22px;border:none;border-radius:var(--radius-pill);cursor:pointer;
+  box-shadow:var(--shadow-sm);-webkit-tap-highlight-color:transparent}
+.confirm-btns button:active{transform:scale(.95)}
+.btn-yes{background:linear-gradient(135deg,#d32f2f,#b71c1c);color:#fff}
+.btn-no{background:var(--sand-dark);color:var(--text)}
+
+/* alle auswählen / keine link */
+.sel-all-row{display:flex;gap:12px;margin-bottom:6px}
+.sel-link{font-size:.72rem;font-weight:800;color:var(--court);cursor:pointer;
+  text-decoration:underline;text-underline-offset:2px;letter-spacing:.04em;
+  -webkit-tap-highlight-color:transparent}
+
+::-webkit-scrollbar{width:5px}
+::-webkit-scrollbar-track{background:var(--sand-dark)}
+::-webkit-scrollbar-thumb{background:var(--sand-border);border-radius:3px}
+</style>
+
+<!-- ══ KONFETTI ══ -->
+<canvas id="confetti-canvas"></canvas>
+
+<!-- ══ MAIN MENU ══ -->
+<div class="overlay" id="modal">
+<div class="panel">
+  <!-- SEITE 1 -->
+  <div class="menu-page active" id="mn-page1">
+    <div class="logo">🎾 Lern-Tennis</div>
+    <p class="logo-sub">Klicke die richtige Antwort — bevor das Wort landet!</p>
+
+    <div class="sec-label">Spielernamen</div>
+    <div class="name-row">
+      <input class="nm" id="name1" type="text" placeholder="Spieler 1" maxlength="14">
+      <input class="nm" id="name2" type="text" placeholder="Spieler 2" maxlength="14">
+    </div>
+
+    <div class="sec-label">Spielmodus wählen</div>
+    <div class="chip-row" id="mode-tiles" style="flex-wrap:wrap">
+      <button class="mode-tile" data-mode="wortarten"><span class="tile-ico">📝</span><span class="tile-lbl">Wortarten</span></button>
+      <button class="mode-tile" data-mode="satzarten"><span class="tile-ico">💬</span><span class="tile-lbl">Satzarten</span></button>
+      <button class="mode-tile" data-mode="mathe"><span class="tile-ico">🔢</span><span class="tile-lbl">Mathematik</span></button>
+      <button class="mode-tile" data-mode="uhrzeit"><span class="tile-ico">🕐</span><span class="tile-lbl">Uhrzeiten</span></button>
+    </div>
+  </div>
+
+  <!-- SEITE 2 -->
+  <div class="menu-page" id="mn-page2">
+    <button class="back-btn" id="mn-back-btn">← Zurück</button>
+    <div class="mode-header">
+      <span class="tile-ico" id="mn-mode-ico">📝</span>
+      <h2 id="mn-mode-title">Wortarten</h2>
+    </div>
+
+    <!-- Wortarten-Auswahl -->
+    <div class="cat-opts" id="mn-wortarten-opts">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-top:4px">
+        <div class="sec-label" style="margin:0">Welche Wortarten?</div>
+        <div class="sel-all-row" style="margin:0">
+          <span class="sel-link" data-target="mn-wa" data-action="all">Alle</span>
+          <span class="sel-link" data-target="mn-wa" data-action="none">Keine</span>
+        </div>
+      </div>
+      <div class="chip-row" id="mn-wa-chips"></div>
+    </div>
+
+    <!-- Satzarten-Auswahl -->
+    <div class="cat-opts" id="mn-satzarten-opts">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-top:4px">
+        <div class="sec-label" style="margin:0">Welche Satzarten?</div>
+        <div class="sel-all-row" style="margin:0">
+          <span class="sel-link" data-target="mn-sa" data-action="all">Alle</span>
+          <span class="sel-link" data-target="mn-sa" data-action="none">Keine</span>
+        </div>
+      </div>
+      <div class="chip-row" id="mn-sa-chips"></div>
+    </div>
+
+    <!-- Mathe-Optionen -->
+    <div class="math-opts" id="math-opts">
+      <div><div class="sec-label">Rechenarten</div>
+        <div class="chip-row">
+          <button class="chip chip-sq active" data-op="plus">+</button>
+          <button class="chip chip-sq" data-op="minus">−</button>
+          <button class="chip chip-sq" data-op="mal">×</button>
+          <button class="chip chip-sq" data-op="geteilt">÷</button>
+        </div>
+      </div>
+      <div><div class="sec-label">Zahlenraum</div>
+        <div class="chip-row">
+          <button class="chip chip-sm active" data-range="10">bis 10</button>
+          <button class="chip chip-sm" data-range="20">bis 20</button>
+          <button class="chip chip-sm" data-range="100">bis 100</button>
+          <button class="chip chip-sm" data-range="1000">bis 1000</button>
+        </div>
+      </div>
+      <div><div class="sec-label">Zehnerübergang</div>
+        <div class="chip-row">
+          <button class="chip chip-sm active" data-carry="beide">mit + ohne</button>
+          <button class="chip chip-sm" data-carry="mit">mit Übergang</button>
+          <button class="chip chip-sm" data-carry="ohne">ohne Übergang</button>
+          <button class="chip chip-sm" data-carry="zehner">nur Zehnerzahlen</button>
+          <button class="chip chip-sm" data-carry="verliebt">Verliebte Zahlen</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Uhrzeit-Optionen -->
+    <div class="math-opts" id="uhrzeit-opts">
+      <div><div class="sec-label">Genauigkeit</div>
+        <div class="chip-row">
+          <button class="chip chip-sm active" data-uhr-prec="voll">Volle Stunden</button>
+          <button class="chip chip-sm" data-uhr-prec="halb">+ halbe</button>
+          <button class="chip chip-sm" data-uhr-prec="viertel">+ Viertel</button>
+          <button class="chip chip-sm" data-uhr-prec="fuenf">+ 5-Min.</button>
+          <button class="chip chip-sm" data-uhr-prec="alle">Alle Minuten</button>
+        </div>
+      </div>
+      <div><div class="sec-label">Antwortformat</div>
+        <div class="chip-row">
+          <button class="chip chip-sm active" data-uhr-fmt="ziffer">Ziffern (14:30)</button>
+          <button class="chip chip-sm" data-uhr-fmt="wort">Wortform (halb drei)</button>
+          <button class="chip chip-sm" data-uhr-fmt="beide">Gemischt</button>
+        </div>
+      </div>
+      <div><div class="sec-label">Ziffern auf der Uhr</div>
+        <div class="chip-row">
+          <button class="chip chip-sm active" data-uhr-ziff="keine">Keine</button>
+          <button class="chip chip-sm" data-uhr-ziff="12">1–12</button>
+          <button class="chip chip-sm" data-uhr-ziff="24">1–24</button>
+        </div>
+      </div>
+      <div><div class="sec-label">Zeiger</div>
+        <div class="chip-row">
+          <button class="chip chip-sm active" data-uhr-zeiger="beide">Stunden + Minuten</button>
+          <button class="chip chip-sm" data-uhr-zeiger="nur-stunde">Nur Stundenzeiger</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="sec-label">Geschwindigkeit</div>
+    <div class="spd-block">
+      <div class="spd-row">
+        <span class="spd-lbl" id="mn-lbl1">Spieler 1</span>
+        <span class="spd-ico">🐢</span>
+        <input class="spd" type="range" id="mn-spd1" min="1" max="5" value="2">
+        <span class="spd-ico">🐇</span>
+        <span class="spd-val" id="mn-val1">2</span>
+      </div>
+      <div class="spd-row">
+        <span class="spd-lbl" id="mn-lbl2">Spieler 2</span>
+        <span class="spd-ico">🐢</span>
+        <input class="spd" type="range" id="mn-spd2" min="1" max="5" value="2">
+        <span class="spd-ico">🐇</span>
+        <span class="spd-val" id="mn-val2">2</span>
+      </div>
+    </div>
+
+    <div class="sec-label">Spielziel</div>
+    <div class="chip-row">
+      <button class="chip chip-sq active" data-pts="3">3</button>
+      <button class="chip chip-sq" data-pts="5">5</button>
+      <button class="chip chip-sq" data-pts="7">7</button>
+      <button class="chip chip-sq" data-pts="10">10</button>
+    </div>
+
+    <button id="start-btn">Spiel starten 🎾</button>
+  </div>
+</div>
+</div>
+
+<!-- ══ GAME ══ -->
+<div id="game" style="display:none">
+  <div id="scorebar"></div>
+
+  <div id="court-wrap">
+    <div id="canvas-area">
+      <canvas id="court-canvas"></canvas>
+      <div id="word-display">…</div>
+    </div>
+    <!-- Controls oben mittig -->
+    <div id="ctrl-bar">
+      <button class="ctrl-btn" id="btn-pause" title="Pause">⏸</button>
+      <button class="ctrl-btn" id="btn-settings" title="Einstellungen">⚙️</button>
+      <button class="ctrl-btn" id="btn-quit" title="Beenden">✖</button>
+    </div>
+    <div id="target-bar"></div>
+    <!-- Spieler-Anzeigen an der Mittellinie -->
+    <div class="player-overlay left">
+      <span class="p-name active" id="p1-name">Spieler 1</span>
+      <span class="p-pts active" id="p1-pts">0</span>
+      <div class="p-dots" id="p1-dots"></div>
+    </div>
+    <div class="player-overlay right">
+      <span class="p-name" id="p2-name">Spieler 2</span>
+      <span class="p-pts" id="p2-pts">0</span>
+      <div class="p-dots" id="p2-dots"></div>
+    </div>
+    <!-- Button-Spalten -->
+    <div class="btn-col left" id="btns-left"></div>
+    <div class="btn-col right" id="btns-right"></div>
+  </div>
+</div>
+
+<div id="feedback"></div>
+
+<!-- ══ PAUSE ══ -->
+<div id="pause-overlay">
+  <div class="pause-box">
+    <h2>⏸ Pause</h2>
+    <div class="spd-block">
+      <div class="spd-row">
+        <span class="spd-lbl" id="p1-speed-lbl">Spieler 1</span>
+        <span class="spd-ico">🐢</span>
+        <input class="spd" type="range" id="pa-spd1" min="1" max="5" value="2">
+        <span class="spd-ico">🐇</span>
+        <span class="spd-val" id="pa-val1">2</span>
+      </div>
+      <div class="spd-row">
+        <span class="spd-lbl" id="p2-speed-lbl">Spieler 2</span>
+        <span class="spd-ico">🐢</span>
+        <input class="spd" type="range" id="pa-spd2" min="1" max="5" value="2">
+        <span class="spd-ico">🐇</span>
+        <span class="spd-val" id="pa-val2">2</span>
+      </div>
+    </div>
+    <div class="pause-actions">
+      <button class="btn-resume" onclick="resumeGame()">▶ Weiter</button>
+      <button class="btn-to-menu" onclick="askQuit()">✖ Beenden</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ SETTINGS PANEL ══ -->
+<div id="settings-overlay" onclick="closeSettings()"></div>
+<div id="settings-panel">
+  <div class="sp-header">
+    <h3>⚙️ Einstellungen</h3>
+    <button class="sp-close" onclick="closeSettings()">✕</button>
+  </div>
+  <div class="sec-label">Spielmodus</div>
+  <div class="chip-row" style="flex-wrap:wrap">
+    <button class="mode-tile sp-mode active" data-mode="wortarten"><span class="tile-ico">📝</span><span class="tile-lbl">Wortarten</span></button>
+    <button class="mode-tile sp-mode" data-mode="satzarten"><span class="tile-ico">💬</span><span class="tile-lbl">Satzarten</span></button>
+    <button class="mode-tile sp-mode" data-mode="mathe"><span class="tile-ico">🔢</span><span class="tile-lbl">Mathematik</span></button>
+    <button class="mode-tile sp-mode" data-mode="uhrzeit"><span class="tile-ico">🕐</span><span class="tile-lbl">Uhrzeiten</span></button>
+  </div>
+
+  <!-- SP: Wortarten-Auswahl -->
+  <div class="cat-opts visible" id="sp-wortarten-opts">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-top:4px">
+      <div class="sec-label" style="margin:0">Welche Wortarten?</div>
+      <div class="sel-all-row" style="margin:0">
+        <span class="sel-link" data-target="sp-wa" data-action="all">Alle</span>
+        <span class="sel-link" data-target="sp-wa" data-action="none">Keine</span>
+      </div>
+    </div>
+    <div class="chip-row" id="sp-wa-chips"></div>
+  </div>
+
+  <!-- SP: Satzarten-Auswahl -->
+  <div class="cat-opts" id="sp-satzarten-opts">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-top:4px">
+      <div class="sec-label" style="margin:0">Welche Satzarten?</div>
+      <div class="sel-all-row" style="margin:0">
+        <span class="sel-link" data-target="sp-sa" data-action="all">Alle</span>
+        <span class="sel-link" data-target="sp-sa" data-action="none">Keine</span>
+      </div>
+    </div>
+    <div class="chip-row" id="sp-sa-chips"></div>
+  </div>
+
+  <div class="math-opts" id="sp-math-opts">
+    <div class="sp-divider"></div>
+    <div class="sec-label">Rechenarten</div>
+    <div class="chip-row">
+      <button class="chip chip-sq sp-op active" data-op="plus">+</button>
+      <button class="chip chip-sq sp-op" data-op="minus">−</button>
+      <button class="chip chip-sq sp-op" data-op="mal">×</button>
+      <button class="chip chip-sq sp-op" data-op="geteilt">÷</button>
+    </div>
+    <div class="sec-label" style="margin-top:10px">Zahlenraum</div>
+    <div class="chip-row">
+      <button class="chip chip-sm sp-range active" data-range="10">bis 10</button>
+      <button class="chip chip-sm sp-range" data-range="20">bis 20</button>
+      <button class="chip chip-sm sp-range" data-range="100">bis 100</button>
+      <button class="chip chip-sm sp-range" data-range="1000">bis 1000</button>
+    </div>
+    <div class="sec-label" style="margin-top:10px">Zehnerübergang</div>
+    <div class="chip-row">
+      <button class="chip chip-sm sp-carry active" data-carry="beide">mit + ohne</button>
+      <button class="chip chip-sm sp-carry" data-carry="mit">mit Übergang</button>
+      <button class="chip chip-sm sp-carry" data-carry="ohne">ohne Übergang</button>
+      <button class="chip chip-sm sp-carry" data-carry="zehner">nur Zehnerzahlen</button>
+      <button class="chip chip-sm sp-carry" data-carry="verliebt">Verliebte Zahlen</button>
+    </div>
+  </div>
+
+  <!-- SP: Uhrzeit-Optionen -->
+  <div class="math-opts" id="sp-uhrzeit-opts">
+    <div class="sp-divider"></div>
+    <div class="sec-label">Genauigkeit</div>
+    <div class="chip-row">
+      <button class="chip chip-sm sp-uhr-prec active" data-uhr-prec="voll">Volle Stunden</button>
+      <button class="chip chip-sm sp-uhr-prec" data-uhr-prec="halb">+ halbe</button>
+      <button class="chip chip-sm sp-uhr-prec" data-uhr-prec="viertel">+ Viertel</button>
+      <button class="chip chip-sm sp-uhr-prec" data-uhr-prec="fuenf">+ 5-Min.</button>
+      <button class="chip chip-sm sp-uhr-prec" data-uhr-prec="alle">Alle Minuten</button>
+    </div>
+    <div class="sec-label" style="margin-top:10px">Antwortformat</div>
+    <div class="chip-row">
+      <button class="chip chip-sm sp-uhr-fmt active" data-uhr-fmt="ziffer">Ziffern (14:30)</button>
+      <button class="chip chip-sm sp-uhr-fmt" data-uhr-fmt="wort">Wortform (halb drei)</button>
+      <button class="chip chip-sm sp-uhr-fmt" data-uhr-fmt="beide">Gemischt</button>
+    </div>
+      <div class="sec-label" style="margin-top:10px">Ziffern auf der Uhr</div>
+      <div class="chip-row">
+        <button class="chip chip-sm sp-uhr-ziff active" data-uhr-ziff="keine">Keine</button>
+        <button class="chip chip-sm sp-uhr-ziff" data-uhr-ziff="12">1–12</button>
+        <button class="chip chip-sm sp-uhr-ziff" data-uhr-ziff="24">1–24</button>
+      </div>
+      <div class="sec-label" style="margin-top:10px">Zeiger</div>
+      <div class="chip-row">
+        <button class="chip chip-sm sp-uhr-zeiger active" data-uhr-zeiger="beide">Stunden + Minuten</button>
+        <button class="chip chip-sm sp-uhr-zeiger" data-uhr-zeiger="nur-stunde">Nur Stundenzeiger</button>
+      </div>
+  </div>
+
+  <div class="sp-divider"></div>
+  <div class="sec-label">Geschwindigkeit</div>
+  <div class="spd-block">
+    <div class="spd-row">
+      <span class="spd-lbl" id="sp-lbl1">Spieler 1</span>
+      <span class="spd-ico">🐢</span>
+      <input class="spd" type="range" id="sp-spd1" min="1" max="5" value="2">
+      <span class="spd-ico">🐇</span>
+      <span class="spd-val" id="sp-val1">2</span>
+    </div>
+    <div class="spd-row">
+      <span class="spd-lbl" id="sp-lbl2">Spieler 2</span>
+      <span class="spd-ico">🐢</span>
+      <input class="spd" type="range" id="sp-spd2" min="1" max="5" value="2">
+      <span class="spd-ico">🐇</span>
+      <span class="spd-val" id="sp-val2">2</span>
+    </div>
+  </div>
+  <div class="sp-divider"></div>
+  <button class="sp-apply" onclick="applySettingsAndClose()">✔ Übernehmen &amp; Weiter</button>
+</div>
+
+<!-- ══ WIN SCREEN ══ -->
+<div id="win-screen">
+  <div class="win-box">
+    <span class="win-trophy">🏆</span>
+    <h2 id="win-title">Gewonnen!</h2>
+    <p class="win-sub" id="win-sub"></p>
+    <div class="win-btns">
+      <button class="btn-replay" onclick="replayGame()">Nochmal gleich</button>
+      <button class="btn-home" onclick="goToMenu()">Hauptmenü</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ CONFIRM ══ -->
+<div id="confirm-overlay">
+  <div class="confirm-box">
+    <p id="confirm-text">Zum Hauptmenü?</p>
+    <div class="confirm-btns">
+      <button class="btn-yes" id="confirm-yes">Ja, beenden</button>
+      <button class="btn-no" onclick="closeConfirm()">Abbrechen</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ══ DATA ══
+const WORTARTEN={
+  categories:[
+    {id:'best-art',   label:'Best. Artikel',   color:'#e67e00'},
+    {id:'unbest-art', label:'Unbest. Artikel',  color:'#c45a00'},
+    {id:'nomen',      label:'Nomen',            color:'#1565c0'},
+    {id:'verb',       label:'Verb',             color:'#c0392b'},
+    {id:'adjektiv',   label:'Adjektiv',         color:'#7cb342'},
+    {id:'pronomen',   label:'Pronomen',         color:'#7b1fa2'},
+    {id:'satzzeichen',label:'Satzzeichen',      color:'#546e7a'},
+  ],
+  words:[
+    {w:'der',c:'best-art'},{w:'die',c:'best-art'},{w:'das',c:'best-art'},
+    {w:'ein',c:'unbest-art'},{w:'eine',c:'unbest-art'},
+    {w:'Hund',c:'nomen'},{w:'Katze',c:'nomen'},{w:'Baum',c:'nomen'},
+    {w:'Schule',c:'nomen'},{w:'Kind',c:'nomen'},{w:'Ball',c:'nomen'},
+    {w:'Haus',c:'nomen'},{w:'Blume',c:'nomen'},{w:'Buch',c:'nomen'},
+    {w:'Sonne',c:'nomen'},{w:'Freund',c:'nomen'},{w:'Vogel',c:'nomen'},
+    {w:'rennen',c:'verb'},{w:'lachen',c:'verb'},{w:'schreiben',c:'verb'},
+    {w:'spielen',c:'verb'},{w:'lesen',c:'verb'},{w:'malen',c:'verb'},
+    {w:'springen',c:'verb'},{w:'essen',c:'verb'},{w:'schlafen',c:'verb'},
+    {w:'groß',c:'adjektiv'},{w:'klein',c:'adjektiv'},{w:'schnell',c:'adjektiv'},
+    {w:'laut',c:'adjektiv'},{w:'leise',c:'adjektiv'},{w:'schön',c:'adjektiv'},
+    {w:'lustig',c:'adjektiv'},{w:'müde',c:'adjektiv'},{w:'bunt',c:'adjektiv'},
+    {w:'ich',c:'pronomen'},{w:'du',c:'pronomen'},{w:'er',c:'pronomen'},
+    {w:'sie',c:'pronomen'},{w:'wir',c:'pronomen'},{w:'ihr',c:'pronomen'},
+    {w:'.',c:'satzzeichen'},{w:'!',c:'satzzeichen'},{w:'?',c:'satzzeichen'},{w:',',c:'satzzeichen'},
+  ]
+};
+const SATZARTEN={
+  categories:[
+    {id:'aussage',      label:'Aussagesatz',      color:'#1a5276'},
+    {id:'frage',        label:'Fragesatz',         color:'#7d3c98'},
+    {id:'ausruf',       label:'Ausrufesatz',       color:'#c0392b'},
+    {id:'aufforderung', label:'Aufforderung',      color:'#117a65'},
+    {id:'satzzeichen',  label:'Satzzeichen',       color:'#616a6b'},
+  ],
+  words:[
+    {w:'Ich gehe zur Schule.',c:'aussage'},{w:'Der Hund bellt laut.',c:'aussage'},
+    {w:'Wir spielen Ball.',c:'aussage'},{w:'Es ist kalt heute.',c:'aussage'},
+    {w:'Das Buch ist toll.',c:'aussage'},{w:'Sie liest ein Buch.',c:'aussage'},
+    {w:'Wer bist du?',c:'frage'},{w:'Wo ist mein Ball?',c:'frage'},
+    {w:'Hast du Hunger?',c:'frage'},{w:'Wie heißt du?',c:'frage'},
+    {w:'Kommst du mit?',c:'frage'},{w:'Was machst du?',c:'frage'},
+    {w:'Das ist wunderbar!',c:'ausruf'},{w:'Wie schön das ist!',c:'ausruf'},
+    {w:'Toll gemacht!',c:'ausruf'},{w:'Ich freue mich so!',c:'ausruf'},
+    {w:'Komm her!',c:'aufforderung'},{w:'Setz dich hin!',c:'aufforderung'},
+    {w:'Bitte sei leise!',c:'aufforderung'},{w:'Räum auf!',c:'aufforderung'},
+    {w:'.',c:'satzzeichen'},{w:'!',c:'satzzeichen'},{w:'?',c:'satzzeichen'},
+  ]
+};
+
+// ── Welche Kategorien sind aktiv (alle standardmäßig) ──
+let activeWA = new Set(WORTARTEN.categories.map(c=>c.id));
+let activeSA = new Set(SATZARTEN.categories.map(c=>c.id));
+
+// ══ CHIP BUILDER für Kategorie-Auswahl ══
+function buildCatChips(containerId, dataset, activeSet, prefix){
+  const container = document.getElementById(containerId);
+  container.innerHTML='';
+  dataset.categories.forEach(cat=>{
+    const btn = document.createElement('button');
+    btn.className='chip cat-chip chip-sm'+(activeSet.has(cat.id)?' active':'');
+    btn.textContent=cat.label;
+    btn.style.background=cat.color;
+    btn.dataset.catId=cat.id;
+    btn.dataset.prefix=prefix;
+    btn.addEventListener('click',()=>{
+      if(activeSet.has(cat.id)){
+        if(activeSet.size<=1)return;
+        activeSet.delete(cat.id);
+        btn.classList.remove('active');
+      } else {
+        activeSet.add(cat.id);
+        btn.classList.add('active');
+      }
+    });
+    container.appendChild(btn);
+  });
+}
+function syncCatChips(containerId, activeSet){
+  document.querySelectorAll('#'+containerId+' .cat-chip').forEach(btn=>{
+    btn.classList.toggle('active', activeSet.has(btn.dataset.catId));
+  });
+}
+function setupSelLinks(target, activeSet, dataset, chipsId){
+  document.querySelectorAll('[data-target="'+target+'"]').forEach(link=>{
+    link.addEventListener('click',()=>{
+      const action=link.dataset.action;
+      if(action==='all'){
+        dataset.categories.forEach(c=>activeSet.add(c.id));
+      } else {
+        const first=dataset.categories[0].id;
+        activeSet.clear();
+        activeSet.add(first);
+      }
+      syncCatChips(chipsId, activeSet);
+    });
+  });
+}
+
+// Chips beim Laden erstellen
+buildCatChips('mn-wa-chips', WORTARTEN, activeWA, 'mn');
+buildCatChips('mn-sa-chips', SATZARTEN, activeSA, 'mn');
+buildCatChips('sp-wa-chips', WORTARTEN, activeWA, 'sp');
+buildCatChips('sp-sa-chips', SATZARTEN, activeSA, 'sp');
+setupSelLinks('mn-wa', activeWA, WORTARTEN, 'mn-wa-chips');
+setupSelLinks('mn-sa', activeSA, SATZARTEN, 'mn-sa-chips');
+setupSelLinks('sp-wa', activeWA, WORTARTEN, 'sp-wa-chips');
+setupSelLinks('sp-sa', activeSA, SATZARTEN, 'sp-sa-chips');
+
+// ══ SPEED ══
+function speedFromSlider(v){
+  const vals=[.0007,.0013,.002,.003,.0042];
+  return vals[Math.max(0,Math.min(4,v-1))];
+}
+
+// ══ STATE ══
+const st={
+  mode:'wortarten',targetPts:3,score:[0,0],
+  speeds:[2,2],names:['Spieler 1','Spieler 2'],
+  ballX:.5,ballY:.5,ballVX:0,ballVY:0,toSide:1,
+  currentWord:null,animating:false,blocked:false,paused:false,
+  wordPool:[],mathOps:['plus'],mathRange:10,mathCarry:'beide',
+  mathChoices:[],mathCorrect:null,autoPointTimer:null,
+  uhrPrec:'voll',uhrFmt:'ziffer',
+  uhrZiffern:'keine', // 'keine' | '12' | '24'
+  uhrNurStunde:false,
+};
+
+// ══ ELEMENTS ══
+const modal=document.getElementById('modal');
+const gameEl=document.getElementById('game');
+const mathOptsEl=document.getElementById('math-opts');
+const canvas=document.getElementById('court-canvas');
+const ctx=canvas.getContext('2d');
+const wordDisplay=document.getElementById('word-display');
+const feedbackEl=document.getElementById('feedback');
+const winScreen=document.getElementById('win-screen');
+const pauseOverlay=document.getElementById('pause-overlay');
+const settingsOv=document.getElementById('settings-overlay');
+const settingsPanel=document.getElementById('settings-panel');
+const confirmOv=document.getElementById('confirm-overlay');
+const confettiCanvas=document.getElementById('confetti-canvas');
+const confCtx=confettiCanvas.getContext('2d');
+let raf=null, confettiRaf=null;
+
+// ── Sichtbarkeits-Helfer für Modus-abhängige Bereiche ──
+function updateModeViews(mode, prefix){
+  const pfx = prefix===''?'':prefix+'-';
+  const wa = document.getElementById(pfx+'wortarten-opts');
+  const sa = document.getElementById(pfx+'satzarten-opts');
+  const ma = prefix==='sp'?document.getElementById('sp-math-opts'):document.getElementById('math-opts');
+  const uh = prefix==='sp'?document.getElementById('sp-uhrzeit-opts'):document.getElementById('uhrzeit-opts');
+  if(wa) wa.classList.toggle('visible', mode==='wortarten');
+  if(sa) sa.classList.toggle('visible', mode==='satzarten');
+  if(ma) ma.classList.toggle('visible', mode==='mathe');
+  if(uh) uh.classList.toggle('visible', mode==='uhrzeit');
+}
+
+// ══ MENU WIRING ══
+// Mode tiles (main menu)
+const modeInfos={
+  wortarten:{ico:'📝',title:'Wortarten'},
+  satzarten:{ico:'💬',title:'Satzarten'},
+  mathe:{ico:'🔢',title:'Mathematik'},
+  uhrzeit:{ico:'🕐',title:'Uhrzeiten'},
+};
+document.querySelectorAll('.mode-tile:not(.sp-mode)').forEach(b=>{
+  b.addEventListener('click',()=>{
+    st.mode=b.dataset.mode;
+    const info=modeInfos[st.mode]||{ico:'📝',title:st.mode};
+    document.getElementById('mn-mode-ico').textContent=info.ico;
+    document.getElementById('mn-mode-title').textContent=info.title;
+    updateModeViews(st.mode,'mn');
+    document.getElementById('mn-page1').classList.remove('active');
+    document.getElementById('mn-page2').classList.add('active');
+  });
+});
+document.getElementById('mn-back-btn').addEventListener('click',()=>{
+  document.getElementById('mn-page2').classList.remove('active');
+  document.getElementById('mn-page1').classList.add('active');
+});
+document.querySelectorAll('.chip[data-op]:not(.sp-op)').forEach(b=>{
+  b.addEventListener('click',()=>{
+    b.classList.toggle('active');
+    const a=[...document.querySelectorAll('.chip[data-op]:not(.sp-op).active')].map(x=>x.dataset.op);
+    st.mathOps=a.length?a:['plus'];
+    if(!a.length) b.classList.add('active');
+  });
+});
+document.querySelectorAll('.chip[data-range]:not(.sp-range)').forEach(b=>{
+  b.addEventListener('click',()=>{
+    document.querySelectorAll('.chip[data-range]:not(.sp-range)').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active');
+    st.mathRange=parseInt(b.dataset.range);
+  });
+});
+document.querySelectorAll('.chip[data-carry]:not(.sp-carry)').forEach(b=>{
+  b.addEventListener('click',()=>{
+    document.querySelectorAll('.chip[data-carry]:not(.sp-carry)').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active');
+    st.mathCarry=b.dataset.carry;
+  });
+});
+// Uhrzeit-Optionen (Menü)
+document.querySelectorAll('.chip[data-uhr-prec]:not(.sp-uhr-prec)').forEach(b=>{
+  b.addEventListener('click',()=>{
+    document.querySelectorAll('.chip[data-uhr-prec]:not(.sp-uhr-prec)').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active');
+    st.uhrPrec=b.dataset.uhrPrec;
+  });
+});
+document.querySelectorAll('.chip[data-uhr-fmt]:not(.sp-uhr-fmt)').forEach(b=>{
+  b.addEventListener('click',()=>{
+    document.querySelectorAll('.chip[data-uhr-fmt]:not(.sp-uhr-fmt)').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active');
+    st.uhrFmt=b.dataset.uhrFmt;
+  });
+});
+document.querySelectorAll('[data-uhr-ziff]:not(.sp-uhr-ziff)').forEach(b=>{
+  b.addEventListener('click',()=>{
+    document.querySelectorAll('[data-uhr-ziff]:not(.sp-uhr-ziff)').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active');
+    st.uhrZiffern=b.dataset.uhrZiff;
+  });
+});
+document.querySelectorAll('[data-uhr-zeiger]:not(.sp-uhr-zeiger)').forEach(b=>{
+  b.addEventListener('click',()=>{
+    document.querySelectorAll('[data-uhr-zeiger]:not(.sp-uhr-zeiger)').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active');
+    st.uhrNurStunde=b.dataset.uhrZeiger==='nur-stunde';
+  });
+});
+document.querySelectorAll('.chip[data-pts]').forEach(b=>{
+  b.addEventListener('click',()=>{
+    document.querySelectorAll('.chip[data-pts]').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active');
+    st.targetPts=parseInt(b.dataset.pts);
+  });
+});
+['1','2'].forEach(n=>{
+  const sl=document.getElementById('mn-spd'+n);
+  sl.addEventListener('input',()=>{
+    const v=parseInt(sl.value);
+    document.getElementById('mn-val'+n).textContent=v;
+    st.speeds[n-1]=v;
+    syncSpeeds(n,v);
+  });
+  const pa=document.getElementById('pa-spd'+n);
+  pa.addEventListener('input',()=>{
+    const v=parseInt(pa.value);
+    document.getElementById('pa-val'+n).textContent=v;
+    st.speeds[n-1]=v;
+    syncSpeeds(n,v);
+  });
+  const sp=document.getElementById('sp-spd'+n);
+  sp.addEventListener('input',()=>{
+    document.getElementById('sp-val'+n).textContent=sp.value;
+  });
+});
+function syncSpeeds(n,v){
+  ['mn','pa','sp'].forEach(p=>{
+    const sl=document.getElementById(p+'-spd'+n);
+    const vl=document.getElementById(p+'-val'+n);
+    if(sl){sl.value=v;if(vl)vl.textContent=v;}
+  });
+}
+document.getElementById('name1').addEventListener('input',e=>{
+  document.getElementById('mn-lbl1').textContent=e.target.value.trim()||'Spieler 1';
+});
+document.getElementById('name2').addEventListener('input',e=>{
+  document.getElementById('mn-lbl2').textContent=e.target.value.trim()||'Spieler 2';
+});
+document.getElementById('start-btn').addEventListener('click',startGame);
+document.getElementById('btn-pause').addEventListener('click',pauseGame);
+document.getElementById('btn-settings').addEventListener('click',openSettings);
+document.getElementById('btn-quit').addEventListener('click',askQuit);
+
+// ══ CONFIRM ══
+let confirmCb=null;
+function showConfirm(text,cb){
+  document.getElementById('confirm-text').textContent=text;
+  confirmCb=cb;
+  confirmOv.classList.add('visible');
+}
+function closeConfirm(){
+  confirmOv.classList.remove('visible');
+  confirmCb=null;
+}
+document.getElementById('confirm-yes').addEventListener('click',()=>{
+  const cb=confirmCb; closeConfirm(); if(cb)cb();
+});
+function askQuit(){
+  pauseOverlay.classList.remove('visible');
+  showConfirm('Zurück zum Hauptmenü? Das aktuelle Spiel wird beendet.',goToMenu);
+}
+
+// ══ SETTINGS ══
+// Mode tiles (settings panel)
+document.querySelectorAll('.sp-mode').forEach(b=>{
+  b.addEventListener('click',()=>{
+    document.querySelectorAll('.sp-mode').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active');
+    updateModeViews(b.dataset.mode,'sp');
+  });
+});
+document.querySelectorAll('.sp-op').forEach(b=>{
+  b.addEventListener('click',()=>{
+    b.classList.toggle('active');
+    const a=[...document.querySelectorAll('.sp-op.active')];
+    if(!a.length) b.classList.add('active');
+  });
+});
+document.querySelectorAll('.sp-range').forEach(b=>{
+  b.addEventListener('click',()=>{
+    document.querySelectorAll('.sp-range').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active');
+  });
+});
+document.querySelectorAll('.sp-carry').forEach(b=>{
+  b.addEventListener('click',()=>{
+    document.querySelectorAll('.sp-carry').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active');
+  });
+});
+// Uhrzeit-Wiring Settings
+document.querySelectorAll('.sp-uhr-prec').forEach(b=>{
+  b.addEventListener('click',()=>{
+    document.querySelectorAll('.sp-uhr-prec').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active');
+  });
+});
+document.querySelectorAll('.sp-uhr-fmt').forEach(b=>{
+  b.addEventListener('click',()=>{
+    document.querySelectorAll('.sp-uhr-fmt').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active');
+  });
+});
+document.querySelectorAll('.sp-uhr-ziff').forEach(b=>{
+  b.addEventListener('click',()=>{
+    document.querySelectorAll('.sp-uhr-ziff').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active');
+  });
+});
+document.querySelectorAll('.sp-uhr-zeiger').forEach(b=>{
+  b.addEventListener('click',()=>{
+    document.querySelectorAll('.sp-uhr-zeiger').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active');
+  });
+});
+function openSettings(){
+  document.querySelectorAll('.sp-mode').forEach(b=>b.classList.toggle('active',b.dataset.mode===st.mode));
+  updateModeViews(st.mode,'sp');
+  syncCatChips('sp-wa-chips', activeWA);
+  syncCatChips('sp-sa-chips', activeSA);
+  document.querySelectorAll('.sp-op').forEach(b=>b.classList.toggle('active',st.mathOps.includes(b.dataset.op)));
+  document.querySelectorAll('.sp-range').forEach(b=>b.classList.toggle('active',parseInt(b.dataset.range)===st.mathRange));
+  document.querySelectorAll('.sp-carry').forEach(b=>b.classList.toggle('active',b.dataset.carry===st.mathCarry));
+  document.querySelectorAll('.sp-uhr-prec').forEach(b=>b.classList.toggle('active',b.dataset.uhrPrec===st.uhrPrec));
+  document.querySelectorAll('.sp-uhr-fmt').forEach(b=>b.classList.toggle('active',b.dataset.uhrFmt===st.uhrFmt));
+  document.querySelectorAll('.sp-uhr-ziff').forEach(b=>b.classList.toggle('active',b.dataset.uhrZiff===st.uhrZiffern));
+  document.querySelectorAll('.sp-uhr-zeiger').forEach(b=>b.classList.toggle('active',(b.dataset.uhrZeiger==='nur-stunde')===st.uhrNurStunde));
+  ['1','2'].forEach(n=>{
+    const v=st.speeds[n-1];
+    document.getElementById('sp-spd'+n).value=v;
+    document.getElementById('sp-val'+n).textContent=v;
+  });
+  if(!st.paused&&st.animating){st.paused=true;st.animating=false;clearAutoTimer();}
+  settingsOv.classList.add('visible');
+  settingsPanel.classList.add('open');
+}
+function closeSettings(){
+  settingsOv.classList.remove('visible');
+  settingsPanel.classList.remove('open');
+}
+function applySettingsAndClose(){
+  const newMode=document.querySelector('.sp-mode.active')?.dataset.mode||st.mode;
+  const modeChanged=newMode!==st.mode;
+  st.mode=newMode;
+  // Sync mode tiles in menu
+  document.querySelectorAll('.mode-tile:not(.sp-mode)').forEach(b=>{
+    b.classList.toggle('active',b.dataset.mode===st.mode);
+  });
+  updateModeViews(st.mode,'mn');
+  const ops=[...document.querySelectorAll('.sp-op.active')].map(x=>x.dataset.op);
+  if(ops.length)st.mathOps=ops;
+  const rng=document.querySelector('.sp-range.active')?.dataset.range;
+  if(rng)st.mathRange=parseInt(rng);
+  const cry=document.querySelector('.sp-carry.active')?.dataset.carry;
+  if(cry)st.mathCarry=cry;
+  // Uhrzeit-Einstellungen übernehmen
+  const up=document.querySelector('.sp-uhr-prec.active')?.dataset.uhrPrec;
+  if(up)st.uhrPrec=up;
+  const uf=document.querySelector('.sp-uhr-fmt.active')?.dataset.uhrFmt;
+  if(uf)st.uhrFmt=uf;
+  const uz=document.querySelector('.sp-uhr-ziff.active')?.dataset.uhrZiff;
+  if(uz)st.uhrZiffern=uz;
+  const uze=document.querySelector('.sp-uhr-zeiger.active')?.dataset.uhrZeiger;
+  if(uze)st.uhrNurStunde=uze==='nur-stunde';
+  // Menü-Chips synchronisieren
+  document.querySelectorAll('.chip[data-carry]:not(.sp-carry)').forEach(b=>b.classList.toggle('active',b.dataset.carry===st.mathCarry));
+  document.querySelectorAll('.chip[data-uhr-prec]:not(.sp-uhr-prec)').forEach(b=>b.classList.toggle('active',b.dataset.uhrPrec===st.uhrPrec));
+  document.querySelectorAll('.chip[data-uhr-fmt]:not(.sp-uhr-fmt)').forEach(b=>b.classList.toggle('active',b.dataset.uhrFmt===st.uhrFmt));
+  document.querySelectorAll('[data-uhr-ziff]:not(.sp-uhr-ziff)').forEach(b=>b.classList.toggle('active',b.dataset.uhrZiff===st.uhrZiffern));
+  document.querySelectorAll('[data-uhr-zeiger]:not(.sp-uhr-zeiger)').forEach(b=>b.classList.toggle('active',(b.dataset.uhrZeiger==='nur-stunde')===st.uhrNurStunde));
+  ['1','2'].forEach(n=>{
+    const v=parseInt(document.getElementById('sp-spd'+n).value);
+    st.speeds[n-1]=v;
+    syncSpeeds(n,v);
+  });
+  closeSettings();
+  if(modeChanged)buildButtons();
+  st.paused=false;
+  launchBall();
+}
+
+// ══ GAME ══
+function startGame(){
+  st.names[0]=document.getElementById('name1').value.trim()||'Spieler 1';
+  st.names[1]=document.getElementById('name2').value.trim()||'Spieler 2';
+  document.getElementById('p1-name').textContent=st.names[0];
+  document.getElementById('p2-name').textContent=st.names[1];
+  document.getElementById('p1-speed-lbl').textContent=st.names[0];
+  document.getElementById('p2-speed-lbl').textContent=st.names[1];
+  document.getElementById('sp-lbl1').textContent=st.names[0];
+  document.getElementById('sp-lbl2').textContent=st.names[1];
+  st.score=[0,0];
+  updateScore(); buildDots();
+  modal.style.display='none';
+  gameEl.style.display='flex';
+  document.getElementById('target-bar').textContent='BIS '+st.targetPts+' PUNKTE';
+  buildButtons();
+  resizeCourt();
+  launchBall();
+  if(raf)cancelAnimationFrame(raf);
+  raf=requestAnimationFrame(loop);
+}
+function pauseGame(){
+  st.paused=true; st.animating=false; clearAutoTimer();
+  pauseOverlay.classList.add('visible');
+}
+function resumeGame(){
+  pauseOverlay.classList.remove('visible');
+  st.paused=false; launchBall();
+}
+function goToMenu(){
+  pauseOverlay.classList.remove('visible'); closeSettings();
+  winScreen.style.display='none';
+  stopConfetti();
+  if(raf){cancelAnimationFrame(raf);raf=null;}
+  gameEl.style.display='none';
+  modal.style.display='flex';
+  document.getElementById('mn-page1').classList.add('active');
+  document.getElementById('mn-page2').classList.remove('active');
+  st.score=[0,0]; st.paused=false;
+}
+function replayGame(){
+  winScreen.style.display='none';
+  stopConfetti();
+  st.score=[0,0]; updateScore(); buildDots();
+  st.toSide=1; buildButtons();
+  launchBall();
+  if(!raf)raf=requestAnimationFrame(loop);
+}
+function clearAutoTimer(){
+  if(st.autoPointTimer){clearTimeout(st.autoPointTimer);st.autoPointTimer=null;}
+}
+
+// ══ DOTS ══
+function buildDots(){
+  [0,1].forEach(p=>{
+    const el=document.getElementById('p'+(p+1)+'-dots');
+    el.innerHTML='';
+    for(let i=0;i<st.targetPts;i++){
+      const d=document.createElement('div');
+      d.className='p-dot';
+      el.appendChild(d);
+    }
+  });
+}
+function updateDots(){
+  [0,1].forEach(p=>{
+    document.querySelectorAll('#p'+(p+1)+'-dots .p-dot').forEach((d,i)=>{
+      d.classList.toggle('filled',i<st.score[p]);
+    });
+  });
+}
+function updateActivePlayer(){
+  const p1n=document.getElementById('p1-name'),p2n=document.getElementById('p2-name');
+  const p1p=document.getElementById('p1-pts'),p2p=document.getElementById('p2-pts');
+  p1n.classList.toggle('active',st.toSide===0);
+  p2n.classList.toggle('active',st.toSide===1);
+  p1p.classList.toggle('active',st.toSide===0);
+  p2p.classList.toggle('active',st.toSide===1);
+}
+
+// ══ BUTTONS ══
+function buildButtons(){
+  if(st.mode==='uhrzeit'){
+    // Buttons werden in pickWord/generateUhrzeitTask gebaut
+    return;
+  }
+  const L=document.getElementById('btns-left');
+  const R=document.getElementById('btns-right');
+  L.innerHTML=''; R.innerHTML='';
+  if(st.mode!=='mathe'){
+    const data=st.mode==='wortarten'?WORTARTEN:SATZARTEN;
+    const active=st.mode==='wortarten'?activeWA:activeSA;
+    const cats=data.categories.filter(c=>active.has(c.id));
+    cats.forEach(cat=>{
+      [L,R].forEach((col,side)=>{
+        const btn=document.createElement('button');
+        btn.className='cat-btn';
+        btn.textContent=cat.label;
+        btn.style.background=cat.color;
+        btn.addEventListener('pointerdown',e=>{
+          e.preventDefault();
+          try{btn.releasePointerCapture(e.pointerId);}catch(_){}
+          handleWordAnswer(cat.id, side===0?'left':'right');
+        });
+        col.appendChild(btn);
+      });
+    });
+  }
+  // Wortpool nur aus aktiven Kategorien
+  if(st.mode==='wortarten'){
+    st.wordPool=WORTARTEN.words.filter(w=>activeWA.has(w.c));
+  } else if(st.mode==='satzarten'){
+    st.wordPool=SATZARTEN.words.filter(w=>activeSA.has(w.c));
+  } else {
+    st.wordPool=[];
+  }
+}
+function buildMathButtons(choices){
+  const L=document.getElementById('btns-left');
+  const R=document.getElementById('btns-right');
+  L.innerHTML=''; R.innerHTML='';
+  const colors=['#c0392b','#1a5276','#7d3c98','#117a65'];
+  choices.forEach((val,i)=>{
+    [L,R].forEach((col,side)=>{
+      const btn=document.createElement('button');
+      btn.className='cat-btn';
+      btn.textContent=val;
+      btn.style.background=colors[i%colors.length];
+      const len=String(val).length;
+      btn.style.fontSize=len>12?'clamp(.65rem,1.8vw,.85rem)':len>8?'clamp(.75rem,2.2vw,1rem)':'clamp(.95rem,2.8vw,1.25rem)';
+      btn.addEventListener('pointerdown',e=>{
+        e.preventDefault();
+        try{btn.releasePointerCapture(e.pointerId);}catch(_){}
+        handleMathAnswer(val, side===0?'left':'right');
+      });
+      col.appendChild(btn);
+    });
+  });
+}
+
+// ══ VERLIEBTE ZAHLEN ══
+function generateVerliebtTask(){
+  const shown=Math.floor(Math.random()*11);
+  const correct=10-shown;
+  const wrong=new Set();
+  let g=0;
+  while(wrong.size<3&&g++<100){
+    const v=Math.floor(Math.random()*11);
+    if(v!==correct)wrong.add(v);
+  }
+  const choices=[correct,...wrong].sort(()=>Math.random()-.5);
+  return{display:String(shown),correct,choices};
+}
+
+// ══ MATH ══
+function makePlusMinus(op, max){
+  const carry=st.mathCarry==='verliebt'?'beide':st.mathCarry;
+  let a,b,correct;
+  for(let tries=0;tries<200;tries++){
+    if(carry==='zehner'){
+      const step=Math.max(10,10);
+      const maxSteps=Math.floor(max/step);
+      a=Math.floor(Math.random()*(maxSteps+1))*step;
+      b=Math.floor(Math.random()*(maxSteps+1))*step;
+      if(op==='minus'&&b>a){[a,b]=[b,a];}
+      correct=op==='plus'?a+b:a-b;
+      if(correct>max||correct<0)continue;
+      return{a,b,correct};
+    } else {
+      if(op==='plus'){
+        a=Math.floor(Math.random()*(max));
+        b=Math.floor(Math.random()*(max-a));
+        correct=a+b;
+      } else {
+        a=Math.floor(Math.random()*(max));
+        b=Math.floor(Math.random()*(a+1));
+        correct=a-b;
+      }
+      if(correct<0||correct>max)continue;
+      const crossesTen=op==='plus'
+        ?(Math.floor(a/10)!==Math.floor(correct/10))
+        :(Math.floor(correct/10)!==Math.floor(a/10));
+      if(carry==='mit'&&!crossesTen)continue;
+      if(carry==='ohne'&&crossesTen)continue;
+      return{a,b,correct};
+    }
+  }
+  return op==='plus'?{a:3,b:4,correct:7}:{a:7,b:3,correct:4};
+}
+
+function generateMathTask(){
+  const op=st.mathOps[Math.floor(Math.random()*st.mathOps.length)];
+  const max=st.mathRange;
+  let display,correct;
+  if(op==='plus'){
+    const r=makePlusMinus('plus',max);
+    display=r.a+' + '+r.b+' ='; correct=r.correct;
+  } else if(op==='minus'){
+    const r=makePlusMinus('minus',max);
+    display=r.a+' − '+r.b+' ='; correct=r.correct;
+  } else if(op==='mal'){
+    let a,b;
+    a=Math.floor(Math.random()*Math.min(10,Math.sqrt(max))+1);
+    b=Math.floor(Math.random()*Math.min(10,Math.sqrt(max))+1);
+    while(a*b>max)b=Math.max(1,b-1);
+    correct=a*b; display=a+' × '+b+' =';
+  } else {
+    let a,b;
+    b=Math.floor(Math.random()*9)+2;
+    const q=Math.floor(Math.random()*Math.min(10,max/b))+1;
+    a=b*q; correct=q; display=a+' ÷ '+b+' =';
+  }
+  const w=new Set();
+  let guard=0;
+  while(w.size<3&&guard++<200){const d=(Math.floor(Math.random()*5)+1)*(Math.random()<.5?1:-1);const v=correct+d;if(v!==correct&&v>=0&&!w.has(v))w.add(v);}
+  return{display,correct,choices:[correct,...w].sort(()=>Math.random()-.5)};
+}
+
+// ══ UHRZEITEN ══
+const STUNDEN_DE=['zwölf','ein','zwei','drei','vier','fünf','sechs','sieben','acht','neun','zehn','elf'];
+
+function minutenToPrec(prec){
+  if(prec==='voll') return [0];
+  if(prec==='halb') return [0,30];
+  if(prec==='viertel') return [0,15,30,45];
+  if(prec==='fuenf') return [0,5,10,15,20,25,30,35,40,45,50,55];
+  return Array.from({length:60},(_,i)=>i);
+}
+
+function uhrToWort(h,m){
+  const h12=h%12;
+  const name=STUNDEN_DE[h12];
+  const next=STUNDEN_DE[(h12+1)%12];
+  if(m===0) return name+' Uhr';
+  if(m===15) return 'Viertel nach '+name;
+  if(m===30) return 'halb '+next;
+  if(m===45) return 'Viertel vor '+next;
+  if(m<30) return m+' nach '+name;
+  return (60-m)+' vor '+next;
+}
+
+function uhrToZiffer(h,m){
+  return String(h).padStart(2,'0')+':'+String(m).padStart(2,'0')+' Uhr';
+}
+
+function formatUhrzeit(h,m,fmt){
+  if(fmt==='ziffer') return uhrToZiffer(h,m);
+  if(fmt==='wort') return uhrToWort(h,m);
+  return Math.random()<.5?uhrToZiffer(h,m):uhrToWort(h,m);
+}
+
+function generateUhrzeitTask(){
+  const erlaubteMin=minutenToPrec(st.uhrPrec);
+  const h=Math.floor(Math.random()*12);
+  let m, correct;
+  const wrong=new Set();
+  let guard=0;
+  if(st.uhrNurStunde){
+    // Minutenzeiger fehlt → zufällige Minuten (Zeiger steht irgendwo zwischen den Stunden)
+    // aber m=0 (volle Stunde) bleibt möglich
+    m=Math.floor(Math.random()*60);
+    const h12=h===0?12:h;
+    const fmt=st.uhrFmt==='beide'?(Math.random()<.5?'ziffer':'wort'):st.uhrFmt;
+    correct=fmt==='wort'?STUNDEN_DE[h%12]+' Uhr':String(h12).padStart(2,'0')+':00 Uhr';
+    while(wrong.size<3&&guard++<300){
+      const fh=Math.floor(Math.random()*12);
+      if(fh===h)continue;
+      const fh12=fh===0?12:fh;
+      const fmt2=st.uhrFmt==='beide'?(Math.random()<.5?'ziffer':'wort'):st.uhrFmt;
+      wrong.add(fmt2==='wort'?STUNDEN_DE[fh%12]+' Uhr':String(fh12).padStart(2,'0')+':00 Uhr');
+    }
+  } else {
+    m=erlaubteMin[Math.floor(Math.random()*erlaubteMin.length)];
+    correct=formatUhrzeit(h===0?12:h, m, st.uhrFmt==='beide'?(Math.random()<.5?'ziffer':'wort'):st.uhrFmt);
+    while(wrong.size<3&&guard++<300){
+      const fh=Math.floor(Math.random()*12);
+      const fm=erlaubteMin[Math.floor(Math.random()*erlaubteMin.length)];
+      if(fh===h&&fm===m)continue;
+      const fmt2=st.uhrFmt==='beide'?(Math.random()<.5?'ziffer':'wort'):st.uhrFmt;
+      wrong.add(formatUhrzeit(fh===0?12:fh, fm, fmt2));
+    }
+  }
+  // SVG-Uhr bauen (analog, Radius 52px)
+  const svgSize=180;
+  const cx=svgSize/2, cy=svgSize/2, r=80;
+  const hAngle=(((h%12)+m/60)/12)*360-90;
+  const mAngle=(m/60)*360-90;
+  const hRad=hAngle*Math.PI/180;
+  const mRad=mAngle*Math.PI/180;
+  const hx=cx+Math.cos(hRad)*r*.55, hy=cy+Math.sin(hRad)*r*.55;
+  const mx=cx+Math.cos(mRad)*r*.82, my=cy+Math.sin(mRad)*r*.82;
+  let ticks='';
+  let ziffernSvg='';
+  for(let i=0;i<12;i++){
+    const a=(i/12)*Math.PI*2-Math.PI/2;
+    const x1=cx+Math.cos(a)*(r-1), y1=cy+Math.sin(a)*(r-1);
+    const x2=cx+Math.cos(a)*(r-11), y2=cy+Math.sin(a)*(r-11);
+    ticks+=`<line x1="${x1.toFixed(1)}" y1="${y1.toFixed(1)}" x2="${x2.toFixed(1)}" y2="${y2.toFixed(1)}" stroke="rgba(0,0,0,.75)" stroke-width="3.5"/>`;
+  }
+  // Ziffern 1–12
+  if(st.uhrZiffern==='12'){
+    for(let i=1;i<=12;i++){
+      const a=(i/12)*Math.PI*2-Math.PI/2;
+      const tx=cx+Math.cos(a)*(r-22), ty=cy+Math.sin(a)*(r-22);
+      ziffernSvg+=`<text x="${tx.toFixed(1)}" y="${ty.toFixed(1)}" text-anchor="middle" dominant-baseline="central" font-size="13" font-family="Arial,sans-serif" font-weight="bold" fill="#222">${i}</text>`;
+    }
+  }
+  // Ziffern 1–24 (innen 13–24, außen 1–12)
+  if(st.uhrZiffern==='24'){
+    for(let i=1;i<=12;i++){
+      const a=(i/12)*Math.PI*2-Math.PI/2;
+      const tx=cx+Math.cos(a)*(r-20), ty=cy+Math.sin(a)*(r-20);
+      const tx2=cx+Math.cos(a)*(r-35), ty2=cy+Math.sin(a)*(r-35);
+      ziffernSvg+=`<text x="${tx.toFixed(1)}" y="${ty.toFixed(1)}" text-anchor="middle" dominant-baseline="central" font-size="12" font-family="Arial,sans-serif" font-weight="bold" fill="#222">${i}</text>`;
+      ziffernSvg+=`<text x="${tx2.toFixed(1)}" y="${ty2.toFixed(1)}" text-anchor="middle" dominant-baseline="central" font-size="10" font-family="Arial,sans-serif" fill="#888">${i+12}</text>`;
+    }
+  }
+  const minutenzeiger=st.uhrNurStunde?'':
+    `<line x1="${cx}" y1="${cy}" x2="${mx.toFixed(1)}" y2="${my.toFixed(1)}" stroke="#e74c3c" stroke-width="6" stroke-linecap="round"/>`;
+  const svg=`<svg width="${svgSize}" height="${svgSize}" viewBox="0 0 ${svgSize} ${svgSize}" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="${cx}" cy="${cy}" r="${r}" fill="#fff" stroke="#222" stroke-width="4"/>
+    ${ticks}
+    ${ziffernSvg}
+    <line x1="${cx}" y1="${cy}" x2="${hx.toFixed(1)}" y2="${hy.toFixed(1)}" stroke="#27ae60" stroke-width="9" stroke-linecap="round"/>
+    ${minutenzeiger}
+    <circle cx="${cx}" cy="${cy}" r="6" fill="#222"/>
+  </svg>`;
+  return{svg, correct, choices:[correct,...wrong].sort(()=>Math.random()-.5), h, m};
+}
+
+// ══ WORD PICK ══
+function pickWord(){
+  if(st.mode==='mathe'){
+    if(st.mathCarry==='verliebt'){
+      const t=generateVerliebtTask();
+      st.mathCorrect=t.correct; st.mathChoices=t.choices;
+      wordDisplay.textContent=t.display;
+      wordDisplay.style.fontSize='clamp(2rem,8vw,4rem)';
+      wordDisplay.style.background='';
+      wordDisplay.style.boxShadow='';
+      wordDisplay.style.padding='';
+      buildMathButtons(t.choices);
+      return{w:t.display,c:'__math__'};
+    }
+    wordDisplay.style.fontSize='';
+    wordDisplay.style.background='';
+    wordDisplay.style.boxShadow='';
+    wordDisplay.style.padding='';
+    const t=generateMathTask();
+    st.mathCorrect=t.correct; st.mathChoices=t.choices;
+    wordDisplay.textContent=t.display;
+    buildMathButtons(t.choices);
+    return{w:t.display,c:'__math__'};
+  }
+  if(st.mode==='uhrzeit'){
+    const t=generateUhrzeitTask();
+    st.mathCorrect=t.correct; st.mathChoices=t.choices;
+    wordDisplay.textContent='';
+    wordDisplay.style.fontSize='';
+    wordDisplay.style.background='transparent';
+    wordDisplay.style.boxShadow='none';
+    wordDisplay.style.padding='0';
+    wordDisplay.innerHTML=t.svg;
+    buildMathButtons(t.choices);
+    return{w:'__uhr__',c:'__uhr__'};
+  }
+  // Worddisplay zurücksetzen für Wortarten/Satzarten
+  wordDisplay.style.background='';
+  wordDisplay.style.boxShadow='';
+  wordDisplay.style.padding='';
+  wordDisplay.style.fontSize='';
+  if(!st.wordPool.length){
+    if(st.mode==='wortarten'){
+      st.wordPool=WORTARTEN.words.filter(w=>activeWA.has(w.c));
+    } else {
+      st.wordPool=SATZARTEN.words.filter(w=>activeSA.has(w.c));
+    }
+  }
+  if(!st.wordPool.length) return{w:'?',c:'nomen'};
+  const i=Math.floor(Math.random()*st.wordPool.length);
+  return st.wordPool.splice(i,1)[0];
+}
+
+// ══ BALL ══
+function launchBall(){
+  st.currentWord=pickWord();
+  if(st.mode!=='mathe'&&st.mode!=='uhrzeit') wordDisplay.textContent=st.currentWord.w;
+  st.blocked=false;
+  const fromLeft=(st.toSide===1);
+  st.ballX=fromLeft?.08:.92;
+  st.ballY=.2+Math.random()*.6;
+  const spd=speedFromSlider(st.speeds[1-st.toSide])*(0.9+Math.random()*.2);
+  st.ballVX=fromLeft?spd:-spd;
+  st.ballVY=(Math.random()-.5)*.003;
+  st.animating=true;
+  updateActivePlayer();
+}
+
+// ══ COURT DRAW ══
+function resizeCourt(){
+  const area=document.getElementById('court-wrap');
+  canvas.width=area.clientWidth;
+  canvas.height=area.clientHeight;
+  confettiCanvas.width=window.innerWidth;
+  confettiCanvas.height=window.innerHeight;
+}
+window.addEventListener('resize',resizeCourt);
+
+function drawCourt(){
+  const W=canvas.width,H=canvas.height;
+  ctx.clearRect(0,0,W,H);
+  const grd=ctx.createLinearGradient(0,0,0,H);
+  grd.addColorStop(0,'#1a5c1a');
+  grd.addColorStop(.5,'#256025');
+  grd.addColorStop(1,'#1a5c1a');
+  ctx.fillStyle=grd; ctx.fillRect(0,0,W,H);
+  ctx.fillStyle='rgba(255,255,255,.02)';
+  ctx.fillRect(0,0,W*.5,H);
+  ctx.strokeStyle='rgba(255,255,255,.5)'; ctx.lineWidth=2;
+  const mx=W*.05,my=H*.06;
+  ctx.strokeRect(mx,my,W-mx*2,H-my*2);
+  ctx.beginPath();
+  ctx.moveTo(W*.5,my); ctx.lineTo(W*.5,H-my);
+  ctx.moveTo(mx,H*.5); ctx.lineTo(W*.25,H*.5);
+  ctx.moveTo(W-mx,H*.5); ctx.lineTo(W*.75,H*.5);
+  ctx.stroke();
+  const nx=W/2;
+  ctx.fillStyle='#999';
+  ctx.fillRect(nx-2,my-10,4,10); ctx.fillRect(nx-2,H-my,4,10);
+  ctx.strokeStyle='rgba(235,235,235,.9)'; ctx.lineWidth=3;
+  ctx.beginPath(); ctx.moveTo(nx,my-6); ctx.lineTo(nx,H-my+6); ctx.stroke();
+  ctx.strokeStyle='rgba(200,200,200,.16)'; ctx.lineWidth=.6;
+  for(let y=my;y<H-my;y+=10){
+    ctx.beginPath(); ctx.moveTo(nx-16,y); ctx.lineTo(nx+16,y); ctx.stroke();
+  }
+  ctx.fillStyle='rgba(255,255,255,.7)';
+  ctx.fillRect(nx-18,my-2,36,3); ctx.fillRect(nx-18,H-my-1,36,3);
+}
+function drawBall(){
+  const W=canvas.width,H=canvas.height;
+  const bx=st.ballX*W, by=st.ballY*H;
+  const r=Math.max(13,W*.025);
+  ctx.save();
+  ctx.beginPath(); ctx.ellipse(bx,by+r*.5,r*.9,r*.28,0,0,Math.PI*2);
+  ctx.fillStyle='rgba(0,0,0,.2)'; ctx.fill(); ctx.restore();
+  const g=ctx.createRadialGradient(bx-r*.3,by-r*.3,r*.08,bx,by,r);
+  g.addColorStop(0,'#ffffa5'); g.addColorStop(.5,'#f5e042'); g.addColorStop(1,'#c8b000');
+  ctx.beginPath(); ctx.arc(bx,by,r,0,Math.PI*2);
+  ctx.fillStyle=g; ctx.fill();
+  ctx.strokeStyle='rgba(255,255,255,.5)'; ctx.lineWidth=1.5;
+  ctx.beginPath(); ctx.arc(bx,by,r*.62,-.35,1.1); ctx.stroke();
+}
+
+// ══ LOOP ══
+function loop(){
+  raf=requestAnimationFrame(loop);
+  if(st.paused)return;
+  if(st.animating){
+    st.ballX+=st.ballVX;
+    st.ballY+=st.ballVY;
+    if(st.ballY<.04){st.ballY=.04;st.ballVY*=-1;}
+    if(st.ballY>.96){st.ballY=.96;st.ballVY*=-1;}
+    const W=canvas.width,H=canvas.height;
+    wordDisplay.style.left=(st.ballX*W)+'px';
+    wordDisplay.style.top=(st.ballY*H)+'px';
+    if((st.toSide===1&&st.ballX>1.05)||(st.toSide===0&&st.ballX<-0.05)){
+      st.animating=false; st.blocked=true; clearAutoTimer();
+      resolveRound(false,st.toSide);
+    }
+  }
+  drawCourt(); drawBall();
+}
+
+// ══ ANSWERS ══
+function handleWordAnswer(catId,side){
+  if(st.blocked)return;
+  const cIdx=side==='left'?0:1;
+  if(cIdx!==st.toSide)return;
+  st.blocked=true; st.animating=false;
+  resolveRound(catId===st.currentWord.c,cIdx);
+}
+function handleMathAnswer(val,side){
+  if(st.blocked)return;
+  const cIdx=side==='left'?0:1;
+  if(cIdx!==st.toSide)return;
+  st.blocked=true; st.animating=false;
+  resolveRound(val===st.mathCorrect,cIdx);
+}
+function resolveRound(correct,clickerIdx){
+  if(correct){
+    showFeedback('✓ Super!','#27ae60');
+    st.toSide=1-st.toSide;
+    setTimeout(launchBall,900);
+  } else {
+    showFeedback('✗ Falsch!','#e74c3c');
+    const opp=1-clickerIdx;
+    st.score[opp]++;
+    updateScore();
+    if(st.score[opp]>=st.targetPts){setTimeout(()=>showWin(opp),900);return;}
+    setTimeout(launchBall,1200);
+  }
+}
+function showFeedback(msg,color){
+  feedbackEl.textContent=msg; feedbackEl.style.color=color;
+  feedbackEl.classList.add('show');
+  setTimeout(()=>feedbackEl.classList.remove('show'),750);
+}
+function updateScore(){
+  document.getElementById('p1-pts').textContent=st.score[0];
+  document.getElementById('p2-pts').textContent=st.score[1];
+  updateDots();
+}
+function showWin(idx){
+  if(raf){cancelAnimationFrame(raf);raf=null;}
+  winScreen.style.display='flex';
+  document.getElementById('win-title').textContent=st.names[idx]+' gewinnt!';
+  document.getElementById('win-sub').textContent=st.score[0]+' : '+st.score[1]+' Punkte';
+  startConfetti();
+}
+
+// ══ KONFETTI ══
+const CONFETTI_COLORS=['#f5e042','#e74c3c','#3498db','#2ecc71','#e91e63','#ff9800','#9c27b0','#00bcd4'];
+let confettiParts=[];
+function startConfetti(){
+  confettiCanvas.style.display='block';
+  confettiCanvas.width=window.innerWidth;
+  confettiCanvas.height=window.innerHeight;
+  confettiParts=[];
+  for(let i=0;i<160;i++){
+    confettiParts.push({
+      x:Math.random()*confettiCanvas.width,
+      y:-20-Math.random()*confettiCanvas.height*.5,
+      w:8+Math.random()*10, h:5+Math.random()*7,
+      color:CONFETTI_COLORS[Math.floor(Math.random()*CONFETTI_COLORS.length)],
+      vx:(Math.random()-0.5)*4, vy:2+Math.random()*5,
+      rot:Math.random()*360, rotV:(Math.random()-0.5)*8,
+      opacity:1, shape:Math.random()<.4?'circle':'rect'
+    });
+  }
+  if(confettiRaf)cancelAnimationFrame(confettiRaf);
+  confettiLoop();
+}
+function confettiLoop(){
+  confCtx.clearRect(0,0,confettiCanvas.width,confettiCanvas.height);
+  let alive=false;
+  confettiParts.forEach(p=>{
+    p.x+=p.vx; p.y+=p.vy; p.rot+=p.rotV; p.vy+=0.06;
+    if(p.y>confettiCanvas.height+20) p.opacity=0;
+    else alive=true;
+    if(p.opacity<=0)return;
+    confCtx.save();
+    confCtx.globalAlpha=p.opacity;
+    confCtx.translate(p.x,p.y); confCtx.rotate(p.rot*Math.PI/180);
+    confCtx.fillStyle=p.color;
+    if(p.shape==='circle'){confCtx.beginPath();confCtx.arc(0,0,p.w/2,0,Math.PI*2);confCtx.fill();}
+    else{confCtx.fillRect(-p.w/2,-p.h/2,p.w,p.h);}
+    confCtx.restore();
+  });
+  if(alive) confettiRaf=requestAnimationFrame(confettiLoop);
+  else confettiCanvas.style.display='none';
+}
+function stopConfetti(){
+  if(confettiRaf){cancelAnimationFrame(confettiRaf);confettiRaf=null;}
+  confettiCanvas.style.display='none';
+  confCtx.clearRect(0,0,confettiCanvas.width,confettiCanvas.height);
+}
+</script>
