@@ -464,16 +464,16 @@ input[type=range].spd{flex:1;accent-color:var(--court);cursor:pointer}
       <div class="spd-row">
         <span class="spd-lbl" id="mn-lbl1">Spieler 1</span>
         <span class="spd-ico">🐢</span>
-        <input class="spd" type="range" id="mn-spd1" min="1" max="5" value="2">
+        <input class="spd" type="range" id="mn-spd1" min="1" max="10" value="3">
         <span class="spd-ico">🐇</span>
-        <span class="spd-val" id="mn-val1">2</span>
+        <span class="spd-val" id="mn-val1">3</span>
       </div>
       <div class="spd-row">
         <span class="spd-lbl" id="mn-lbl2">Spieler 2</span>
         <span class="spd-ico">🐢</span>
-        <input class="spd" type="range" id="mn-spd2" min="1" max="5" value="2">
+        <input class="spd" type="range" id="mn-spd2" min="1" max="10" value="3">
         <span class="spd-ico">🐇</span>
-        <span class="spd-val" id="mn-val2">2</span>
+        <span class="spd-val" id="mn-val2">3</span>
       </div>
     </div>
 
@@ -533,16 +533,16 @@ input[type=range].spd{flex:1;accent-color:var(--court);cursor:pointer}
       <div class="spd-row">
         <span class="spd-lbl" id="p1-speed-lbl">Spieler 1</span>
         <span class="spd-ico">🐢</span>
-        <input class="spd" type="range" id="pa-spd1" min="1" max="5" value="2">
+        <input class="spd" type="range" id="pa-spd1" min="1" max="10" value="3">
         <span class="spd-ico">🐇</span>
-        <span class="spd-val" id="pa-val1">2</span>
+        <span class="spd-val" id="pa-val1">3</span>
       </div>
       <div class="spd-row">
         <span class="spd-lbl" id="p2-speed-lbl">Spieler 2</span>
         <span class="spd-ico">🐢</span>
-        <input class="spd" type="range" id="pa-spd2" min="1" max="5" value="2">
+        <input class="spd" type="range" id="pa-spd2" min="1" max="10" value="3">
         <span class="spd-ico">🐇</span>
-        <span class="spd-val" id="pa-val2">2</span>
+        <span class="spd-val" id="pa-val2">3</span>
       </div>
     </div>
     <div class="pause-actions">
@@ -653,16 +653,16 @@ input[type=range].spd{flex:1;accent-color:var(--court);cursor:pointer}
     <div class="spd-row">
       <span class="spd-lbl" id="sp-lbl1">Spieler 1</span>
       <span class="spd-ico">🐢</span>
-      <input class="spd" type="range" id="sp-spd1" min="1" max="5" value="2">
+      <input class="spd" type="range" id="sp-spd1" min="1" max="10" value="3">
       <span class="spd-ico">🐇</span>
-      <span class="spd-val" id="sp-val1">2</span>
+      <span class="spd-val" id="sp-val1">3</span>
     </div>
     <div class="spd-row">
       <span class="spd-lbl" id="sp-lbl2">Spieler 2</span>
       <span class="spd-ico">🐢</span>
-      <input class="spd" type="range" id="sp-spd2" min="1" max="5" value="2">
+      <input class="spd" type="range" id="sp-spd2" min="1" max="10" value="3">
       <span class="spd-ico">🐇</span>
-      <span class="spd-val" id="sp-val2">2</span>
+      <span class="spd-val" id="sp-val2">3</span>
     </div>
   </div>
   <div class="sp-divider"></div>
@@ -807,14 +807,15 @@ setupSelLinks('sp-sa', activeSA, SATZARTEN, 'sp-sa-chips');
 
 // ══ SPEED ══
 function speedFromSlider(v){
-  const vals=[.0007,.0013,.002,.003,.0042];
-  return vals[Math.max(0,Math.min(4,v-1))];
+  // 10 Stufen: Stufe 1 = sehr langsam, Stufe 10 = kaum schaffbar
+  const vals=[.0004,.0007,.001,.0014,.002,.0028,.0038,.005,.007,.011];
+  return vals[Math.max(0,Math.min(9,v-1))];
 }
 
 // ══ STATE ══
 const st={
   mode:'wortarten',targetPts:3,score:[0,0],
-  speeds:[2,2],names:['Spieler 1','Spieler 2'],
+  speeds:[3,3],names:['Spieler 1','Spieler 2'],
   ballX:.5,ballY:.5,ballVX:0,ballVY:0,toSide:1,
   currentWord:null,animating:false,blocked:false,paused:false,
   wordPool:[],mathOps:['plus'],mathRange:10,mathCarry:'beide',
