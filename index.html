@@ -1,3 +1,4 @@
+<!doctype html><html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"></head><body>
 <title>Lern-Tennis</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap">
 <style>
@@ -15,10 +16,10 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'Nunito',sans-serif
 
 /* ── OVERLAYS ── */
 .overlay{position:fixed;inset:0;background:rgba(10,10,10,.75);backdrop-filter:blur(5px);
-  -webkit-backdrop-filter:blur(5px);display:flex;align-items:center;justify-content:center;
+  -webkit-backdrop-filter:blur(5px);display:flex;align-items:flex-start;justify-content:center;
   z-index:100;padding:12px;overflow-y:auto}
 .panel{background:var(--sand);border-radius:var(--radius-lg);padding:38px 32px;
-  width:min(600px,100%);box-shadow:var(--shadow-lg)}
+  width:min(600px,100%);box-shadow:var(--shadow-lg);margin-block:auto}
 
 /* ── MENU TYPOGRAPHY ── */
 .logo{font-family:'Fredoka One',sans-serif;font-size:clamp(2.4rem,6vw,3rem);
@@ -334,6 +335,47 @@ input[type=range].spd{flex:1;accent-color:var(--court);cursor:pointer}
   text-decoration:underline;text-underline-offset:2px;letter-spacing:.04em;
   -webkit-tap-highlight-color:transparent}
 
+/* ══ UHR-DUELL ══ */
+.uhr-group{display:flex;flex-direction:column}
+.uhr-hint{font-size:.82rem;color:var(--text-muted);font-weight:600;line-height:1.35;margin-top:6px}
+.hc-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:6px}
+.hc-name{font-family:'Fredoka One',sans-serif;font-size:.92rem;color:var(--text-muted);min-width:80px}
+#court-wrap{--ucol:clamp(120px,21vw,250px)}
+#uhr-center{display:none;position:absolute;z-index:12;top:64px;bottom:12px;
+  left:calc(var(--ucol) + 34px);right:calc(var(--ucol) + 34px);
+  flex-direction:column;align-items:center;gap:8px;pointer-events:none}
+#court-wrap.uhr-mode #uhr-center{display:flex}
+#uhr-clock{flex:1;min-height:0;width:100%;display:flex;align-items:center;justify-content:center}
+#uhr-clock svg{width:100%;height:100%;display:block;filter:drop-shadow(0 6px 18px rgba(0,0,0,.55))}
+#uhr-info{flex:none;min-height:1.5em;font-family:'Fredoka One',sans-serif;
+  font-size:clamp(1.1rem,2.8vw,1.8rem);color:#fff;text-align:center;line-height:1.2;
+  text-shadow:0 2px 8px rgba(0,0,0,.8)}
+#uhr-info.sol{color:var(--gold)}
+#uhr-timer{flex:none;width:min(560px,100%);height:14px;border-radius:7px;
+  background:rgba(0,0,0,.4);overflow:hidden}
+#uhr-timer.off{visibility:hidden}
+#uhr-timer-fill{height:100%;width:100%;background:var(--gold);border-radius:7px}
+#court-wrap.uhr-mode #word-display{display:none}
+.p-state{display:none;font-family:'Fredoka One',sans-serif;font-size:.85rem;
+  color:rgba(255,255,255,.85);min-height:1.2em;text-align:center}
+#court-wrap.uhr-mode .p-state{display:block}
+#court-wrap.uhr-mode .player-overlay{top:10px;transform:none;width:calc(var(--ucol) + 14px);
+  padding:8px 6px;background:rgba(0,0,0,.38);border-radius:16px}
+#court-wrap.uhr-mode .player-overlay.left{left:10px}
+#court-wrap.uhr-mode .player-overlay.right{left:auto;right:10px}
+#court-wrap.uhr-mode .btn-col{width:calc(var(--ucol) + 34px);padding:0 10px 12px;
+  justify-content:flex-start;gap:9px;bottom:0}
+#court-wrap.uhr-mode .cat-btn{flex:1 1 0;min-height:52px;max-height:112px;border-radius:18px;
+  font-size:clamp(1rem,2.1vw,1.55rem);padding:6px 8px;transition:transform .1s,filter .2s,opacity .2s}
+.cat-btn.u-wait{opacity:.45}
+.btn-col.u-locked .cat-btn{filter:grayscale(1) brightness(.55)}
+.cat-btn.u-wrong{animation:ushake .4s}
+.btn-col .cat-btn.u-right{filter:none;opacity:1;background:#1f9d55 !important;
+  box-shadow:0 0 0 4px #fff,0 0 22px 6px rgba(46,204,113,.85)}
+.btn-col.u-done .cat-btn:not(.u-right){opacity:.35}
+@keyframes ushake{0%,100%{transform:translateX(0)}25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
+@media (prefers-reduced-motion:reduce){.cat-btn.u-wrong{animation:none}}
+
 ::-webkit-scrollbar{width:5px}
 ::-webkit-scrollbar-track{background:var(--sand-dark)}
 ::-webkit-scrollbar-thumb{background:var(--sand-border);border-radius:3px}
@@ -426,39 +468,10 @@ input[type=range].spd{flex:1;accent-color:var(--court);cursor:pointer}
       </div>
     </div>
 
-    <!-- Uhrzeit-Optionen -->
-    <div class="math-opts" id="uhrzeit-opts">
-      <div><div class="sec-label">Genauigkeit</div>
-        <div class="chip-row">
-          <button class="chip chip-sm active" data-uhr-prec="voll">Volle Stunden</button>
-          <button class="chip chip-sm" data-uhr-prec="halb">+ halbe</button>
-          <button class="chip chip-sm" data-uhr-prec="viertel">+ Viertel</button>
-          <button class="chip chip-sm" data-uhr-prec="fuenf">+ 5-Min.</button>
-          <button class="chip chip-sm" data-uhr-prec="alle">Alle Minuten</button>
-        </div>
-      </div>
-      <div><div class="sec-label">Antwortformat</div>
-        <div class="chip-row">
-          <button class="chip chip-sm active" data-uhr-fmt="ziffer">Ziffern (14:30)</button>
-          <button class="chip chip-sm" data-uhr-fmt="wort">Wortform (halb drei)</button>
-          <button class="chip chip-sm" data-uhr-fmt="beide">Gemischt</button>
-        </div>
-      </div>
-      <div><div class="sec-label">Ziffern auf der Uhr</div>
-        <div class="chip-row">
-          <button class="chip chip-sm active" data-uhr-ziff="keine">Keine</button>
-          <button class="chip chip-sm" data-uhr-ziff="12">1–12</button>
-          <button class="chip chip-sm" data-uhr-ziff="24">1–24</button>
-        </div>
-      </div>
-      <div><div class="sec-label">Zeiger</div>
-        <div class="chip-row">
-          <button class="chip chip-sm active" data-uhr-zeiger="beide">Stunden + Minuten</button>
-          <button class="chip chip-sm" data-uhr-zeiger="nur-stunde">Nur Stundenzeiger</button>
-        </div>
-      </div>
-    </div>
+    <!-- Uhrzeit-Optionen (werden per Skript gebaut) -->
+    <div class="math-opts" id="uhrzeit-opts"></div>
 
+    <div id="mn-spd-wrap">
     <div class="sec-label">Geschwindigkeit</div>
     <div class="spd-block">
       <div class="spd-row">
@@ -476,6 +489,7 @@ input[type=range].spd{flex:1;accent-color:var(--court);cursor:pointer}
         <span class="spd-val" id="mn-val2">3</span>
       </div>
     </div>
+    </div>
 
     <div class="sec-label">Spielziel</div>
     <div class="chip-row">
@@ -483,6 +497,8 @@ input[type=range].spd{flex:1;accent-color:var(--court);cursor:pointer}
       <button class="chip chip-sq" data-pts="5">5</button>
       <button class="chip chip-sq" data-pts="7">7</button>
       <button class="chip chip-sq" data-pts="10">10</button>
+      <button class="chip chip-sq" data-pts="15">15</button>
+      <button class="chip chip-sq" data-pts="20">20</button>
     </div>
 
     <button id="start-btn">Spiel starten 🎾</button>
@@ -511,11 +527,19 @@ input[type=range].spd{flex:1;accent-color:var(--court);cursor:pointer}
       <span class="p-name active" id="p1-name">Spieler 1</span>
       <span class="p-pts active" id="p1-pts">0</span>
       <div class="p-dots" id="p1-dots"></div>
+      <span class="p-state" id="p1-state"></span>
     </div>
     <div class="player-overlay right">
       <span class="p-name" id="p2-name">Spieler 2</span>
       <span class="p-pts" id="p2-pts">0</span>
       <div class="p-dots" id="p2-dots"></div>
+      <span class="p-state" id="p2-state"></span>
+    </div>
+    <!-- Uhr-Duell: feststehende Uhr in der Mitte -->
+    <div id="uhr-center">
+      <div id="uhr-clock"></div>
+      <div id="uhr-info"></div>
+      <div id="uhr-timer"><div id="uhr-timer-fill"></div></div>
     </div>
     <!-- Button-Spalten -->
     <div class="btn-col left" id="btns-left"></div>
@@ -529,7 +553,7 @@ input[type=range].spd{flex:1;accent-color:var(--court);cursor:pointer}
 <div id="pause-overlay">
   <div class="pause-box">
     <h2>⏸ Pause</h2>
-    <div class="spd-block">
+    <div class="spd-block" id="pa-spd-wrap">
       <div class="spd-row">
         <span class="spd-lbl" id="p1-speed-lbl">Spieler 1</span>
         <span class="spd-ico">🐢</span>
@@ -617,36 +641,10 @@ input[type=range].spd{flex:1;accent-color:var(--court);cursor:pointer}
     </div>
   </div>
 
-  <!-- SP: Uhrzeit-Optionen -->
-  <div class="math-opts" id="sp-uhrzeit-opts">
-    <div class="sp-divider"></div>
-    <div class="sec-label">Genauigkeit</div>
-    <div class="chip-row">
-      <button class="chip chip-sm sp-uhr-prec active" data-uhr-prec="voll">Volle Stunden</button>
-      <button class="chip chip-sm sp-uhr-prec" data-uhr-prec="halb">+ halbe</button>
-      <button class="chip chip-sm sp-uhr-prec" data-uhr-prec="viertel">+ Viertel</button>
-      <button class="chip chip-sm sp-uhr-prec" data-uhr-prec="fuenf">+ 5-Min.</button>
-      <button class="chip chip-sm sp-uhr-prec" data-uhr-prec="alle">Alle Minuten</button>
-    </div>
-    <div class="sec-label" style="margin-top:10px">Antwortformat</div>
-    <div class="chip-row">
-      <button class="chip chip-sm sp-uhr-fmt active" data-uhr-fmt="ziffer">Ziffern (14:30)</button>
-      <button class="chip chip-sm sp-uhr-fmt" data-uhr-fmt="wort">Wortform (halb drei)</button>
-      <button class="chip chip-sm sp-uhr-fmt" data-uhr-fmt="beide">Gemischt</button>
-    </div>
-      <div class="sec-label" style="margin-top:10px">Ziffern auf der Uhr</div>
-      <div class="chip-row">
-        <button class="chip chip-sm sp-uhr-ziff active" data-uhr-ziff="keine">Keine</button>
-        <button class="chip chip-sm sp-uhr-ziff" data-uhr-ziff="12">1–12</button>
-        <button class="chip chip-sm sp-uhr-ziff" data-uhr-ziff="24">1–24</button>
-      </div>
-      <div class="sec-label" style="margin-top:10px">Zeiger</div>
-      <div class="chip-row">
-        <button class="chip chip-sm sp-uhr-zeiger active" data-uhr-zeiger="beide">Stunden + Minuten</button>
-        <button class="chip chip-sm sp-uhr-zeiger" data-uhr-zeiger="nur-stunde">Nur Stundenzeiger</button>
-      </div>
-  </div>
+  <!-- SP: Uhrzeit-Optionen (werden per Skript gebaut) -->
+  <div class="math-opts" id="sp-uhrzeit-opts"></div>
 
+  <div id="sp-spd-wrap">
   <div class="sp-divider"></div>
   <div class="sec-label">Geschwindigkeit</div>
   <div class="spd-block">
@@ -664,6 +662,7 @@ input[type=range].spd{flex:1;accent-color:var(--court);cursor:pointer}
       <span class="spd-ico">🐇</span>
       <span class="spd-val" id="sp-val2">3</span>
     </div>
+  </div>
   </div>
   <div class="sp-divider"></div>
   <button class="sp-apply" onclick="applySettingsAndClose()">✔ Übernehmen &amp; Weiter</button>
@@ -820,9 +819,6 @@ const st={
   currentWord:null,animating:false,blocked:false,paused:false,
   wordPool:[],mathOps:['plus'],mathRange:10,mathCarry:'beide',
   mathChoices:[],mathCorrect:null,autoPointTimer:null,
-  uhrPrec:'voll',uhrFmt:'ziffer',
-  uhrZiffern:'keine', // 'keine' | '12' | '24'
-  uhrNurStunde:false,
 };
 
 // ══ ELEMENTS ══
@@ -853,6 +849,9 @@ function updateModeViews(mode, prefix){
   if(sa) sa.classList.toggle('visible', mode==='satzarten');
   if(ma) ma.classList.toggle('visible', mode==='mathe');
   if(uh) uh.classList.toggle('visible', mode==='uhrzeit');
+  const sw=document.getElementById(prefix==='sp'?'sp-spd-wrap':'mn-spd-wrap');
+  if(sw) sw.hidden=(mode==='uhrzeit');
+  if(mode==='uhrzeit') uhrRenderOpts();
 }
 
 // ══ MENU WIRING ══
@@ -898,35 +897,6 @@ document.querySelectorAll('.chip[data-carry]:not(.sp-carry)').forEach(b=>{
     document.querySelectorAll('.chip[data-carry]:not(.sp-carry)').forEach(x=>x.classList.remove('active'));
     b.classList.add('active');
     st.mathCarry=b.dataset.carry;
-  });
-});
-// Uhrzeit-Optionen (Menü)
-document.querySelectorAll('.chip[data-uhr-prec]:not(.sp-uhr-prec)').forEach(b=>{
-  b.addEventListener('click',()=>{
-    document.querySelectorAll('.chip[data-uhr-prec]:not(.sp-uhr-prec)').forEach(x=>x.classList.remove('active'));
-    b.classList.add('active');
-    st.uhrPrec=b.dataset.uhrPrec;
-  });
-});
-document.querySelectorAll('.chip[data-uhr-fmt]:not(.sp-uhr-fmt)').forEach(b=>{
-  b.addEventListener('click',()=>{
-    document.querySelectorAll('.chip[data-uhr-fmt]:not(.sp-uhr-fmt)').forEach(x=>x.classList.remove('active'));
-    b.classList.add('active');
-    st.uhrFmt=b.dataset.uhrFmt;
-  });
-});
-document.querySelectorAll('[data-uhr-ziff]:not(.sp-uhr-ziff)').forEach(b=>{
-  b.addEventListener('click',()=>{
-    document.querySelectorAll('[data-uhr-ziff]:not(.sp-uhr-ziff)').forEach(x=>x.classList.remove('active'));
-    b.classList.add('active');
-    st.uhrZiffern=b.dataset.uhrZiff;
-  });
-});
-document.querySelectorAll('[data-uhr-zeiger]:not(.sp-uhr-zeiger)').forEach(b=>{
-  b.addEventListener('click',()=>{
-    document.querySelectorAll('[data-uhr-zeiger]:not(.sp-uhr-zeiger)').forEach(x=>x.classList.remove('active'));
-    b.classList.add('active');
-    st.uhrNurStunde=b.dataset.uhrZeiger==='nur-stunde';
   });
 });
 document.querySelectorAll('.chip[data-pts]').forEach(b=>{
@@ -1021,31 +991,6 @@ document.querySelectorAll('.sp-carry').forEach(b=>{
     b.classList.add('active');
   });
 });
-// Uhrzeit-Wiring Settings
-document.querySelectorAll('.sp-uhr-prec').forEach(b=>{
-  b.addEventListener('click',()=>{
-    document.querySelectorAll('.sp-uhr-prec').forEach(x=>x.classList.remove('active'));
-    b.classList.add('active');
-  });
-});
-document.querySelectorAll('.sp-uhr-fmt').forEach(b=>{
-  b.addEventListener('click',()=>{
-    document.querySelectorAll('.sp-uhr-fmt').forEach(x=>x.classList.remove('active'));
-    b.classList.add('active');
-  });
-});
-document.querySelectorAll('.sp-uhr-ziff').forEach(b=>{
-  b.addEventListener('click',()=>{
-    document.querySelectorAll('.sp-uhr-ziff').forEach(x=>x.classList.remove('active'));
-    b.classList.add('active');
-  });
-});
-document.querySelectorAll('.sp-uhr-zeiger').forEach(b=>{
-  b.addEventListener('click',()=>{
-    document.querySelectorAll('.sp-uhr-zeiger').forEach(x=>x.classList.remove('active'));
-    b.classList.add('active');
-  });
-});
 function openSettings(){
   document.querySelectorAll('.sp-mode').forEach(b=>b.classList.toggle('active',b.dataset.mode===st.mode));
   updateModeViews(st.mode,'sp');
@@ -1054,16 +999,13 @@ function openSettings(){
   document.querySelectorAll('.sp-op').forEach(b=>b.classList.toggle('active',st.mathOps.includes(b.dataset.op)));
   document.querySelectorAll('.sp-range').forEach(b=>b.classList.toggle('active',parseInt(b.dataset.range)===st.mathRange));
   document.querySelectorAll('.sp-carry').forEach(b=>b.classList.toggle('active',b.dataset.carry===st.mathCarry));
-  document.querySelectorAll('.sp-uhr-prec').forEach(b=>b.classList.toggle('active',b.dataset.uhrPrec===st.uhrPrec));
-  document.querySelectorAll('.sp-uhr-fmt').forEach(b=>b.classList.toggle('active',b.dataset.uhrFmt===st.uhrFmt));
-  document.querySelectorAll('.sp-uhr-ziff').forEach(b=>b.classList.toggle('active',b.dataset.uhrZiff===st.uhrZiffern));
-  document.querySelectorAll('.sp-uhr-zeiger').forEach(b=>b.classList.toggle('active',(b.dataset.uhrZeiger==='nur-stunde')===st.uhrNurStunde));
+  uhrRenderOpts();
   ['1','2'].forEach(n=>{
     const v=st.speeds[n-1];
     document.getElementById('sp-spd'+n).value=v;
     document.getElementById('sp-val'+n).textContent=v;
   });
-  if(!st.paused&&st.animating){st.paused=true;st.animating=false;clearAutoTimer();}
+  if(!st.paused&&(st.animating||st.mode==='uhrzeit')){st.paused=true;st.animating=false;clearAutoTimer();}
   settingsOv.classList.add('visible');
   settingsPanel.classList.add('open');
 }
@@ -1086,21 +1028,8 @@ function applySettingsAndClose(){
   if(rng)st.mathRange=parseInt(rng);
   const cry=document.querySelector('.sp-carry.active')?.dataset.carry;
   if(cry)st.mathCarry=cry;
-  // Uhrzeit-Einstellungen übernehmen
-  const up=document.querySelector('.sp-uhr-prec.active')?.dataset.uhrPrec;
-  if(up)st.uhrPrec=up;
-  const uf=document.querySelector('.sp-uhr-fmt.active')?.dataset.uhrFmt;
-  if(uf)st.uhrFmt=uf;
-  const uz=document.querySelector('.sp-uhr-ziff.active')?.dataset.uhrZiff;
-  if(uz)st.uhrZiffern=uz;
-  const uze=document.querySelector('.sp-uhr-zeiger.active')?.dataset.uhrZeiger;
-  if(uze)st.uhrNurStunde=uze==='nur-stunde';
   // Menü-Chips synchronisieren
   document.querySelectorAll('.chip[data-carry]:not(.sp-carry)').forEach(b=>b.classList.toggle('active',b.dataset.carry===st.mathCarry));
-  document.querySelectorAll('.chip[data-uhr-prec]:not(.sp-uhr-prec)').forEach(b=>b.classList.toggle('active',b.dataset.uhrPrec===st.uhrPrec));
-  document.querySelectorAll('.chip[data-uhr-fmt]:not(.sp-uhr-fmt)').forEach(b=>b.classList.toggle('active',b.dataset.uhrFmt===st.uhrFmt));
-  document.querySelectorAll('[data-uhr-ziff]:not(.sp-uhr-ziff)').forEach(b=>b.classList.toggle('active',b.dataset.uhrZiff===st.uhrZiffern));
-  document.querySelectorAll('[data-uhr-zeiger]:not(.sp-uhr-zeiger)').forEach(b=>b.classList.toggle('active',(b.dataset.uhrZeiger==='nur-stunde')===st.uhrNurStunde));
   ['1','2'].forEach(n=>{
     const v=parseInt(document.getElementById('sp-spd'+n).value);
     st.speeds[n-1]=v;
@@ -1135,6 +1064,7 @@ function startGame(){
 }
 function pauseGame(){
   st.paused=true; st.animating=false; clearAutoTimer();
+  document.getElementById('pa-spd-wrap').hidden=(st.mode==='uhrzeit');
   pauseOverlay.classList.add('visible');
 }
 function resumeGame(){
@@ -1143,6 +1073,7 @@ function resumeGame(){
 }
 function goToMenu(){
   pauseOverlay.classList.remove('visible'); closeSettings();
+  uhrClearTimers(); uhrSetLayout(false);
   winScreen.style.display='none';
   stopConfetti();
   if(raf){cancelAnimationFrame(raf);raf=null;}
@@ -1162,6 +1093,7 @@ function replayGame(){
 }
 function clearAutoTimer(){
   if(st.autoPointTimer){clearTimeout(st.autoPointTimer);st.autoPointTimer=null;}
+  uhrClearTimers();
 }
 
 // ══ DOTS ══
@@ -1195,7 +1127,7 @@ function updateActivePlayer(){
 // ══ BUTTONS ══
 function buildButtons(){
   if(st.mode==='uhrzeit'){
-    // Buttons werden in pickWord/generateUhrzeitTask gebaut
+    // Buttons werden im Uhr-Duell (uhrNewRound) gebaut
     return;
   }
   const L=document.getElementById('btns-left');
@@ -1330,118 +1262,6 @@ function generateMathTask(){
   return{display,correct,choices:[correct,...w].sort(()=>Math.random()-.5)};
 }
 
-// ══ UHRZEITEN ══
-const STUNDEN_DE=['zwölf','ein','zwei','drei','vier','fünf','sechs','sieben','acht','neun','zehn','elf'];
-
-function minutenToPrec(prec){
-  if(prec==='voll') return [0];
-  if(prec==='halb') return [0,30];
-  if(prec==='viertel') return [0,15,30,45];
-  if(prec==='fuenf') return [0,5,10,15,20,25,30,35,40,45,50,55];
-  return Array.from({length:60},(_,i)=>i);
-}
-
-function uhrToWort(h,m){
-  const h12=h%12;
-  const name=STUNDEN_DE[h12];
-  const next=STUNDEN_DE[(h12+1)%12];
-  if(m===0) return name+' Uhr';
-  if(m===15) return 'Viertel nach '+name;
-  if(m===30) return 'halb '+next;
-  if(m===45) return 'Viertel vor '+next;
-  if(m<30) return m+' nach '+name;
-  return (60-m)+' vor '+next;
-}
-
-function uhrToZiffer(h,m){
-  return String(h).padStart(2,'0')+':'+String(m).padStart(2,'0')+' Uhr';
-}
-
-function formatUhrzeit(h,m,fmt){
-  if(fmt==='ziffer') return uhrToZiffer(h,m);
-  if(fmt==='wort') return uhrToWort(h,m);
-  return Math.random()<.5?uhrToZiffer(h,m):uhrToWort(h,m);
-}
-
-function generateUhrzeitTask(){
-  const erlaubteMin=minutenToPrec(st.uhrPrec);
-  const h=Math.floor(Math.random()*12);
-  let m, correct;
-  const wrong=new Set();
-  let guard=0;
-  if(st.uhrNurStunde){
-    // Minutenzeiger fehlt → zufällige Minuten (Zeiger steht irgendwo zwischen den Stunden)
-    // aber m=0 (volle Stunde) bleibt möglich
-    m=Math.floor(Math.random()*60);
-    const h12=h===0?12:h;
-    const fmt=st.uhrFmt==='beide'?(Math.random()<.5?'ziffer':'wort'):st.uhrFmt;
-    correct=fmt==='wort'?STUNDEN_DE[h%12]+' Uhr':String(h12).padStart(2,'0')+':00 Uhr';
-    while(wrong.size<3&&guard++<300){
-      const fh=Math.floor(Math.random()*12);
-      if(fh===h)continue;
-      const fh12=fh===0?12:fh;
-      const fmt2=st.uhrFmt==='beide'?(Math.random()<.5?'ziffer':'wort'):st.uhrFmt;
-      wrong.add(fmt2==='wort'?STUNDEN_DE[fh%12]+' Uhr':String(fh12).padStart(2,'0')+':00 Uhr');
-    }
-  } else {
-    m=erlaubteMin[Math.floor(Math.random()*erlaubteMin.length)];
-    correct=formatUhrzeit(h===0?12:h, m, st.uhrFmt==='beide'?(Math.random()<.5?'ziffer':'wort'):st.uhrFmt);
-    while(wrong.size<3&&guard++<300){
-      const fh=Math.floor(Math.random()*12);
-      const fm=erlaubteMin[Math.floor(Math.random()*erlaubteMin.length)];
-      if(fh===h&&fm===m)continue;
-      const fmt2=st.uhrFmt==='beide'?(Math.random()<.5?'ziffer':'wort'):st.uhrFmt;
-      wrong.add(formatUhrzeit(fh===0?12:fh, fm, fmt2));
-    }
-  }
-  // SVG-Uhr bauen (analog, Radius 52px)
-  const svgSize=180;
-  const cx=svgSize/2, cy=svgSize/2, r=80;
-  const hAngle=(((h%12)+m/60)/12)*360-90;
-  const mAngle=(m/60)*360-90;
-  const hRad=hAngle*Math.PI/180;
-  const mRad=mAngle*Math.PI/180;
-  const hx=cx+Math.cos(hRad)*r*.55, hy=cy+Math.sin(hRad)*r*.55;
-  const mx=cx+Math.cos(mRad)*r*.82, my=cy+Math.sin(mRad)*r*.82;
-  let ticks='';
-  let ziffernSvg='';
-  for(let i=0;i<12;i++){
-    const a=(i/12)*Math.PI*2-Math.PI/2;
-    const x1=cx+Math.cos(a)*(r-1), y1=cy+Math.sin(a)*(r-1);
-    const x2=cx+Math.cos(a)*(r-11), y2=cy+Math.sin(a)*(r-11);
-    ticks+=`<line x1="${x1.toFixed(1)}" y1="${y1.toFixed(1)}" x2="${x2.toFixed(1)}" y2="${y2.toFixed(1)}" stroke="rgba(0,0,0,.75)" stroke-width="3.5"/>`;
-  }
-  // Ziffern 1–12
-  if(st.uhrZiffern==='12'){
-    for(let i=1;i<=12;i++){
-      const a=(i/12)*Math.PI*2-Math.PI/2;
-      const tx=cx+Math.cos(a)*(r-22), ty=cy+Math.sin(a)*(r-22);
-      ziffernSvg+=`<text x="${tx.toFixed(1)}" y="${ty.toFixed(1)}" text-anchor="middle" dominant-baseline="central" font-size="13" font-family="Arial,sans-serif" font-weight="bold" fill="#222">${i}</text>`;
-    }
-  }
-  // Ziffern 1–24 (innen 13–24, außen 1–12)
-  if(st.uhrZiffern==='24'){
-    for(let i=1;i<=12;i++){
-      const a=(i/12)*Math.PI*2-Math.PI/2;
-      const tx=cx+Math.cos(a)*(r-20), ty=cy+Math.sin(a)*(r-20);
-      const tx2=cx+Math.cos(a)*(r-35), ty2=cy+Math.sin(a)*(r-35);
-      ziffernSvg+=`<text x="${tx.toFixed(1)}" y="${ty.toFixed(1)}" text-anchor="middle" dominant-baseline="central" font-size="12" font-family="Arial,sans-serif" font-weight="bold" fill="#222">${i}</text>`;
-      ziffernSvg+=`<text x="${tx2.toFixed(1)}" y="${ty2.toFixed(1)}" text-anchor="middle" dominant-baseline="central" font-size="10" font-family="Arial,sans-serif" fill="#888">${i+12}</text>`;
-    }
-  }
-  const minutenzeiger=st.uhrNurStunde?'':
-    `<line x1="${cx}" y1="${cy}" x2="${mx.toFixed(1)}" y2="${my.toFixed(1)}" stroke="#e74c3c" stroke-width="6" stroke-linecap="round"/>`;
-  const svg=`<svg width="${svgSize}" height="${svgSize}" viewBox="0 0 ${svgSize} ${svgSize}" xmlns="http://www.w3.org/2000/svg">
-    <circle cx="${cx}" cy="${cy}" r="${r}" fill="#fff" stroke="#222" stroke-width="4"/>
-    ${ticks}
-    ${ziffernSvg}
-    <line x1="${cx}" y1="${cy}" x2="${hx.toFixed(1)}" y2="${hy.toFixed(1)}" stroke="#27ae60" stroke-width="9" stroke-linecap="round"/>
-    ${minutenzeiger}
-    <circle cx="${cx}" cy="${cy}" r="6" fill="#222"/>
-  </svg>`;
-  return{svg, correct, choices:[correct,...wrong].sort(()=>Math.random()-.5), h, m};
-}
-
 // ══ WORD PICK ══
 function pickWord(){
   if(st.mode==='mathe'){
@@ -1466,18 +1286,6 @@ function pickWord(){
     buildMathButtons(t.choices);
     return{w:t.display,c:'__math__'};
   }
-  if(st.mode==='uhrzeit'){
-    const t=generateUhrzeitTask();
-    st.mathCorrect=t.correct; st.mathChoices=t.choices;
-    wordDisplay.textContent='';
-    wordDisplay.style.fontSize='';
-    wordDisplay.style.background='transparent';
-    wordDisplay.style.boxShadow='none';
-    wordDisplay.style.padding='0';
-    wordDisplay.innerHTML=t.svg;
-    buildMathButtons(t.choices);
-    return{w:'__uhr__',c:'__uhr__'};
-  }
   // Worddisplay zurücksetzen für Wortarten/Satzarten
   wordDisplay.style.background='';
   wordDisplay.style.boxShadow='';
@@ -1497,6 +1305,8 @@ function pickWord(){
 
 // ══ BALL ══
 function launchBall(){
+  if(st.mode==='uhrzeit'){uhrNewRound();return;}
+  uhrClearTimers(); uhrSetLayout(false);
   st.currentWord=pickWord();
   if(st.mode!=='mathe'&&st.mode!=='uhrzeit') wordDisplay.textContent=st.currentWord.w;
   st.blocked=false;
@@ -1518,7 +1328,7 @@ function resizeCourt(){
   confettiCanvas.width=window.innerWidth;
   confettiCanvas.height=window.innerHeight;
 }
-window.addEventListener('resize',resizeCourt);
+window.addEventListener('resize',()=>{resizeCourt();uhrPlaceCols();});
 
 function drawCourt(){
   const W=canvas.width,H=canvas.height;
@@ -1569,6 +1379,7 @@ function drawBall(){
 function loop(){
   raf=requestAnimationFrame(loop);
   if(st.paused)return;
+  if(st.mode==='uhrzeit'){drawCourt();return;}
   if(st.animating){
     st.ballX+=st.ballVX;
     st.ballY+=st.ballVY;
@@ -1632,6 +1443,391 @@ function showWin(idx){
   startConfetti();
 }
 
+// ══ UHR-DUELL ══
+// Feststehende Uhr in der Mitte. Beide spielen gleichzeitig: wer zuerst richtig drückt, bekommt den Punkt.
+const UHR={
+  sets:{voll:true,halb:true,viertel:false,fuenf:false,minute:false},
+  fmts:{ziffer:true,h24:false,wort:false},
+  face:{z12:true,z24:false,striche:true,min5:true,farbe:true,vornach:true,beschr:true},
+  zeiger:'beide',anzahl:4,level:'mittel',strafe:'sperre',
+  zeit:20,denk:1,loesung:3,hc:[0,0]
+};
+const UHR_PRESETS={
+  leicht:{sets:{voll:true,halb:true,viertel:false,fuenf:false,minute:false},fmts:{ziffer:true,h24:false,wort:false},
+    face:{z12:true,z24:false,striche:true,min5:true,farbe:true,vornach:true,beschr:true},
+    zeiger:'beide',anzahl:3,level:'leicht',strafe:'sperre',zeit:0,denk:2,loesung:5},
+  mittel:{sets:{voll:true,halb:true,viertel:true,fuenf:false,minute:false},fmts:{ziffer:true,h24:false,wort:true},
+    face:{z12:true,z24:false,striche:true,min5:true,farbe:true,vornach:true,beschr:true},
+    zeiger:'beide',anzahl:4,level:'mittel',strafe:'sperre',zeit:20,denk:1,loesung:3},
+  schwer:{sets:{voll:false,halb:false,viertel:true,fuenf:true,minute:true},fmts:{ziffer:true,h24:true,wort:true},
+    face:{z12:true,z24:false,striche:true,min5:false,farbe:false,vornach:false,beschr:false},
+    zeiger:'beide',anzahl:6,level:'schwer',strafe:'gegner',zeit:10,denk:0,loesung:3}
+};
+const UHR_LEVEL_HINT={
+  leicht:'Die falschen Antworten liegen weit weg von der richtigen Uhrzeit.',
+  mittel:'Die falschen Antworten sind zufällige Uhrzeiten aus deiner Auswahl.',
+  schwer:'Typische Verwechslungen: Zeiger vertauscht, Stunde daneben (z. B. bei „halb“), „vor“ und „nach“ vertauscht, wenige Minuten daneben.'
+};
+const UHR_UI=[
+  {label:'Welche Uhrzeiten?',hint:'Mehrere auswählbar.',kind:'multi',obj:'sets',items:[
+    ['voll','Volle Stunden (7:00)'],['halb','Halbe Stunden (7:30)'],['viertel','Viertelstunden (7:15 / 7:45)'],
+    ['fuenf','5-Minuten-Schritte (7:05, 7:20 …)'],['minute','Genaue Minuten (7:13)']]},
+  {label:'Antworten als',hint:'Mehrere auswählbar. Pro Aufgabe wird eine Form gelost, alle Antworten stehen dann in derselben Form.',kind:'multi',obj:'fmts',items:[
+    ['ziffer','Ziffern (7:15 Uhr)'],['h24','24 Stunden (19:15 Uhr)'],['wort','Wörter (Viertel nach sieben)']]},
+  {label:'Zifferblatt',hint:'Jeden Punkt einzeln an- oder ausschalten.',kind:'multi',obj:'face',allowNone:true,items:[
+    ['z12','Stundenzahlen 1–12'],['z24','Zahlen 13–24'],['striche','Minutenstriche'],['min5','Minutenzahlen 0–55'],
+    ['farbe','Viertel und halbe Stunden farbig'],['vornach','„vor“ und „nach“'],['beschr','Zeiger beschriften']]},
+  {label:'Zeiger',kind:'single',key:'zeiger',hint:'Bei „Nur Stundenzeiger“ kommen nur volle und halbe Stunden dran.',items:[['beide','Stunde und Minute'],['stunde','Nur Stundenzeiger']]},
+  {label:'Antwortmöglichkeiten pro Spieler',kind:'single',key:'anzahl',sq:true,items:[[2,'2'],[3,'3'],[4,'4'],[5,'5'],[6,'6']]},
+  {label:'Falsche Antworten',kind:'single',key:'level',items:[['leicht','Leicht'],['mittel','Mittel'],['schwer','Schwer']],hintFn:()=>UHR_LEVEL_HINT[UHR.level]},
+  {label:'Bei falscher Antwort',kind:'single',key:'strafe',hint:'Wer falsch drückt, ist für diese Aufgabe immer gesperrt. Die andere Person darf weiter antworten.',items:[
+    ['sperre','Nur gesperrt'],['gegner','Gegner bekommt 1 Punkt'],['minus','Eigener Punkt weg']]},
+  {label:'Zeit pro Aufgabe',kind:'single',key:'zeit',items:[[0,'ohne'],[30,'30 s'],[20,'20 s'],[15,'15 s'],[10,'10 s'],[7,'7 s'],[5,'5 s'],[3,'3 s']]},
+  {label:'Denkzeit, bevor die Antworten erscheinen',kind:'single',key:'denk',hint:'Die Kinder schauen zuerst auf die Uhr, dann erscheinen die Antworten.',items:[[0,'0 s'],[1,'1 s'],[2,'2 s'],[3,'3 s'],[5,'5 s']]},
+  {label:'Lösung zeigen für',kind:'single',key:'loesung',items:[[1.5,'1,5 s'],[3,'3 s'],[5,'5 s'],[8,'8 s']]},
+  {label:'Vorsprung (Handicap)',kind:'hc',hint:'Bei diesem Kind erscheinen die Antworten später. So können stärkere und schwächere Kinder fair gegeneinander spielen.'}
+];
+const UR={timers:[],items:[],locked:[false,false],ready:[false,false],over:true,correctTxt:''};
+
+function uhrEsc(t){return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;')}
+function uhrName(i){
+  const v=document.getElementById('name'+(i+1)).value.trim();
+  return v||('Spieler '+(i+1));
+}
+function uhrRenderOpts(){
+  ['uhrzeit-opts','sp-uhrzeit-opts'].forEach(id=>{
+    const box=document.getElementById(id); if(!box)return;
+    let h=id==='sp-uhrzeit-opts'?'<div class="sp-divider"></div>':'';
+    h+='<div class="uhr-group"><div class="sec-label">Schnellwahl</div><div class="chip-row">'
+      +['leicht','mittel','schwer'].map(p=>`<button class="chip chip-sm" data-uk="preset" data-uv="${p}">${p[0].toUpperCase()+p.slice(1)}</button>`).join('')
+      +'</div><div class="uhr-hint">Setzt alle Einstellungen unten auf eine Stufe. Danach kannst du jede Einstellung einzeln ändern.</div></div>';
+    UHR_UI.forEach(g=>{
+      h+=`<div class="uhr-group"><div class="sec-label">${uhrEsc(g.label)}</div>`;
+      if(g.kind==='multi'){
+        h+='<div class="chip-row">'+g.items.map(([k,l])=>`<button class="chip chip-sm${UHR[g.obj][k]?' active':''}" data-uk="multi" data-uo="${g.obj}" data-uv="${k}">${uhrEsc(l)}</button>`).join('')+'</div>';
+      } else if(g.kind==='single'){
+        h+='<div class="chip-row">'+g.items.map(([v,l])=>`<button class="chip ${g.sq?'chip-sq':'chip-sm'}${UHR[g.key]===v?' active':''}" data-uk="single" data-ukey="${g.key}" data-uv="${v}">${uhrEsc(l)}</button>`).join('')+'</div>';
+      } else if(g.kind==='hc'){
+        [0,1].forEach(p=>{
+          h+=`<div class="hc-row"><span class="hc-name">${uhrEsc(uhrName(p))}</span>`
+            +[0,0.5,1,2,3,5].map(v=>`<button class="chip chip-sm${UHR.hc[p]===v?' active':''}" data-uk="hc" data-up="${p}" data-uv="${v}">${v===0?'kein':String(v).replace('.',',')+' s'}</button>`).join('')+'</div>';
+        });
+      }
+      const hint=g.hintFn?g.hintFn():g.hint;
+      if(hint) h+=`<div class="uhr-hint">${uhrEsc(hint)}</div>`;
+      h+='</div>';
+    });
+    box.innerHTML=h;
+  });
+}
+function uhrOptClick(e){
+  const b=e.target.closest('[data-uk]'); if(!b)return;
+  const k=b.dataset.uk, v=b.dataset.uv;
+  if(k==='preset'){
+    const p=JSON.parse(JSON.stringify(UHR_PRESETS[v]));
+    Object.assign(UHR,p);
+  } else if(k==='multi'){
+    const o=UHR[b.dataset.uo];
+    const g=UHR_UI.find(x=>x.obj===b.dataset.uo);
+    const on=Object.values(o).filter(Boolean).length;
+    if(o[v]&&on<=1&&!g.allowNone)return; // mindestens eins bleibt an
+    o[v]=!o[v];
+  } else if(k==='single'){
+    const cur=UHR[b.dataset.ukey];
+    UHR[b.dataset.ukey]=typeof cur==='number'?parseFloat(v):v;
+  } else if(k==='hc'){
+    UHR.hc[+b.dataset.up]=parseFloat(v);
+  }
+  uhrRenderOpts();
+}
+document.getElementById('uhrzeit-opts').addEventListener('click',uhrOptClick);
+document.getElementById('sp-uhrzeit-opts').addEventListener('click',uhrOptClick);
+uhrRenderOpts();
+
+// ── Zeiten und Texte ──
+const UHR_ZW=['zwölf','eins','zwei','drei','vier','fünf','sechs','sieben','acht','neun','zehn','elf'];
+function uhrWortStd(h){return UHR_ZW[((h%12)+12)%12]}
+function uhrWort(h,m){
+  const n=uhrWortStd(h), nx=uhrWortStd(h+1);
+  if(m===0) return (((h%12)+12)%12===1?'ein':n)+' Uhr';
+  if(m===15) return 'Viertel nach '+n;
+  if(m===30) return 'halb '+nx;
+  if(m===45) return 'Viertel vor '+nx;
+  if(m===25) return '5 vor halb '+nx;
+  if(m===35) return '5 nach halb '+nx;
+  if(m<30) return m+' nach '+n;
+  return (60-m)+' vor '+nx;
+}
+function uhrZiffer(h,m){const hh=((h%12)+12)%12||12;return hh+':'+String(m).padStart(2,'0')+' Uhr'}
+function uhrZiffer24(H,m){return H+':'+String(m).padStart(2,'0')+' Uhr'}
+function uhrTageszeit(H){
+  if(H<5)return 'nachts'; if(H<9)return 'morgens'; if(H<12)return 'vormittags';
+  if(H===12)return 'mittags'; if(H<18)return 'nachmittags'; if(H<22)return 'abends'; return 'nachts';
+}
+function uhrMinutes(){
+  const s=new Set();
+  if(UHR.sets.voll)s.add(0);
+  if(UHR.sets.halb)s.add(30);
+  if(UHR.sets.viertel){s.add(15);s.add(45);}
+  if(UHR.sets.fuenf)for(let i=5;i<60;i+=5)if(i%15)s.add(i);
+  if(UHR.sets.minute)for(let i=1;i<60;i++)if(i%5)s.add(i);
+  let a=[...s];
+  if(UHR.zeiger==='stunde'){a=a.filter(m=>m===0||m===30);if(!a.length)a=[0];}
+  return a;
+}
+function uhrRand(n){return Math.floor(Math.random()*n)}
+function uhrShuffle(a){for(let i=a.length-1;i>0;i--){const j=uhrRand(i+1);[a[i],a[j]]=[a[j],a[i]];}return a}
+function uhrDistractors(h,m,n,mins){
+  const out=[],used=new Set([h*60+m]);
+  const add=(hh,mm)=>{
+    if(out.length>=n)return;
+    hh=((hh%12)+12)%12; mm=((mm%60)+60)%60;
+    const k=hh*60+mm; if(used.has(k))return;
+    used.add(k); out.push([hh,mm]);
+  };
+  if(UHR.level==='schwer'){
+    const c=[];
+    if(UHR.zeiger!=='stunde') c.push([Math.round(m/5)%12,h*5]);     // Zeiger vertauscht
+    c.push([h+1,m],[h-1,m]);                                       // Stunde daneben (halb-Falle)
+    if(m!==0&&m!==30) c.push([h,60-m]);                            // vor/nach vertauscht
+    if(m>30) c.push([h+1,60-m]); else if(m>0&&m<30) c.push([h-1,60-m]);
+    const step=UHR.sets.minute?1:5;
+    if(UHR.zeiger!=='stunde') c.push([h,m+step],[h,m-step]);       // knapp daneben
+    uhrShuffle(c).forEach(x=>add(x[0],x[1]));
+  }
+  let g=0;
+  while(out.length<n&&g++<600){
+    const hh=uhrRand(12), mm=mins[uhrRand(mins.length)];
+    if(UHR.level==='leicht'&&g<400){
+      const d=Math.min((hh-h+12)%12,(h-hh+12)%12);
+      if(d<2)continue;
+    }
+    add(hh,mm);
+  }
+  while(out.length<n&&g++<2000) add(uhrRand(12),uhrRand(60));
+  return out;
+}
+
+// ── Zifferblatt ──
+function uhrPt(r,deg){const a=(deg-90)*Math.PI/180;return [200+Math.cos(a)*r,200+Math.sin(a)*r]}
+function uhrHand(deg,L,w,col,label,fs){
+  const T=24;
+  const pts=[[-w/2,20],[w/2,20],[w/2,-L+T],[w*1.05,-L+T],[0,-L],[-w*1.05,-L+T],[-w/2,-L+T]]
+    .map(p=>(200+p[0]).toFixed(1)+','+(200+p[1]).toFixed(1)).join(' ');
+  let s=`<g transform="rotate(${deg.toFixed(2)} 200 200)"><polygon points="${pts}" fill="${col}" stroke="rgba(0,0,0,.35)" stroke-width="1.5" stroke-linejoin="round"/>`;
+  if(label){
+    const c=(16+(L-T))/2, flip=(deg%360)>180;
+    s+=`<text x="200" y="${(200-c).toFixed(1)}" transform="rotate(${flip?90:-90} 200 ${(200-c).toFixed(1)})" text-anchor="middle" dominant-baseline="central" font-family="'Fredoka One',Arial,sans-serif" font-size="${fs}" fill="#fff" letter-spacing="1">${label}</text>`;
+  }
+  return s+'</g>';
+}
+function uhrSVG(h,m){
+  const f=UHR.face, RI=142;
+  const F="font-family=\"'Fredoka One',Arial,sans-serif\"";
+  let s='<svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Analoge Uhr">';
+  s+='<circle cx="200" cy="200" r="198" fill="#1f3f8f"/><circle cx="200" cy="200" r="185" fill="#ffffff"/>';
+  // Innenfläche: Viertel farbig
+  if(f.farbe){
+    const cols=['#FFE27A','#FFB98A','#A7D8F7','#BCE6A6'];
+    for(let q=0;q<4;q++){
+      const [x0,y0]=uhrPt(RI,q*90),[x1,y1]=uhrPt(RI,q*90+90);
+      s+=`<path d="M200 200 L${x0.toFixed(1)} ${y0.toFixed(1)} A${RI} ${RI} 0 0 1 ${x1.toFixed(1)} ${y1.toFixed(1)} Z" fill="${cols[q]}"/>`;
+    }
+    // Trennlinien bei 12, 3, 6 und 9 Uhr
+    [0,90,180,270].forEach(d=>{const [x,y]=uhrPt(RI,d);s+=`<line x1="200" y1="200" x2="${x.toFixed(1)}" y2="${y.toFixed(1)}" stroke="rgba(31,63,143,.35)" stroke-width="2"/>`;});
+  } else s+=`<circle cx="200" cy="200" r="${RI}" fill="#fffdf6"/>`;
+  s+=`<circle cx="200" cy="200" r="${RI}" fill="none" stroke="#1f3f8f" stroke-width="3"/>`;
+  // Minutenring
+  if(f.farbe){ // farbige Marken bei 0, 15, 30, 45
+    const cols=['#e0a800','#e8742c','#2c8fd6','#3f9a3a'];
+    [0,15,30,45].forEach((mm,i)=>{const [x,y]=uhrPt(163,mm*6);s+=`<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="14" fill="${cols[i]}"/>`;});
+  }
+  if(f.striche){
+    for(let i=0;i<60;i++){
+      const big=i%5===0, [x1,y1]=uhrPt(184,i*6), [x2,y2]=uhrPt(big?171:177,i*6);
+      s+=`<line x1="${x1.toFixed(1)}" y1="${y1.toFixed(1)}" x2="${x2.toFixed(1)}" y2="${y2.toFixed(1)}" stroke="#222" stroke-width="${big?3.5:1.6}"/>`;
+    }
+  }
+  if(f.min5){
+    for(let i=0;i<60;i+=5){
+      const [x,y]=uhrPt(f.striche?158:163,i*6), q=f.farbe&&i%15===0;
+      s+=`<text x="${x.toFixed(1)}" y="${y.toFixed(1)}" text-anchor="middle" dominant-baseline="central" ${F} font-size="15" fill="${q?'#fff':'#c0392b'}">${i}</text>`;
+    }
+  }
+  // Stundenzahlen
+  if(f.z12){
+    for(let i=1;i<=12;i++){const [x,y]=uhrPt(112,i*30);s+=`<text x="${x.toFixed(1)}" y="${y.toFixed(1)}" text-anchor="middle" dominant-baseline="central" ${F} font-size="40" fill="#1a1a1a">${i}</text>`;}
+  }
+  if(f.z24){
+    for(let i=1;i<=12;i++){const [x,y]=uhrPt(f.z12?80:104,i*30);s+=`<text x="${x.toFixed(1)}" y="${y.toFixed(1)}" text-anchor="middle" dominant-baseline="central" ${F} font-size="${f.z12?17:26}" fill="#a93226">${i+12}</text>`;}
+  }
+  if(f.vornach){
+    // bei 13–24 kleiner und näher an der Mitte, damit nichts überlappt
+    const vr=f.z24&&f.z12?36:44, vf=f.z24&&f.z12?15:20;
+    s+=`<text x="${200-vr}" y="200" text-anchor="middle" dominant-baseline="central" ${F} font-size="${vf}" fill="#1d6fb8">vor</text>`;
+    s+=`<text x="${200+vr}" y="200" text-anchor="middle" dominant-baseline="central" ${F} font-size="${vf}" fill="#c0521b">nach</text>`;
+  }
+  // Zeiger
+  const hd=((h%12)+m/60)*30, md=m*6;
+  s+=uhrHand(hd,94,20,'#1f4fb5',f.beschr?'STUNDE':'',12);
+  if(UHR.zeiger!=='stunde') s+=uhrHand(md,150,13,'#d93025',f.beschr?'MINUTE':'',10);
+  s+='<circle cx="200" cy="200" r="12" fill="#222"/><circle cx="200" cy="200" r="5" fill="#f5e042"/></svg>';
+  return s;
+}
+
+// ── Layout ──
+function uhrSetLayout(on){
+  const cw=document.getElementById('court-wrap');
+  cw.classList.toggle('uhr-mode',on);
+  if(on){
+    ['p1-name','p2-name','p1-pts','p2-pts'].forEach(id=>document.getElementById(id).classList.add('active'));
+  } else {
+    ['btns-left','btns-right'].forEach(id=>document.getElementById(id).classList.remove('u-locked','u-done'));
+  }
+  uhrPlaceCols();
+}
+function uhrPlaceCols(){
+  const cw=document.getElementById('court-wrap');
+  const L=document.getElementById('btns-left'), R=document.getElementById('btns-right');
+  if(!cw.classList.contains('uhr-mode')){L.style.top='';R.style.top='';return;}
+  const o1=document.querySelector('.player-overlay.left'), o2=document.querySelector('.player-overlay.right');
+  const top=Math.max(o1.offsetTop+o1.offsetHeight,o2.offsetTop+o2.offsetHeight)+10;
+  L.style.top=R.style.top=top+'px';
+}
+function uhrState(p,t){document.getElementById('p'+(p+1)+'-state').textContent=t}
+
+// ── Ablauf einer Runde ──
+function uhrClearTimers(){
+  UR.timers.forEach(clearTimeout); UR.timers=[];
+  const fill=document.getElementById('uhr-timer-fill');
+  if(fill){const w=getComputedStyle(fill).width;fill.style.transition='none';fill.style.width=w;}
+}
+function uhrLater(fn,ms){UR.timers.push(setTimeout(fn,ms))}
+const UHR_BTN_COLORS=['#c0392b','#1a5276','#7d3c98','#117a65','#b9770e','#2e4053'];
+
+function uhrNewRound(){
+  uhrClearTimers(); uhrSetLayout(true);
+  st.animating=false; st.blocked=false;
+  const mins=uhrMinutes();
+  const h=uhrRand(12), m=mins[uhrRand(mins.length)];
+  const fmts=Object.keys(UHR.fmts).filter(k=>UHR.fmts[k]);
+  const fmt=fmts[uhrRand(fmts.length)]||'ziffer';
+  const ds=uhrDistractors(h,m,UHR.anzahl-1,mins);
+  let items=[{h,m,ok:true}].concat(ds.map(d=>({h:d[0],m:d[1],ok:false})));
+  let info='';
+  if(fmt==='h24'){
+    const pm=Math.random()<.5;
+    items.forEach(it=>it.H=it.h+(pm?12:0));
+    const H=h+(pm?12:0);
+    if(UHR.level==='schwer'&&items.length>1) items[items.length-1]={h,m,H:(H+12)%24,ok:false};
+    info=uhrTageszeit(H);
+    items.forEach(it=>it.txt=uhrZiffer24(it.H,it.m));
+  } else {
+    items.forEach(it=>it.txt=fmt==='wort'?uhrWort(it.h,it.m):uhrZiffer(it.h,it.m));
+  }
+  UR.items=uhrShuffle(items);
+  UR.correctTxt=items.find(i=>i.ok).txt;
+  UR.locked=[false,false]; UR.ready=[false,false]; UR.over=false;
+  document.getElementById('uhr-clock').innerHTML=uhrSVG(h,m);
+  const inf=document.getElementById('uhr-info');
+  inf.textContent=info; inf.classList.remove('sol');
+  // Antwort-Buttons
+  [0,1].forEach(p=>{
+    const col=document.getElementById(p===0?'btns-left':'btns-right');
+    col.innerHTML=''; col.classList.remove('u-locked','u-done');
+    UR.items.forEach((it,i)=>{
+      const b=document.createElement('button');
+      b.className='cat-btn u-wait';
+      b.textContent='…';
+      b.style.background=UHR_BTN_COLORS[i%UHR_BTN_COLORS.length];
+      b.addEventListener('pointerdown',e=>{
+        e.preventDefault();
+        try{b.releasePointerCapture(e.pointerId);}catch(_){}
+        uhrPress(p,i,b);
+      });
+      col.appendChild(b);
+    });
+    const d=(UHR.denk+UHR.hc[p])*1000;
+    if(d>0){uhrState(p,'Schau auf die Uhr');uhrLater(()=>uhrReady(p),d);}
+    else uhrReady(p);
+  });
+  // Zeitbalken
+  const bar=document.getElementById('uhr-timer'), fill=document.getElementById('uhr-timer-fill');
+  fill.style.transition='none'; fill.style.width='100%';
+  bar.classList.toggle('off',UHR.zeit<=0);
+  if(UHR.zeit>0){
+    const start=(UHR.denk+Math.min(UHR.hc[0],UHR.hc[1]))*1000;
+    uhrLater(()=>{
+      void fill.offsetWidth;
+      fill.style.transition='width '+UHR.zeit+'s linear';
+      fill.style.width='0%';
+    },start+30);
+    uhrLater(uhrTimeout,start+UHR.zeit*1000);
+  }
+  uhrPlaceCols();
+}
+function uhrFillTexts(p){
+  const col=document.getElementById(p===0?'btns-left':'btns-right');
+  [...col.children].forEach((b,i)=>{
+    const t=UR.items[i].txt;
+    b.textContent=t;
+    b.style.fontSize=t.length>16?'clamp(.85rem,1.7vw,1.2rem)':t.length>10?'clamp(.95rem,1.9vw,1.35rem)':'';
+    b.classList.remove('u-wait');
+  });
+}
+function uhrReady(p){
+  if(UR.over)return;
+  UR.ready[p]=true; uhrFillTexts(p); uhrState(p,'Los!');
+}
+function uhrPress(p,i,b){
+  if(UR.over||st.paused||!UR.ready[p]||UR.locked[p])return;
+  const it=UR.items[i];
+  if(it.ok){
+    UR.over=true;
+    st.score[p]++; updateScore();
+    uhrState(p,'Richtig!'); uhrState(1-p,'');
+    showFeedback('✓ '+st.names[p]+'!','#27ae60');
+    uhrEnd();
+    return;
+  }
+  b.classList.add('u-wrong');
+  UR.locked[p]=true;
+  document.getElementById(p===0?'btns-left':'btns-right').classList.add('u-locked');
+  uhrState(p,'Gesperrt');
+  if(UHR.strafe==='gegner') st.score[1-p]++;
+  if(UHR.strafe==='minus') st.score[p]=Math.max(0,st.score[p]-1);
+  updateScore();
+  const won=st.score[1-p]>=st.targetPts;
+  if(won||(UR.locked[0]&&UR.locked[1])){
+    UR.over=true;
+    if(!won) showFeedback('✗ Beide falsch','#e74c3c');
+    uhrEnd();
+  }
+}
+function uhrTimeout(){
+  if(UR.over)return;
+  UR.over=true;
+  showFeedback('Zeit ist um!','#f5e042');
+  uhrState(0,''); uhrState(1,'');
+  uhrEnd();
+}
+function uhrEnd(){
+  uhrClearTimers();
+  [0,1].forEach(p=>{
+    if(!UR.ready[p]) uhrFillTexts(p);
+    const col=document.getElementById(p===0?'btns-left':'btns-right');
+    col.classList.add('u-done');
+    [...col.children].forEach((b,i)=>{if(UR.items[i].ok)b.classList.add('u-right');});
+  });
+  const inf=document.getElementById('uhr-info');
+  inf.textContent='Lösung: '+UR.correctTxt; inf.classList.add('sol');
+  const w=[0,1].find(p=>st.score[p]>=st.targetPts);
+  uhrLater(()=>{
+    if(st.paused)return;
+    if(w!==undefined) showWin(w); else uhrNewRound();
+  },UHR.loesung*1000);
+}
+
 // ══ KONFETTI ══
 const CONFETTI_COLORS=['#f5e042','#e74c3c','#3498db','#2ecc71','#e91e63','#ff9800','#9c27b0','#00bcd4'];
 let confettiParts=[];
@@ -1679,3 +1875,4 @@ function stopConfetti(){
   confCtx.clearRect(0,0,confettiCanvas.width,confettiCanvas.height);
 }
 </script>
+</body></html>
