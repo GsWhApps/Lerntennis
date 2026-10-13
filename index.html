@@ -519,6 +519,40 @@ button:focus-visible,[tabindex]:focus-visible{outline:3px solid #f5c400;outline-
 @media (max-width:820px) and (orientation:portrait),(max-width:620px){
   .lu-left{flex:0 0 auto}
 }
+
+[hidden]{display:none!important}
+/* Klassenwahl */
+.kl-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.kl-tile{display:flex;flex-direction:column;align-items:center;gap:2px;padding:18px 10px 16px;border-radius:24px;border:none;
+  background:var(--kc);color:#fff;cursor:pointer;box-shadow:0 6px 0 rgba(0,0,0,.25);font-family:'Fredoka One',sans-serif;
+  -webkit-tap-highlight-color:transparent;transition:transform .1s,box-shadow .1s}
+.kl-tile:active{transform:translateY(4px);box-shadow:0 2px 0 rgba(0,0,0,.25)}
+.kl-num{font-size:clamp(3.2rem,10vw,4.6rem);line-height:1}
+.kl-lbl{font-size:1.25rem}
+.kl-bar{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:10px}
+.kl-badge{font-family:'Fredoka One',sans-serif;background:var(--court);color:#fff;border-radius:50px;padding:6px 16px;font-size:1rem}
+/* Bild-Aufgaben (Anlaute, Silben) */
+.pr-task.pic{display:flex;flex-direction:column;align-items:center;gap:4px}
+.pr-emoji{font-size:clamp(4rem,14vw,7rem);line-height:1.1}
+.pr-word{font-size:clamp(2rem,6vw,3.4rem);letter-spacing:.06em}
+.pr-q{font-family:'Fredoka One',sans-serif;font-size:1.3rem;color:var(--court);text-align:center;margin:0}
+
+/* ══ Einstellungen als großes Fenster ══ */
+#settings-panel,.drawer{top:50%;left:50%;right:auto;bottom:auto;height:auto;max-height:92vh;max-height:92dvh;
+  width:min(1000px,94vw);max-width:none;border-radius:28px;padding:22px 24px 26px;
+  transform:translate(-50%,-50%) scale(.96);opacity:0;visibility:hidden;transition:opacity .2s,transform .2s,visibility 0s .2s;
+  box-shadow:0 24px 70px rgba(0,0,0,.5)}
+#settings-panel.open,.drawer.open{right:auto;transform:translate(-50%,-50%);opacity:1;visibility:visible;transition:opacity .2s,transform .2s}
+@media (prefers-reduced-motion:reduce){#settings-panel,.drawer{transition:none}}
+#settings-panel .sp-header h3,.drawer .sp-header h3{font-size:1.7rem}
+.sp-close{font-size:1.6rem;width:52px;height:52px;border-radius:50%;background:var(--sand-dark)}
+#settings-panel .chip,.drawer .chip{font-size:1.05rem;padding:11px 18px}
+#settings-panel .chip.chip-sq,.drawer .chip.chip-sq{padding:0;width:58px;height:58px}
+#lu-set-body,#sp-uhrzeit-opts.visible{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr));gap:14px;align-items:start}
+.drawer .uhr-group,#settings-panel .uhr-group{background:#fff;border:2.5px solid var(--sand-border);border-radius:20px;padding:4px 16px 16px}
+#sp-uhrzeit-opts > .sp-divider{display:none}
+#settings-panel .mode-tile{min-width:110px}
+#settings-panel .sp-apply,.drawer .sp-apply{font-size:1.3rem;padding:16px;margin-top:18px;position:sticky;bottom:0;box-shadow:0 0 0 14px var(--sand),0 6px 18px rgba(0,0,0,.25)}
 ::-webkit-scrollbar{width:5px}
 ::-webkit-scrollbar-track{background:var(--sand-dark)}
 ::-webkit-scrollbar-thumb{background:var(--sand-border);border-radius:3px}
@@ -530,8 +564,16 @@ button:focus-visible,[tabindex]:focus-visible{outline:3px solid #f5c400;outline-
 <!-- ══ MAIN MENU ══ -->
 <div class="overlay" id="modal">
 <div class="panel">
+  <!-- KLASSENWAHL -->
+  <div class="menu-page active" id="mn-pageK">
+    <div class="logo">🎾 Lern-Tennis</div>
+    <p class="logo-sub">In welche Klasse gehst du?</p>
+    <div class="kl-grid"><button class="kl-tile" data-klasse="1" style="--kc:#d84315"><span class="kl-num">1</span><span class="kl-lbl">Klasse 1</span></button><button class="kl-tile" data-klasse="2" style="--kc:#1565c0"><span class="kl-num">2</span><span class="kl-lbl">Klasse 2</span></button><button class="kl-tile" data-klasse="3" style="--kc:#2e7d32"><span class="kl-num">3</span><span class="kl-lbl">Klasse 3</span></button><button class="kl-tile" data-klasse="4" style="--kc:#6a1b9a"><span class="kl-num">4</span><span class="kl-lbl">Klasse 4</span></button></div>
+  </div>
+
   <!-- STARTSEITE -->
-  <div class="menu-page active" id="mn-page0">
+  <div class="menu-page" id="mn-page0">
+    <div class="kl-bar"><button class="back-btn" data-back="mn-pageK" style="margin:0">← Klasse ändern</button><span class="kl-badge" id="kl-badge">Klasse 3</span></div>
     <div class="logo">🎾 Lern-Tennis</div>
     <p class="logo-sub">Wie möchtest du heute lernen?</p>
     <div class="big-tiles">
@@ -549,6 +591,9 @@ button:focus-visible,[tabindex]:focus-visible{outline:3px solid #f5c400;outline-
       <button class="mode-tile pr-tile big-mt" data-pmode="mathe"><span class="tile-ico">🔢</span><span class="tile-lbl">Kopfrechnen</span></button>
       <button class="mode-tile pr-tile big-mt" data-pmode="wortarten"><span class="tile-ico">📝</span><span class="tile-lbl">Wortarten</span></button>
       <button class="mode-tile pr-tile big-mt" data-pmode="satzarten"><span class="tile-ico">💬</span><span class="tile-lbl">Satzarten</span></button>
+      <button class="mode-tile pr-tile big-mt" data-pmode="anlaute"><span class="tile-ico">🔤</span><span class="tile-lbl">Anlaute</span></button>
+      <button class="mode-tile pr-tile big-mt" data-pmode="silben"><span class="tile-ico">👏</span><span class="tile-lbl">Silben</span></button>
+      <button class="mode-tile pr-tile big-mt" data-pmode="zeitformen"><span class="tile-ico">⏰</span><span class="tile-lbl">Zeitformen</span></button>
       <button class="mode-tile pr-tile big-mt" data-pmode="uhr"><span class="tile-ico">🕐</span><span class="tile-lbl">Lernuhr</span></button>
     </div>
   </div>
@@ -584,6 +629,9 @@ button:focus-visible,[tabindex]:focus-visible{outline:3px solid #f5c400;outline-
       <button class="mode-tile" data-mode="wortarten"><span class="tile-ico">📝</span><span class="tile-lbl">Wortarten</span></button>
       <button class="mode-tile" data-mode="satzarten"><span class="tile-ico">💬</span><span class="tile-lbl">Satzarten</span></button>
       <button class="mode-tile" data-mode="mathe"><span class="tile-ico">🔢</span><span class="tile-lbl">Mathematik</span></button>
+      <button class="mode-tile" data-mode="anlaute"><span class="tile-ico">🔤</span><span class="tile-lbl">Anlaute</span></button>
+      <button class="mode-tile" data-mode="silben"><span class="tile-ico">👏</span><span class="tile-lbl">Silben</span></button>
+      <button class="mode-tile" data-mode="zeitformen"><span class="tile-ico">⏰</span><span class="tile-lbl">Zeitformen</span></button>
       <button class="mode-tile" data-mode="uhrzeit"><span class="tile-ico">🕐</span><span class="tile-lbl">Uhrzeiten</span></button>
     </div>
   </div>
@@ -606,6 +654,18 @@ button:focus-visible,[tabindex]:focus-visible{outline:3px solid #f5c400;outline-
         </div>
       </div>
       <div class="chip-row" id="mn-wa-chips"></div>
+    </div>
+
+    <!-- Zeitformen-Auswahl -->
+    <div class="cat-opts" id="mn-zeitformen-opts">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-top:4px">
+        <div class="sec-label" style="margin:0">Welche Zeitformen?</div>
+        <div class="sel-all-row" style="margin:0">
+          <span class="sel-link" data-target="mn-zf" data-action="all">Alle</span>
+          <span class="sel-link" data-target="mn-zf" data-action="none">Keine</span>
+        </div>
+      </div>
+      <div class="chip-row" id="mn-zf-chips"></div>
     </div>
 
     <!-- Satzarten-Auswahl -->
@@ -636,6 +696,7 @@ button:focus-visible,[tabindex]:focus-visible{outline:3px solid #f5c400;outline-
           <button class="chip chip-sm" data-range="20">bis 20</button>
           <button class="chip chip-sm" data-range="100">bis 100</button>
           <button class="chip chip-sm" data-range="1000">bis 1000</button>
+          <button class="chip chip-sm" data-range="1000000">bis 1.000.000</button>
         </div>
       </div>
       <div><div class="sec-label">Zehnerübergang</div>
@@ -812,7 +873,10 @@ button:focus-visible,[tabindex]:focus-visible{outline:3px solid #f5c400;outline-
     <button class="mode-tile sp-mode active" data-mode="wortarten"><span class="tile-ico">📝</span><span class="tile-lbl">Wortarten</span></button>
     <button class="mode-tile sp-mode" data-mode="satzarten"><span class="tile-ico">💬</span><span class="tile-lbl">Satzarten</span></button>
     <button class="mode-tile sp-mode" data-mode="mathe"><span class="tile-ico">🔢</span><span class="tile-lbl">Mathematik</span></button>
-    <button class="mode-tile sp-mode" data-mode="uhrzeit"><span class="tile-ico">🕐</span><span class="tile-lbl">Uhrzeiten</span></button>
+    <button class="mode-tile sp-mode" data-mode="anlaute"><span class="tile-ico">🔤</span><span class="tile-lbl">Anlaute</span></button>
+      <button class="mode-tile sp-mode" data-mode="silben"><span class="tile-ico">👏</span><span class="tile-lbl">Silben</span></button>
+      <button class="mode-tile sp-mode" data-mode="zeitformen"><span class="tile-ico">⏰</span><span class="tile-lbl">Zeitformen</span></button>
+      <button class="mode-tile sp-mode" data-mode="uhrzeit"><span class="tile-ico">🕐</span><span class="tile-lbl">Uhrzeiten</span></button>
   </div>
 
   <!-- SP: Wortarten-Auswahl -->
@@ -826,6 +890,18 @@ button:focus-visible,[tabindex]:focus-visible{outline:3px solid #f5c400;outline-
     </div>
     <div class="chip-row" id="sp-wa-chips"></div>
   </div>
+
+    <!-- SP: Zeitformen-Auswahl -->
+    <div class="cat-opts" id="sp-zeitformen-opts">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-top:4px">
+        <div class="sec-label" style="margin:0">Welche Zeitformen?</div>
+        <div class="sel-all-row" style="margin:0">
+          <span class="sel-link" data-target="sp-zf" data-action="all">Alle</span>
+          <span class="sel-link" data-target="sp-zf" data-action="none">Keine</span>
+        </div>
+      </div>
+      <div class="chip-row" id="sp-zf-chips"></div>
+    </div>
 
   <!-- SP: Satzarten-Auswahl -->
   <div class="cat-opts" id="sp-satzarten-opts">
@@ -854,6 +930,7 @@ button:focus-visible,[tabindex]:focus-visible{outline:3px solid #f5c400;outline-
       <button class="chip chip-sm sp-range" data-range="20">bis 20</button>
       <button class="chip chip-sm sp-range" data-range="100">bis 100</button>
       <button class="chip chip-sm sp-range" data-range="1000">bis 1000</button>
+      <button class="chip chip-sm sp-range" data-range="1000000">bis 1.000.000</button>
     </div>
     <div class="sec-label" style="margin-top:10px">Zehnerübergang</div>
     <div class="chip-row">
@@ -969,9 +1046,86 @@ const SATZARTEN={
   ]
 };
 
+// ── Zeitformen (Klasse 4) ──
+const ZEITFORMEN={
+  categories:[
+    {id:'praesens',   label:'Gegenwart (Präsens)',          short:'Präsens',color:'#1a5276'},
+    {id:'praeteritum',label:'1. Vergangenheit (Präteritum)',short:'Präteritum',color:'#7d3c98'},
+    {id:'perfekt',    label:'2. Vergangenheit (Perfekt)',   short:'Perfekt',color:'#b9770e'},
+    {id:'futur',      label:'Zukunft (Futur)',              short:'Futur',color:'#117a65'},
+  ],
+  words:[
+    {w:'Ich spiele Fußball.',c:'praesens'},{w:'Mia liest ein Buch.',c:'praesens'},{w:'Wir gehen in den Park.',c:'praesens'},
+    {w:'Der Hund bellt laut.',c:'praesens'},{w:'Du malst ein Bild.',c:'praesens'},{w:'Die Kinder singen ein Lied.',c:'praesens'},
+    {w:'Ben trinkt Kakao.',c:'praesens'},{w:'Heute regnet es.',c:'praesens'},
+    {w:'Ich spielte Fußball.',c:'praeteritum'},{w:'Mia las ein Buch.',c:'praeteritum'},{w:'Wir gingen in den Park.',c:'praeteritum'},
+    {w:'Der Hund bellte laut.',c:'praeteritum'},{w:'Du maltest ein Bild.',c:'praeteritum'},{w:'Die Kinder sangen ein Lied.',c:'praeteritum'},
+    {w:'Ben trank Kakao.',c:'praeteritum'},{w:'Gestern regnete es.',c:'praeteritum'},
+    {w:'Ich habe Fußball gespielt.',c:'perfekt'},{w:'Mia hat ein Buch gelesen.',c:'perfekt'},{w:'Wir sind in den Park gegangen.',c:'perfekt'},
+    {w:'Der Hund hat laut gebellt.',c:'perfekt'},{w:'Du hast ein Bild gemalt.',c:'perfekt'},{w:'Die Kinder haben ein Lied gesungen.',c:'perfekt'},
+    {w:'Ben hat Kakao getrunken.',c:'perfekt'},{w:'Gestern hat es geregnet.',c:'perfekt'},
+    {w:'Ich werde Fußball spielen.',c:'futur'},{w:'Mia wird ein Buch lesen.',c:'futur'},{w:'Wir werden in den Park gehen.',c:'futur'},
+    {w:'Der Hund wird laut bellen.',c:'futur'},{w:'Du wirst ein Bild malen.',c:'futur'},{w:'Die Kinder werden ein Lied singen.',c:'futur'},
+    {w:'Ben wird Kakao trinken.',c:'futur'},{w:'Morgen wird es regnen.',c:'futur'},
+  ]
+};
+// ── Anlaute (Klasse 1): Bild, Wort, Anfangsbuchstabe ──
+const ANLAUTE=[
+  ['🍎','Apfel'],['🐒','Affe'],['🐜','Ameise'],['⚽','Ball'],['🍌','Banane'],['🌳','Baum'],['🐝','Biene'],
+  ['🦕','Dino'],['🐉','Drache'],['🦆','Ente'],['🐘','Elefant'],['🐟','Fisch'],['🐸','Frosch'],
+  ['🦒','Giraffe'],['🍴','Gabel'],['🐰','Hase'],['🐶','Hund'],['🏠','Haus'],['🦔','Igel'],['🏝️','Insel'],
+  ['🧥','Jacke'],['🐱','Katze'],['🧀','Käse'],['🐮','Kuh'],['👑','Krone'],['🦁','Löwe'],['🔍','Lupe'],
+  ['🐭','Maus'],['🌙','Mond'],['👃','Nase'],['🍝','Nudeln'],['👵','Oma'],['👂','Ohr'],['🍊','Orange'],
+  ['🍄','Pilz'],['🐧','Pinguin'],['🍕','Pizza'],['🚀','Rakete'],['🌹','Rose'],['💍','Ring'],
+  ['☀️','Sonne'],['🧦','Socke'],['🛋️','Sofa'],['🍅','Tomate'],['☕','Tasse'],['🐯','Tiger'],
+  ['⌚','Uhr'],['🛸','Ufo'],['🐳','Wal'],['☁️','Wolke'],['🦓','Zebra'],['🍋','Zitrone'],['🚂','Zug']
+].map(([e,w])=>({e,w,l:w[0].toUpperCase()}));
+// ── Silben (Klasse 1): Bild, Wort mit Silbentrennung ──
+const SILBEN=[
+  ['🐶','Hund'],['🐟','Fisch'],['🌳','Baum'],['🏠','Haus'],['⚽','Ball'],['🐭','Maus'],['🌙','Mond'],['🐮','Kuh'],
+  ['📖','Buch'],['⭐','Stern'],['🐻','Bär'],['🚂','Zug'],['🍦','Eis'],['🎩','Hut'],['🚌','Bus'],
+  ['🍎','Ap-fel'],['☀️','Son-ne'],['🐱','Kat-ze'],['🍐','Bir-ne'],['🌸','Blu-me'],['👃','Na-se'],['🐰','Ha-se'],
+  ['🚗','Au-to'],['🌹','Ro-se'],['🧀','Kä-se'],['🐒','Af-fe'],['🦆','En-te'],['🍴','Ga-bel'],['☕','Tas-se'],
+  ['🦁','Lö-we'],['🦔','I-gel'],['🍰','Ku-chen'],['🚲','Fahr-rad'],['⛄','Schnee-mann'],['🦄','Ein-horn'],['🐫','Ka-mel'],
+  ['🍌','Ba-na-ne'],['🍅','To-ma-te'],['🦒','Gi-raf-fe'],['🥕','Ka-rot-te'],['🐘','E-le-fant'],['🦋','Schmet-ter-ling'],
+  ['🦜','Pa-pa-gei'],['🚀','Ra-ke-te'],['🍋','Zi-tro-ne'],['🍉','Me-lo-ne'],['🐧','Pin-gu-in'],['🍓','Erd-bee-re'],
+  ['🛁','Ba-de-wan-ne'],['🍫','Scho-ko-la-de'],['🌈','Re-gen-bo-gen'],['🌻','Son-nen-blu-me'],['🚑','Kran-ken-wa-gen']
+].map(([e,t])=>({e,t,w:t.replace(/-/g,''),n:t.split('-').length}));
+
 // ── Welche Kategorien sind aktiv (alle standardmäßig) ──
 let activeWA = new Set(WORTARTEN.categories.map(c=>c.id));
 let activeSA = new Set(SATZARTEN.categories.map(c=>c.id));
+let activeZF = new Set(ZEITFORMEN.categories.map(c=>c.id));
+
+// ══ KLASSEN 1–4: Inhalte und Freigaben ══
+const ALL_OPS=['plus','minus','mal','geteilt'], ALL_CARRY=['beide','mit','ohne','zehner','verliebt'];
+const KL_CFG={
+  1:{practice:['mathe','anlaute','silben'],battle:['mathe','anlaute','silben'],
+     ops:['plus','minus'],ranges:[10,20],carry:ALL_CARRY,uhr:null,
+     def:{ops:['plus'],range:10}},
+  2:{practice:['mathe','wortarten','satzarten','uhr'],battle:['mathe','wortarten','satzarten','uhrzeit'],
+     ops:ALL_OPS,ranges:[10,20,100],carry:ALL_CARRY,
+     wa:['best-art','unbest-art','nomen','verb','adjektiv'],
+     uhr:{stufen:['voll','halb','viertel','fuenf'],h24:false,zSchritt:[15,5],zMax:[30,60]},
+     def:{ops:['plus','minus'],range:100,stufe:'viertel'}},
+  3:{practice:['mathe','wortarten','satzarten','uhr'],battle:['mathe','wortarten','satzarten','uhrzeit'],
+     ops:ALL_OPS,ranges:[10,20,100,1000],carry:ALL_CARRY,uhr:{},
+     def:{ops:['plus','minus'],range:1000,stufe:'fuenf'}},
+  4:{practice:['mathe','wortarten','satzarten','zeitformen','uhr'],battle:['mathe','wortarten','satzarten','zeitformen','uhrzeit'],
+     ops:ALL_OPS,ranges:[10,20,100,1000,1000000],carry:ALL_CARRY,uhr:{},
+     def:{ops:['plus','minus'],range:1000000,stufe:'minute'}}
+};
+let KLASSE=3;
+function klCfg(){return KL_CFG[KLASSE]}
+function klAllow(group,val){
+  const u=klCfg().uhr; if(!u)return true;
+  if(group==='stufe') return !u.stufen||u.stufen.includes(val);
+  if(group==='sets') return val!=='minute'||!u.stufen||u.stufen.includes('minute');
+  if(((group==='fmts'||group==='anz'||group==='aufg')&&val==='h24')||(group==='face'&&val==='z24')) return u.h24!==false;
+  if(group==='zSchritt') return !u.zSchritt||u.zSchritt.includes(val);
+  if(group==='zMax') return !u.zMax||u.zMax.includes(val);
+  return true;
+}
 
 // ══ CHIP BUILDER für Kategorie-Auswahl ══
 function buildCatChips(containerId, dataset, activeSet, prefix){
@@ -1006,12 +1160,13 @@ function setupSelLinks(target, activeSet, dataset, chipsId){
   document.querySelectorAll('[data-target="'+target+'"]').forEach(link=>{
     link.addEventListener('click',()=>{
       const action=link.dataset.action;
+      const ids=[...document.querySelectorAll('#'+chipsId+' .cat-chip')].map(b=>b.dataset.catId);
+      if(!ids.length)return;
       if(action==='all'){
-        dataset.categories.forEach(c=>activeSet.add(c.id));
+        ids.forEach(id=>activeSet.add(id));
       } else {
-        const first=dataset.categories[0].id;
         activeSet.clear();
-        activeSet.add(first);
+        activeSet.add(ids[0]);
       }
       syncCatChips(chipsId, activeSet);
     });
@@ -1025,6 +1180,8 @@ buildCatChips('sp-wa-chips', WORTARTEN, activeWA, 'sp');
 buildCatChips('sp-sa-chips', SATZARTEN, activeSA, 'sp');
 setupSelLinks('mn-wa', activeWA, WORTARTEN, 'mn-wa-chips');
 setupSelLinks('mn-sa', activeSA, SATZARTEN, 'mn-sa-chips');
+setupSelLinks('mn-zf', activeZF, ZEITFORMEN, 'mn-zf-chips');
+setupSelLinks('sp-zf', activeZF, ZEITFORMEN, 'sp-zf-chips');
 setupSelLinks('sp-wa', activeWA, WORTARTEN, 'sp-wa-chips');
 setupSelLinks('sp-sa', activeSA, SATZARTEN, 'sp-sa-chips');
 
@@ -1072,6 +1229,8 @@ function updateModeViews(mode, prefix){
   const uh = prefix==='sp'?document.getElementById('sp-uhrzeit-opts'):document.getElementById('uhrzeit-opts');
   if(wa) wa.classList.toggle('visible', mode==='wortarten');
   if(sa) sa.classList.toggle('visible', mode==='satzarten');
+  const zf = document.getElementById(pfx+'zeitformen-opts');
+  if(zf) zf.classList.toggle('visible', mode==='zeitformen');
   if(ma) ma.classList.toggle('visible', mode==='mathe');
   if(uh) uh.classList.toggle('visible', mode==='uhrzeit');
   const sw=document.getElementById(prefix==='sp'?'sp-spd-wrap':'mn-spd-wrap');
@@ -1086,8 +1245,11 @@ const modeInfos={
   satzarten:{ico:'💬',title:'Satzarten'},
   mathe:{ico:'🔢',title:'Mathematik'},
   uhrzeit:{ico:'🕐',title:'Uhrzeiten'},
+  anlaute:{ico:'🔤',title:'Anlaute'},
+  silben:{ico:'👏',title:'Silben'},
+  zeitformen:{ico:'⏰',title:'Zeitformen'},
 };
-document.querySelectorAll('.mode-tile:not(.sp-mode):not(.pr-tile)').forEach(b=>{
+document.querySelectorAll('.mode-tile[data-mode]:not(.sp-mode)').forEach(b=>{
   b.addEventListener('click',()=>{
     st.mode=b.dataset.mode;
     st.flow='battle';
@@ -1118,7 +1280,7 @@ function setFlowView(){
 document.querySelectorAll('[data-back]').forEach(b=>b.addEventListener('click',()=>showMenuPage(b.dataset.back)));
 document.getElementById('go-battle').addEventListener('click',()=>{st.flow='battle';showMenuPage('mn-page1');});
 document.getElementById('go-practice').addEventListener('click',()=>{st.flow='practice';showMenuPage('mn-pageP');});
-const PR_INFO={mathe:{ico:'🔢',title:'Kopfrechnen'},wortarten:{ico:'📝',title:'Wortarten'},satzarten:{ico:'💬',title:'Satzarten'}};
+const PR_INFO={mathe:{ico:'🔢',title:'Kopfrechnen'},wortarten:{ico:'📝',title:'Wortarten'},satzarten:{ico:'💬',title:'Satzarten'},zeitformen:{ico:'⏰',title:'Zeitformen'},anlaute:{ico:'🔤',title:'Anlaute'},silben:{ico:'👏',title:'Silben'}};
 document.querySelectorAll('.pr-tile').forEach(b=>b.addEventListener('click',()=>{
   st.flow='practice';
   if(b.dataset.pmode==='uhr'){openLernuhr();return;}
@@ -1252,6 +1414,7 @@ function openSettings(){
   updateModeViews(st.mode,'sp');
   syncCatChips('sp-wa-chips', activeWA);
   syncCatChips('sp-sa-chips', activeSA);
+  syncCatChips('sp-zf-chips', activeZF);
   document.querySelectorAll('.sp-op').forEach(b=>b.classList.toggle('active',st.mathOps.includes(b.dataset.op)));
   document.querySelectorAll('.sp-range').forEach(b=>b.classList.toggle('active',parseInt(b.dataset.range)===st.mathRange));
   document.querySelectorAll('.sp-carry').forEach(b=>b.classList.toggle('active',b.dataset.carry===st.mathCarry));
@@ -1274,7 +1437,7 @@ function applySettingsAndClose(){
   const modeChanged=newMode!==st.mode;
   st.mode=newMode;
   // Sync mode tiles in menu
-  document.querySelectorAll('.mode-tile:not(.sp-mode):not(.pr-tile)').forEach(b=>{
+  document.querySelectorAll('.mode-tile[data-mode]:not(.sp-mode)').forEach(b=>{
     b.classList.toggle('active',b.dataset.mode===st.mode);
   });
   updateModeViews(st.mode,'mn');
@@ -1388,15 +1551,14 @@ function buildButtons(){
   const L=document.getElementById('btns-left');
   const R=document.getElementById('btns-right');
   L.innerHTML=''; R.innerHTML='';
-  if(st.mode!=='mathe'){
-    const data=st.mode==='wortarten'?WORTARTEN:SATZARTEN;
-    const active=st.mode==='wortarten'?activeWA:activeSA;
+  if(isCatMode(st.mode)){
+    const {data,active}=catData(st.mode);
     const cats=data.categories.filter(c=>active.has(c.id));
     cats.forEach(cat=>{
       [L,R].forEach((col,side)=>{
         const btn=document.createElement('button');
         btn.className='cat-btn';
-        btn.textContent=cat.label;
+        btn.textContent=cat.short||cat.label;
         btn.style.background=cat.color;
         btn.addEventListener('pointerdown',e=>{
           e.preventDefault();
@@ -1408,14 +1570,16 @@ function buildButtons(){
     });
   }
   // Wortpool nur aus aktiven Kategorien
-  if(st.mode==='wortarten'){
-    st.wordPool=WORTARTEN.words.filter(w=>activeWA.has(w.c));
-  } else if(st.mode==='satzarten'){
-    st.wordPool=SATZARTEN.words.filter(w=>activeSA.has(w.c));
-  } else {
-    st.wordPool=[];
-  }
+  if(isCatMode(st.mode)){const {data,active}=catData(st.mode);st.wordPool=data.words.filter(w=>active.has(w.c));}
+  else st.wordPool=[];
 }
+function isCatMode(m){return m==='wortarten'||m==='satzarten'||m==='zeitformen'}
+function catData(m){
+  if(m==='wortarten')return {data:WORTARTEN,active:activeWA};
+  if(m==='zeitformen')return {data:ZEITFORMEN,active:activeZF};
+  return {data:SATZARTEN,active:activeSA};
+}
+function fmtN(v){return typeof v==='number'?v.toLocaleString('de-DE'):String(v)}
 function buildMathButtons(choices){
   const L=document.getElementById('btns-left');
   const R=document.getElementById('btns-right');
@@ -1425,9 +1589,9 @@ function buildMathButtons(choices){
     [L,R].forEach((col,side)=>{
       const btn=document.createElement('button');
       btn.className='cat-btn';
-      btn.textContent=val;
+      btn.textContent=fmtN(val);
       btn.style.background=colors[i%colors.length];
-      const len=String(val).length;
+      const len=fmtN(val).length;
       btn.style.fontSize=len>12?'clamp(.65rem,1.8vw,.85rem)':len>8?'clamp(.75rem,2.2vw,1rem)':'clamp(.95rem,2.8vw,1.25rem)';
       btn.addEventListener('pointerdown',e=>{
         e.preventDefault();
@@ -1451,6 +1615,19 @@ function generateVerliebtTask(){
   }
   const choices=[correct,...wrong].sort(()=>Math.random()-.5);
   return{display:String(shown),correct,choices};
+}
+
+// ══ ANLAUTE UND SILBEN (Klasse 1) ══
+function generateAnlautTask(){
+  const it=ANLAUTE[Math.floor(Math.random()*ANLAUTE.length)];
+  const letters=[...new Set(ANLAUTE.map(x=>x.l))].filter(l=>l!==it.l).sort(()=>Math.random()-.5).slice(0,3);
+  return{emoji:it.e,word:'_'+it.w.slice(1),display:it.e+'  _'+it.w.slice(1),correct:it.l,
+    choices:[it.l,...letters].sort(()=>Math.random()-.5),after:it.w+' beginnt mit '+it.l+'.'};
+}
+function generateSilbenTask(){
+  const it=SILBEN[Math.floor(Math.random()*SILBEN.length)];
+  return{emoji:it.e,word:it.w,display:it.e+'  '+it.w,correct:it.n,choices:[1,2,3,4],
+    after:it.w+': '+it.t.split('-').join(' – ')+' = '+it.n+(it.n===1?' Silbe':' Silben')};
 }
 
 // ══ MATH ══
@@ -1489,16 +1666,29 @@ function makePlusMinus(op, max){
   return op==='plus'?{a:3,b:4,correct:7}:{a:7,b:3,correct:4};
 }
 
+function generateBigTask(op,max){
+  // Kopfrechnen mit großen, runden Zahlen (z. B. 340.000 + 25.000)
+  const U=max>=1000000?1000:100, N=Math.floor(max/U), R=n=>1+Math.floor(Math.random()*n);
+  let a,b,correct,display;
+  if(op==='plus'){a=R(N-1);b=R(N-a);correct=(a+b)*U;display=fmtN(a*U)+' + '+fmtN(b*U)+' =';}
+  else if(op==='minus'){a=R(N);b=R(a);correct=(a-b)*U;display=fmtN(a*U)+' − '+fmtN(b*U)+' =';}
+  else if(op==='mal'){a=2+Math.floor(Math.random()*8);b=R(Math.floor(N/a));correct=a*b*U;display=fmtN(b*U)+' × '+a+' =';}
+  else {const d=2+Math.floor(Math.random()*8);const q=R(Math.floor(N/d));correct=q*U;display=fmtN(d*q*U)+' ÷ '+d+' =';}
+  const w=new Set();let g=0;
+  while(w.size<3&&g++<200){const k=(1+Math.floor(Math.random()*5))*(Math.random()<.5?1:-1)*U*(Math.random()<.5?1:10);const v=correct+k;if(v>0&&v!==correct)w.add(v);}
+  return{display,correct,choices:[correct,...w].sort(()=>Math.random()-.5)};
+}
 function generateMathTask(){
   const op=st.mathOps[Math.floor(Math.random()*st.mathOps.length)];
   const max=st.mathRange;
+  if(max>1000) return generateBigTask(op,max);
   let display,correct;
   if(op==='plus'){
     const r=makePlusMinus('plus',max);
-    display=r.a+' + '+r.b+' ='; correct=r.correct;
+    display=fmtN(r.a)+' + '+fmtN(r.b)+' ='; correct=r.correct;
   } else if(op==='minus'){
     const r=makePlusMinus('minus',max);
-    display=r.a+' − '+r.b+' ='; correct=r.correct;
+    display=fmtN(r.a)+' − '+fmtN(r.b)+' ='; correct=r.correct;
   } else if(op==='mal'){
     let a,b;
     a=Math.floor(Math.random()*Math.min(10,Math.sqrt(max))+1);
@@ -1509,7 +1699,7 @@ function generateMathTask(){
     let a,b;
     b=Math.floor(Math.random()*9)+2;
     const q=Math.floor(Math.random()*Math.min(10,max/b))+1;
-    a=b*q; correct=q; display=a+' ÷ '+b+' =';
+    a=b*q; correct=q; display=fmtN(a)+' ÷ '+b+' =';
   }
   const w=new Set();
   let guard=0;
@@ -1541,17 +1731,22 @@ function pickWord(){
     buildMathButtons(t.choices);
     return{w:t.display,c:'__math__'};
   }
-  // Worddisplay zurücksetzen für Wortarten/Satzarten
+  // Worddisplay zurücksetzen
   wordDisplay.style.background='';
   wordDisplay.style.boxShadow='';
   wordDisplay.style.padding='';
   wordDisplay.style.fontSize='';
+  if(st.mode==='anlaute'||st.mode==='silben'){
+    const t=st.mode==='anlaute'?generateAnlautTask():generateSilbenTask();
+    st.mathCorrect=t.correct; st.mathChoices=t.choices;
+    wordDisplay.textContent=t.display;
+    wordDisplay.style.fontSize='clamp(1.3rem,4vw,2.2rem)';
+    buildMathButtons(t.choices);
+    return{w:t.display,c:'__math__'};
+  }
   if(!st.wordPool.length){
-    if(st.mode==='wortarten'){
-      st.wordPool=WORTARTEN.words.filter(w=>activeWA.has(w.c));
-    } else {
-      st.wordPool=SATZARTEN.words.filter(w=>activeSA.has(w.c));
-    }
+    const {data,active}=catData(st.mode);
+    st.wordPool=data.words.filter(w=>active.has(w.c));
   }
   if(!st.wordPool.length) return{w:'?',c:'nomen'};
   const i=Math.floor(Math.random()*st.wordPool.length);
@@ -1563,7 +1758,7 @@ function launchBall(){
   if(st.mode==='uhrzeit'){uhrNewRound();return;}
   uhrClearTimers(); uhrSetLayout(false);
   st.currentWord=pickWord();
-  if(st.mode!=='mathe'&&st.mode!=='uhrzeit') wordDisplay.textContent=st.currentWord.w;
+  if(st.currentWord.c!=='__math__') wordDisplay.textContent=st.currentWord.w;
   st.blocked=false;
   const fromLeft=(st.toSide===1);
   st.ballX=fromLeft?.08:.92;
@@ -1742,6 +1937,7 @@ const UHR_UI=[
   {label:'Lösung zeigen für',kind:'single',key:'loesung',items:[[1.5,'1,5 s'],[3,'3 s'],[5,'5 s'],[8,'8 s']]},
   {label:'Vorsprung (Handicap)',kind:'hc',hint:'Bei diesem Kind erscheinen die Antworten später. So können stärkere und schwächere Kinder fair gegeneinander spielen.'}
 ];
+const UHR_ICO={sets:'🕐',fmts:'✏️',face:'🔢',zeiger:'👆',anzahl:'🔘',level:'💪',strafe:'⚠️',zeit:'⏱️',denk:'🤔',loesung:'✅',undefined:'🐢'};
 const UR={timers:[],items:[],locked:[false,false],ready:[false,false],over:true,correctTxt:''};
 
 function uhrEsc(t){return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;')}
@@ -1757,9 +1953,9 @@ function uhrRenderOpts(){
       +['leicht','mittel','schwer'].map(p=>`<button class="chip chip-sm" data-uk="preset" data-uv="${p}">${p[0].toUpperCase()+p.slice(1)}</button>`).join('')
       +'</div><div class="uhr-hint">Setzt alle Einstellungen unten auf eine Stufe. Danach kannst du jede Einstellung einzeln ändern.</div></div>';
     UHR_UI.forEach(g=>{
-      h+=`<div class="uhr-group"><div class="sec-label">${uhrEsc(g.label)}</div>`;
+      h+=`<div class="uhr-group"><div class="sec-label">${UHR_ICO[g.obj||g.key]||''} ${uhrEsc(g.label)}</div>`;
       if(g.kind==='multi'){
-        h+='<div class="chip-row">'+g.items.map(([k,l])=>`<button class="chip chip-sm${UHR[g.obj][k]?' active':''}" data-uk="multi" data-uo="${g.obj}" data-uv="${k}">${uhrEsc(l)}</button>`).join('')+'</div>';
+        h+='<div class="chip-row">'+g.items.filter(([k])=>klAllow(g.obj,k)).map(([k,l])=>`<button class="chip chip-sm${UHR[g.obj][k]?' active':''}" data-uk="multi" data-uo="${g.obj}" data-uv="${k}">${uhrEsc(l)}</button>`).join('')+'</div>';
       } else if(g.kind==='single'){
         h+='<div class="chip-row">'+g.items.map(([v,l])=>`<button class="chip ${g.sq?'chip-sq':'chip-sm'}${UHR[g.key]===v?' active':''}" data-uk="single" data-ukey="${g.key}" data-uv="${v}">${uhrEsc(l)}</button>`).join('')+'</div>';
       } else if(g.kind==='hc'){
@@ -1781,6 +1977,7 @@ function uhrOptClick(e){
   if(k==='preset'){
     const p=JSON.parse(JSON.stringify(UHR_PRESETS[v]));
     Object.assign(UHR,p);
+    klClamp();
   } else if(k==='multi'){
     const o=UHR[b.dataset.uo];
     const g=UHR_UI.find(x=>x.obj===b.dataset.uo);
@@ -2147,12 +2344,18 @@ function prMakeTask(){
       return {text:t.display+' + ? = 10',choices:t.choices.map((v,i)=>({label:String(v),ok:v===t.correct,color:ANS_COLORS[i]}))};
     }
     const t=generateMathTask();
-    return {text:t.display+' ?',choices:t.choices.map((v,i)=>({label:String(v),ok:v===t.correct,color:ANS_COLORS[i]}))};
+    return {text:t.display+' ?',choices:t.choices.map((v,i)=>({label:fmtN(v),ok:v===t.correct,color:ANS_COLORS[i]}))};
   }
-  const data=PR.kind==='wortarten'?WORTARTEN:SATZARTEN, act=PR.kind==='wortarten'?activeWA:activeSA;
+  if(PR.kind==='anlaute'||PR.kind==='silben'){
+    const t=PR.kind==='anlaute'?generateAnlautTask():generateSilbenTask();
+    return {html:`<span class="pr-emoji">${t.emoji}</span><span class="pr-word">${uhrEsc(t.word)}</span>`,
+      q:PR.kind==='anlaute'?'Mit welchem Buchstaben beginnt das Wort?':'Wie viele Silben hat das Wort? Klatsche mit!',
+      after:t.after,choices:t.choices.map((v,i)=>({label:String(v),ok:v===t.correct,color:ANS_COLORS[i]}))};
+  }
+  const {data,active:act}=catData(PR.kind);
   if(!PR.pool.length) PR.pool=data.words.filter(w=>act.has(w.c));
   const w=PR.pool.splice(uhrRand(PR.pool.length),1)[0];
-  return {text:w.w,small:w.w.length>10,
+  return {text:w.w,small:w.w.length>10,q:PR.kind==='zeitformen'?'In welcher Zeitform steht der Satz?':'',
     choices:data.categories.filter(c=>act.has(c.id)).map(c=>({label:c.label,ok:c.id===w.c,color:c.color}))};
 }
 function prNext(){
@@ -2168,7 +2371,8 @@ function prNext(){
   PR.task=prMakeTask();
   const t=PR.task;
   main.innerHTML=progHTML(PR.i,PR.n,PR.res)
-    +`<div class="pr-task${t.small?' small':''}">${uhrEsc(t.text)}</div>`
+    +(t.q?`<p class="pr-q">${uhrEsc(t.q)}</p>`:'')
+    +(t.html?`<div class="pr-task pic">${t.html}</div>`:`<div class="pr-task${t.small?' small':''}">${uhrEsc(t.text)}</div>`)
     +'<div class="ans-grid">'+t.choices.map((c,i)=>`<button class="ans-btn" data-pans="${i}" style="background:${c.color}">${uhrEsc(c.label)}</button>`).join('')+'</div>'
     +'<p class="fb" id="pr-fb" aria-live="polite"></p><button class="btn-big blue" id="pr-next" hidden>Weiter</button>';
 }
@@ -2182,8 +2386,10 @@ function prAnswer(i){
   });
   const fb=document.getElementById('pr-fb');
   const dots=document.querySelectorAll('#pr-main .dot'); if(dots[PR.i]){dots[PR.i].classList.remove('cur');dots[PR.i].classList.add(ok?'ok':'no');}
-  if(ok){ fb.className='fb ok'; fb.textContent='Richtig! Super!'; PR.timer=setTimeout(()=>{PR.i++;prNext();},1100); }
-  else { fb.className='fb no'; fb.textContent='Leider falsch. Richtig ist: '+t.choices.find(c=>c.ok).label;
+  const extra=t.after?' '+t.after:'';
+  if(ok&&t.after){ fb.className='fb ok'; fb.textContent='Richtig!'+extra; const nx=document.getElementById('pr-next'); nx.hidden=false; }
+  else if(ok){ fb.className='fb ok'; fb.textContent='Richtig! Super!'; PR.timer=setTimeout(()=>{PR.i++;prNext();},1100); }
+  else { fb.className='fb no'; fb.textContent='Leider falsch. Richtig ist: '+t.choices.find(c=>c.ok).label+'.'+extra;
     const nx=document.getElementById('pr-next'); nx.hidden=false; nx.focus(); }
 }
 document.getElementById('pr-main').addEventListener('click',e=>{
@@ -2214,9 +2420,9 @@ const LU_UI=[
   {label:'Farbhilfe für Viertel und halbe Stunden',kind:'single',key:'farbe',items:[['gruen','Grün bei Treffern'],['viertel','Feste Viertel-Farben'],['aus','Aus']],
     hint:'„Grün bei Treffern“: Die Fläche hinter dem Minutenzeiger ist gelb und springt erst auf Grün, wenn der Zeiger genau auf einem Ziel steht. Ziele bei Viertelstunden: 15, 30, 45 und volle Stunde. Bei halben Stunden: 30 und volle Stunde.'},
   {label:'Zifferblatt',kind:'multi',obj:'face',allowNone:true,items:[['z12','Zahlen 1–12'],['z24','Zahlen 13–24'],['striche','Minutenstriche'],['min5','Minutenzahlen 0–55'],['vornach','„vor“ und „nach“'],['beschr','Zeiger beschriften']],
-    hint:'Für 12 und 24 Stunden gleichzeitig: „Zahlen 1–12“ und „Zahlen 13–24“ beide einschalten.'},
+    hintFn:()=>klAllow('face','z24')?'Für 12 und 24 Stunden gleichzeitig: „Zahlen 1–12“ und „Zahlen 13–24“ beide einschalten.':''},
   {label:'Anzeige beim Entdecken',kind:'multi',obj:'anz',allowNone:true,items:[['h12','12 Stunden (7:15)'],['h24','24 Stunden (19:15)'],['wort','Wörter (Viertel nach sieben)']],
-    hint:'Einzeln oder zusammen einschaltbar.'},
+    hintFn:()=>klAllow('anz','h24')?'Einzeln oder zusammen einschaltbar.':''},
   {label:'Zeiger beim Entdecken',kind:'single',key:'hands',items:[['beide','Beide Zeiger'],['stunde','Nur Stundenzeiger'],['minute','Nur Minutenzeiger']],
     hint:'Beim Üben sind immer beide Zeiger zu sehen.'},
   {label:'Aufgaben beim Üben als',kind:'multi',obj:'aufg',items:[['h12','12 Stunden'],['h24','24 Stunden'],['wort','Wörter']],
@@ -2230,14 +2436,17 @@ const LU_UI=[
     hint:'Wie beim Zehnerübergang: Mit Übergang rechnen die Kinder zuerst bis zur vollen Stunde.'},
   {label:'Aufgaben pro Runde',kind:'single',key:'runde',items:[[5,'5'],[10,'10'],[15,'15'],[20,'20']]}
 ];
+const LU_ICO={stufe:'🕐',farbe:'🎨',face:'🔢',anz:'📺',hands:'👆',aufg:'✏️',hilfe:'💡',zArten:'⏳',zSchritt:'👣',zMax:'📏',zUeber:'🔁',runde:'🎯'};
 const LU_TITLES={entdecken:'Uhr entdecken',lesen:'Uhr lesen',stellen:'Uhr stellen',gemischt:'Gemischt',spannen:'Zeitspannen'};
 function cgHTML(groups,S){
   return groups.map(g=>{
-    let h=`<div class="uhr-group"><div class="sec-label">${uhrEsc(g.label)}</div><div class="chip-row">`;
-    if(g.kind==='multi') h+=g.items.map(([k,l])=>`<button class="chip chip-sm${S[g.obj][k]?' active':''}" data-cg="multi" data-co="${g.obj}" data-cv="${k}" aria-pressed="${!!S[g.obj][k]}">${uhrEsc(l)}</button>`).join('');
-    else h+=g.items.map(([v,l])=>`<button class="chip chip-sm${S[g.key]===v?' active':''}" data-cg="single" data-ck="${g.key}" data-cv="${v}" aria-pressed="${S[g.key]===v}">${uhrEsc(l)}</button>`).join('');
+    const items=g.items.filter(([v])=>klAllow(g.obj||g.key,v));
+    let h=`<div class="uhr-group"><div class="sec-label">${LU_ICO[g.obj||g.key]||''} ${uhrEsc(g.label)}</div><div class="chip-row">`;
+    if(g.kind==='multi') h+=items.map(([k,l])=>`<button class="chip chip-sm${S[g.obj][k]?' active':''}" data-cg="multi" data-co="${g.obj}" data-cv="${k}" aria-pressed="${!!S[g.obj][k]}">${uhrEsc(l)}</button>`).join('');
+    else h+=items.map(([v,l])=>`<button class="chip chip-sm${S[g.key]===v?' active':''}" data-cg="single" data-ck="${g.key}" data-cv="${v}" aria-pressed="${S[g.key]===v}">${uhrEsc(l)}</button>`).join('');
     h+='</div>';
-    if(g.hint) h+=`<div class="uhr-hint">${uhrEsc(g.hint)}</div>`;
+    const hint=g.hintFn?g.hintFn():g.hint;
+    if(hint) h+=`<div class="uhr-hint">${uhrEsc(hint)}</div>`;
     return h+'</div>';
   }).join('');
 }
@@ -2334,7 +2543,7 @@ function luSideEntdecken(){
   h+=`<div class="row" style="justify-content:flex-start"><button class="scr-btn" id="lu-now">Jetzt</button><button class="scr-btn" id="lu-rand">Zufall</button>
     <button class="scr-btn" id="lu-hide" aria-pressed="${LU.hide}">${LU.hide?'Anzeige zeigen':'Anzeige verstecken'}</button></div>`;
   h+='<div class="uhr-group"><div class="sec-label" style="margin-top:2px">Stufe</div><div class="chip-row">'
-    +LU_STUFEN.map(([k,l])=>`<button class="chip chip-sm${LU.stufe===k?' active':''}" data-lustufe="${k}" aria-pressed="${LU.stufe===k}">${l}</button>`).join('')+'</div></div>';
+    +LU_STUFEN.filter(([k])=>klAllow('stufe',k)).map(([k,l])=>`<button class="chip chip-sm${LU.stufe===k?' active':''}" data-lustufe="${k}" aria-pressed="${LU.stufe===k}">${l}</button>`).join('')+'</div></div>';
   h+='<p class="lu-hint">Ziehe die Zeiger mit dem Finger. Tippst du auf das Zifferblatt, springt der nähere Zeiger dorthin. Mit den Pfeiltasten geht es schrittweise, mit Umschalt stundenweise.</p>';
   if(LU.hide) h+='<p class="lu-hint">Tippe auf eine Anzeige, um die Lösung zu sehen.</p>';
   luSide.innerHTML=h;
@@ -2657,6 +2866,51 @@ document.getElementById('lu-set-btn').addEventListener('click',luOpenSet);
 document.getElementById('lu-set-close').addEventListener('click',()=>luCloseSet());
 document.getElementById('lu-set-ok').addEventListener('click',()=>luCloseSet());
 luSetOv.addEventListener('click',()=>luCloseSet());
+
+function klClamp(){
+  const u=klCfg().uhr; if(!u)return;
+  if(!klAllow('stufe',LU.stufe)) LU.stufe='viertel';
+  ['anz','aufg','face'].forEach(o=>Object.keys(LU[o]).forEach(k=>{if(!klAllow(o,k))LU[o][k]=false;}));
+  if(!Object.values(LU.aufg).some(Boolean)) LU.aufg.h12=true;
+  if(!klAllow('zSchritt',LU.zSchritt)) LU.zSchritt=u.zSchritt[0];
+  if(!klAllow('zMax',LU.zMax)) LU.zMax=u.zMax[u.zMax.length-1];
+  Object.keys(UHR.sets).forEach(k=>{if(!klAllow('sets',k))UHR.sets[k]=false;});
+  if(!Object.values(UHR.sets).some(Boolean)){UHR.sets.voll=true;UHR.sets.halb=true;}
+  Object.keys(UHR.fmts).forEach(k=>{if(!klAllow('fmts',k))UHR.fmts[k]=false;});
+  if(!Object.values(UHR.fmts).some(Boolean)) UHR.fmts.ziffer=true;
+  if(!klAllow('face','z24')) UHR.face.z24=false;
+}
+function applyKlasse(k){
+  KLASSE=k; const c=klCfg();
+  document.getElementById('kl-badge').textContent='Klasse '+k;
+  document.querySelectorAll('.pr-tile[data-pmode]').forEach(b=>b.hidden=!c.practice.includes(b.dataset.pmode));
+  document.querySelectorAll('.mode-tile[data-mode]').forEach(b=>b.hidden=!c.battle.includes(b.dataset.mode));
+  document.querySelectorAll('.chip[data-op]').forEach(b=>b.hidden=!c.ops.includes(b.dataset.op));
+  document.querySelectorAll('.chip[data-range]').forEach(b=>b.hidden=!c.ranges.includes(+b.dataset.range));
+  document.querySelectorAll('.chip[data-carry]').forEach(b=>b.hidden=!c.carry.includes(b.dataset.carry));
+  // Voreinstellungen der Klasse
+  st.mathOps=c.def.ops.slice(); st.mathRange=c.def.range; st.mathCarry='beide';
+  document.querySelectorAll('.chip[data-op]').forEach(b=>b.classList.toggle('active',st.mathOps.includes(b.dataset.op)));
+  document.querySelectorAll('.chip[data-range]').forEach(b=>b.classList.toggle('active',+b.dataset.range===st.mathRange));
+  document.querySelectorAll('.chip[data-carry]').forEach(b=>b.classList.toggle('active',b.dataset.carry==='beide'));
+  const waIds=c.wa||WORTARTEN.categories.map(x=>x.id);
+  activeWA.clear(); waIds.forEach(id=>activeWA.add(id));
+  activeSA.clear(); SATZARTEN.categories.forEach(x=>activeSA.add(x.id));
+  activeZF.clear(); ZEITFORMEN.categories.forEach(x=>activeZF.add(x.id));
+  const waView={categories:WORTARTEN.categories.filter(x=>waIds.includes(x.id))};
+  ['mn','sp'].forEach(p=>{
+    buildCatChips(p+'-wa-chips',waView,activeWA,p);
+    buildCatChips(p+'-sa-chips',SATZARTEN,activeSA,p);
+    buildCatChips(p+'-zf-chips',ZEITFORMEN,activeZF,p);
+  });
+  if(c.def.stufe) LU.stufe=c.def.stufe;
+  klClamp();
+  uhrRenderOpts();
+}
+document.querySelectorAll('[data-klasse]').forEach(b=>b.addEventListener('click',()=>{
+  applyKlasse(+b.dataset.klasse);
+  showMenuPage('mn-page0');
+}));
 
 // ══ KONFETTI ══
 const CONFETTI_COLORS=['#f5e042','#e74c3c','#3498db','#2ecc71','#e91e63','#ff9800','#9c27b0','#00bcd4'];
