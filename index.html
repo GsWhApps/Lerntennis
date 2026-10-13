@@ -376,6 +376,149 @@ input[type=range].spd{flex:1;accent-color:var(--court);cursor:pointer}
 @keyframes ushake{0%,100%{transform:translateX(0)}25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
 @media (prefers-reduced-motion:reduce){.cat-btn.u-wrong{animation:none}}
 
+
+/* ══ STARTSEITE ══ */
+.big-tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-top:6px}
+.big-tile{font-family:'Nunito',sans-serif;display:flex;flex-direction:column;align-items:center;gap:8px;padding:22px 16px;
+  border-radius:22px;border:3px solid var(--sand-border);background:var(--sand-dark);cursor:pointer;
+  box-shadow:var(--shadow-sm);transition:transform .12s,border-color .12s;color:var(--text);
+  -webkit-tap-highlight-color:transparent}
+.big-tile:hover{border-color:var(--court)}
+.big-tile:active{transform:scale(.97)}
+.big-tile svg{width:84px;height:84px;display:block}
+.bt-title{font-family:'Fredoka One',sans-serif;font-size:1.55rem;color:var(--court)}
+.big-tile.battle .bt-title{color:#b71c1c}
+.big-tile.battle:hover{border-color:#b71c1c}
+.bt-sub{font-weight:700;font-size:.95rem;color:var(--text-muted);text-align:center}
+button:focus-visible,[tabindex]:focus-visible{outline:3px solid #f5c400;outline-offset:2px}
+
+/* ══ ÜBUNGS-BILDSCHIRME ══ */
+.scr{position:fixed;inset:0;z-index:90;background:var(--sand);color:var(--text);display:flex;
+  flex-direction:column;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+.scr[hidden]{display:none}
+.scr-top{display:flex;align-items:center;gap:10px;padding:10px 14px;flex-wrap:wrap;
+  border-bottom:2px solid var(--sand-border);background:var(--sand-dark);flex:none}
+.scr-btn{font-family:'Fredoka One',sans-serif;font-size:1rem;padding:9px 16px;border-radius:50px;
+  border:2.5px solid var(--sand-border);background:var(--sand);color:var(--text);cursor:pointer;
+  -webkit-tap-highlight-color:transparent;white-space:nowrap}
+.scr-btn:active{transform:scale(.96)}
+.scr-btn[aria-pressed="true"]{background:var(--court);border-color:var(--court);color:#fff}
+.scr-title{font-family:'Fredoka One',sans-serif;font-size:1.35rem;color:var(--court);flex:1;min-width:0}
+.prog{display:flex;flex-direction:column;gap:6px}
+.prog-txt{font-weight:800;color:var(--text-muted);font-size:.95rem}
+.dots{display:flex;gap:6px;flex-wrap:wrap}
+.dot{width:16px;height:16px;border-radius:50%;background:var(--sand-dark);border:2px solid var(--sand-border)}
+.dot.ok{background:#27ae60;border-color:#1f8a4c}
+.dot.no{background:#e74c3c;border-color:#c0392b}
+.dot.cur{border-color:var(--court);box-shadow:0 0 0 2px var(--court)}
+.ans-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.ans-btn{font-family:'Fredoka One',sans-serif;font-size:clamp(1.05rem,2.3vw,1.45rem);padding:12px 10px;
+  min-height:64px;border-radius:18px;border:none;color:#fff;cursor:pointer;line-height:1.15;
+  box-shadow:0 4px 0 rgba(0,0,0,.25);-webkit-tap-highlight-color:transparent;word-break:break-word}
+.ans-btn:active{transform:translateY(3px);box-shadow:0 1px 0 rgba(0,0,0,.25)}
+.ans-btn:disabled{cursor:default}
+.ans-btn.ok{background:#1f9d55 !important;box-shadow:0 0 0 4px #fff,0 0 0 7px #1f9d55}
+.ans-btn.no{background:#9e9e9e !important}
+.ans-btn.dim{opacity:.45}
+.fb{font-family:'Fredoka One',sans-serif;font-size:1.25rem;min-height:1.4em;line-height:1.3}
+.fb.ok{color:#1f8a4c}
+.fb.no{color:#c0392b}
+.btn-big{font-family:'Fredoka One',sans-serif;font-size:1.2rem;padding:13px 24px;border:none;border-radius:50px;
+  cursor:pointer;color:#fff;background:linear-gradient(135deg,#2e7d32,#1b5e20);box-shadow:var(--shadow-sm);
+  -webkit-tap-highlight-color:transparent}
+.btn-big.blue{background:linear-gradient(135deg,#1565c0,#0d47a1)}
+.btn-big:active{transform:scale(.96)}
+.btn-big:disabled{opacity:.4;cursor:default;transform:none}
+.end-box{display:flex;flex-direction:column;align-items:center;gap:12px;text-align:center;padding:10px}
+.stars{display:flex;gap:6px}
+.stars svg{width:58px;height:58px}
+.end-title{font-family:'Fredoka One',sans-serif;font-size:1.7rem;color:var(--court)}
+.row{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+
+/* Kopfrechnen / Wortarten / Satzarten */
+.pr-main{flex:1;min-height:0;overflow-y:auto;display:flex;flex-direction:column;align-items:center;
+  gap:18px;padding:18px 16px 28px}
+.pr-main > *{width:min(780px,100%)}
+.pr-task{font-family:'Fredoka One',sans-serif;font-size:clamp(2.6rem,9vw,5.2rem);background:#fff;
+  border:3px solid var(--sand-border);border-radius:28px;padding:18px 24px;text-align:center;
+  word-break:break-word;box-shadow:var(--shadow-sm);line-height:1.15}
+.pr-task.small{font-size:clamp(1.7rem,5.5vw,3.2rem)}
+.pr-main .ans-grid{grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
+.pr-main .fb{text-align:center}
+.pr-main #pr-next{width:auto;align-self:center}
+
+/* Lernuhr */
+.lu-tabs{display:flex;gap:6px;flex-wrap:wrap;flex:1;justify-content:center;min-width:0}
+.lu-tab{font-family:'Fredoka One',sans-serif;font-size:1rem;padding:9px 15px;border-radius:50px;
+  border:2.5px solid var(--sand-border);background:var(--sand);color:var(--text);cursor:pointer;
+  -webkit-tap-highlight-color:transparent}
+.lu-tab[aria-selected="true"]{background:var(--court);border-color:var(--court);color:#fff}
+.lu-main{flex:1;min-height:0;display:flex;gap:18px;padding:14px}
+.lu-clockwrap{flex:1 1 auto;min-width:0;min-height:0;display:flex;align-items:center;justify-content:center;
+  touch-action:none;outline:none;border-radius:24px}
+.lu-clockwrap svg{width:100%;height:100%;display:block;filter:drop-shadow(0 6px 14px rgba(0,0,0,.25))}
+.lu-clockwrap.can svg{cursor:grab}
+.lu-clockwrap.drag svg{cursor:grabbing}
+.lu-side{flex:0 0 min(380px,40%);min-width:0;overflow-y:auto;display:flex;flex-direction:column;gap:12px;padding:2px}
+.lu-cards{display:grid;gap:10px}
+.lu-card{display:flex;flex-direction:column;align-items:flex-start;gap:2px;padding:12px 16px;border-radius:18px;
+  background:#fff;border:2.5px solid var(--sand-border);cursor:pointer;text-align:left;color:var(--text);
+  font-family:'Nunito',sans-serif;-webkit-tap-highlight-color:transparent}
+.lu-card-lbl{font-weight:800;font-size:.8rem;text-transform:uppercase;letter-spacing:.06em;color:var(--text-muted)}
+.lu-card-val{font-family:'Fredoka One',sans-serif;font-size:clamp(1.9rem,4vw,2.8rem);line-height:1.1;
+  font-variant-numeric:tabular-nums}
+.lu-card.wort .lu-card-val{font-size:clamp(1.35rem,2.8vw,2rem)}
+.lu-card.hid .lu-card-val{color:var(--court)}
+.lu-hint{font-size:.92rem;color:var(--text-muted);font-weight:600;line-height:1.45}
+.lu-q{font-family:'Fredoka One',sans-serif;font-size:1.5rem;color:var(--court);margin:0}
+.lu-target{font-family:'Fredoka One',sans-serif;font-size:clamp(1.8rem,4vw,2.6rem);background:#fff;
+  border:2.5px solid var(--sand-border);border-radius:18px;padding:12px 16px;line-height:1.15}
+.lu-side .btn-big{align-self:flex-start}
+@media (max-width:820px) and (orientation:portrait),(max-width:620px){
+  .lu-main{flex-direction:column;overflow-y:auto}
+  .lu-left .lu-clockwrap{flex:0 0 auto;height:min(52vh,90vw)}
+  .lu-side{flex:0 0 auto;overflow:visible}
+}
+.drawer-ov{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:95}
+.drawer-ov[hidden]{display:none}
+.drawer{position:fixed;top:0;right:0;height:100%;width:min(390px,92vw);background:var(--sand);z-index:96;
+  overflow-y:auto;padding:20px 18px 40px;box-shadow:-8px 0 32px rgba(0,0,0,.35);
+  transform:translateX(105%);transition:transform .25s ease;visibility:hidden}
+.drawer.open{transform:none;visibility:visible}
+@media (prefers-reduced-motion:reduce){.drawer{transition:none}}
+
+/* Kacheln für Kinder */
+.tile-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.mode-tile.big-mt{padding:18px 10px;gap:6px;min-width:0}
+.mode-tile.big-mt .tile-ico{font-size:2.6rem}
+.mode-tile.big-mt .tile-lbl{font-size:1.1rem}
+.tile-sub{font-family:'Nunito',sans-serif;font-weight:700;font-size:.82rem;color:var(--text-muted);text-align:center;line-height:1.25}
+.mode-tile.active .tile-sub{color:#fff}
+/* Lernuhr: Uhr + Namensfeld */
+.lu-left{flex:1 1 auto;min-width:0;min-height:0;display:flex;flex-direction:column;align-items:center;gap:8px}
+.lu-left .lu-clockwrap{flex:1 1 auto;width:100%}
+.lu-label{flex:none;min-height:58px;max-width:100%;display:flex;align-items:center;justify-content:center;
+  font-family:'Fredoka One',sans-serif;font-size:clamp(1.4rem,3.2vw,2.1rem);color:#1b5e20;background:#e3f5dc;
+  border:3px solid #8fdc7a;border-radius:50px;padding:4px 26px;text-align:center;line-height:1.15}
+.lu-label.span{color:#5b2380;background:#f3e8f8;border-color:#c49ad8}
+.lu-label:empty{visibility:hidden}
+/* Zeitspannen */
+.zsp-story{font-size:1.12rem;font-weight:700;line-height:1.45;background:#fff;border:2.5px solid var(--sand-border);
+  border-radius:18px;padding:12px 16px;margin:0}
+.zsp-eq{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.eye-btn{width:50px;height:50px;border-radius:50%;border:2.5px solid var(--sand-border);background:#fff;color:var(--court);
+  display:grid;place-items:center;cursor:pointer;flex:none;-webkit-tap-highlight-color:transparent}
+.eye-btn svg{width:28px;height:28px}
+.eye-btn[aria-pressed="false"]{color:var(--text-muted)}
+.eq-txt{font-family:'Fredoka One',sans-serif;font-size:clamp(1.3rem,2.8vw,1.85rem);font-variant-numeric:tabular-nums;min-width:0}
+.eq-txt.off{font-family:'Nunito',sans-serif;font-weight:700;font-size:1rem;color:var(--text-muted)}
+.zsp-sol{background:#e8f6ec;border:2.5px solid #9fd8b0;border-radius:18px;padding:12px 16px;display:grid;gap:6px}
+.zsp-sol .big{font-family:'Fredoka One',sans-serif;font-size:clamp(1.3rem,2.8vw,1.75rem);font-variant-numeric:tabular-nums}
+.zsp-sol .way{font-weight:800;font-size:.85rem;text-transform:uppercase;letter-spacing:.06em;color:var(--text-muted)}
+.zsp-sol .stp{font-weight:700;font-size:1.05rem;font-variant-numeric:tabular-nums}
+@media (max-width:820px) and (orientation:portrait),(max-width:620px){
+  .lu-left{flex:0 0 auto}
+}
 ::-webkit-scrollbar{width:5px}
 ::-webkit-scrollbar-track{background:var(--sand-dark)}
 ::-webkit-scrollbar-thumb{background:var(--sand-border);border-radius:3px}
@@ -387,10 +530,48 @@ input[type=range].spd{flex:1;accent-color:var(--court);cursor:pointer}
 <!-- ══ MAIN MENU ══ -->
 <div class="overlay" id="modal">
 <div class="panel">
-  <!-- SEITE 1 -->
-  <div class="menu-page active" id="mn-page1">
+  <!-- STARTSEITE -->
+  <div class="menu-page active" id="mn-page0">
     <div class="logo">🎾 Lern-Tennis</div>
-    <p class="logo-sub">Klicke die richtige Antwort — bevor das Wort landet!</p>
+    <p class="logo-sub">Wie möchtest du heute lernen?</p>
+    <div class="big-tiles">
+      <button class="big-tile" id="go-practice"><svg viewBox="0 0 84 84" aria-hidden="true"><circle cx="42" cy="42" r="40" fill="#e3f1df"/><rect x="22" y="20" width="40" height="48" rx="6" fill="#fff" stroke="#1e5c1e" stroke-width="3"/><path d="M30 34h24M30 44h24M30 54h14" stroke="#1e5c1e" stroke-width="3" stroke-linecap="round"/><circle cx="58" cy="58" r="12" fill="#27ae60"/><path d="M52 58l4 4 8-8" stroke="#fff" stroke-width="3.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="bt-title">Übungsmodus</span><span class="bt-sub">Allein und in Ruhe üben</span></button>
+      <button class="big-tile battle" id="go-battle"><svg viewBox="0 0 84 84" aria-hidden="true"><circle cx="42" cy="42" r="40" fill="#fbe3e0"/><circle cx="26" cy="30" r="9" fill="#c0392b"/><rect x="17" y="42" width="18" height="24" rx="8" fill="#c0392b"/><circle cx="58" cy="30" r="9" fill="#1a5276"/><rect x="49" y="42" width="18" height="24" rx="8" fill="#1a5276"/><circle cx="42" cy="50" r="6" fill="#f5e042" stroke="#c8b000" stroke-width="1.5"/><path d="M36 24l4 4M48 24l-4 4" stroke="#7a1f14" stroke-width="2.5" stroke-linecap="round"/></svg><span class="bt-title">Battle-Modus</span><span class="bt-sub">Zu zweit gegeneinander spielen</span></button>
+    </div>
+  </div>
+
+  <!-- ÜBUNGSMODUS: Auswahl -->
+  <div class="menu-page" id="mn-pageP">
+    <button class="back-btn" data-back="mn-page0">← Zurück</button>
+    <div class="mode-header"><h2>Übungsmodus</h2></div>
+    <p class="logo-sub" style="text-align:left;margin-top:0">Was möchtest du üben?</p>
+    <div class="tile-grid">
+      <button class="mode-tile pr-tile big-mt" data-pmode="mathe"><span class="tile-ico">🔢</span><span class="tile-lbl">Kopfrechnen</span></button>
+      <button class="mode-tile pr-tile big-mt" data-pmode="wortarten"><span class="tile-ico">📝</span><span class="tile-lbl">Wortarten</span></button>
+      <button class="mode-tile pr-tile big-mt" data-pmode="satzarten"><span class="tile-ico">💬</span><span class="tile-lbl">Satzarten</span></button>
+      <button class="mode-tile pr-tile big-mt" data-pmode="uhr"><span class="tile-ico">🕐</span><span class="tile-lbl">Lernuhr</span></button>
+    </div>
+  </div>
+
+  <!-- LERNUHR: Auswahl für Kinder -->
+  <div class="menu-page" id="mn-pageU">
+    <button class="back-btn" data-back="mn-pageP">← Zurück</button>
+    <div class="mode-header"><h2>Lernuhr</h2></div>
+    <p class="logo-sub" style="text-align:left;margin-top:0">Was möchtest du machen?</p>
+    <div class="tile-grid">
+      <button class="mode-tile big-mt" data-utab="entdecken"><span class="tile-ico">🔍</span><span class="tile-lbl">Uhr entdecken</span><span class="tile-sub">Zeiger frei bewegen</span></button>
+      <button class="mode-tile big-mt" data-utab="lesen"><span class="tile-ico">👀</span><span class="tile-lbl">Uhr lesen</span><span class="tile-sub">Wie spät ist es?</span></button>
+      <button class="mode-tile big-mt" data-utab="stellen"><span class="tile-ico">✋</span><span class="tile-lbl">Uhr stellen</span><span class="tile-sub">Zeiger richtig hinstellen</span></button>
+      <button class="mode-tile big-mt" data-utab="gemischt"><span class="tile-ico">🔀</span><span class="tile-lbl">Gemischt</span><span class="tile-sub">Lesen und stellen</span></button>
+      <button class="mode-tile big-mt" data-utab="spannen"><span class="tile-ico">⏳</span><span class="tile-lbl">Zeitspannen</span><span class="tile-sub">Mit der Zeit rechnen</span></button>
+    </div>
+  </div>
+
+  <!-- BATTLE: Namen + Modus -->
+  <div class="menu-page" id="mn-page1">
+    <button class="back-btn" data-back="mn-page0">← Zurück</button>
+    <div class="mode-header"><h2>Battle-Modus</h2></div>
+    <p class="logo-sub" style="text-align:left;margin-top:0">Klicke die richtige Antwort, bevor das Wort landet!</p>
 
     <div class="sec-label">Spielernamen</div>
     <div class="name-row">
@@ -491,6 +672,7 @@ input[type=range].spd{flex:1;accent-color:var(--court);cursor:pointer}
     </div>
     </div>
 
+    <div id="mn-ziel-wrap">
     <div class="sec-label">Spielziel</div>
     <div class="chip-row">
       <button class="chip chip-sq active" data-pts="3">3</button>
@@ -499,6 +681,17 @@ input[type=range].spd{flex:1;accent-color:var(--court);cursor:pointer}
       <button class="chip chip-sq" data-pts="10">10</button>
       <button class="chip chip-sq" data-pts="15">15</button>
       <button class="chip chip-sq" data-pts="20">20</button>
+    </div>
+    </div>
+
+    <div id="mn-runde-wrap" hidden>
+    <div class="sec-label">Aufgaben pro Runde</div>
+    <div class="chip-row">
+      <button class="chip chip-sq" data-runde="5">5</button>
+      <button class="chip chip-sq active" data-runde="10">10</button>
+      <button class="chip chip-sq" data-runde="15">15</button>
+      <button class="chip chip-sq" data-runde="20">20</button>
+    </div>
     </div>
 
     <button id="start-btn">Spiel starten 🎾</button>
@@ -546,6 +739,37 @@ input[type=range].spd{flex:1;accent-color:var(--court);cursor:pointer}
     <div class="btn-col right" id="btns-right"></div>
   </div>
 </div>
+
+<!-- ══ ÜBUNGSMODUS: Kopfrechnen / Wortarten / Satzarten ══ -->
+<div id="pr-screen" class="scr" hidden>
+  <div class="scr-top">
+    <button class="scr-btn" id="pr-home">← Menü</button>
+    <div class="scr-title" id="pr-title">Kopfrechnen</div>
+  </div>
+  <div class="pr-main" id="pr-main"></div>
+</div>
+
+<!-- ══ ÜBUNGSMODUS: Lernuhr ══ -->
+<div id="lu-screen" class="scr" hidden>
+  <div class="scr-top">
+    <button class="scr-btn" id="lu-home">← Zurück</button>
+    <div class="scr-title" id="lu-title">Lernuhr</div>
+    <button class="scr-btn" id="lu-set-btn">Einstellungen</button>
+  </div>
+  <div class="lu-main">
+    <div class="lu-left">
+      <div class="lu-clockwrap" id="lu-clock" tabindex="0" aria-label="Lernuhr. Zeiger mit dem Finger ziehen oder mit den Pfeiltasten verstellen."></div>
+      <div class="lu-label" id="lu-label" aria-live="polite"></div>
+    </div>
+    <div class="lu-side" id="lu-side"></div>
+  </div>
+</div>
+<div id="lu-set-ov" class="drawer-ov" hidden></div>
+<aside id="lu-set" class="drawer" aria-label="Einstellungen Lernuhr">
+  <div class="sp-header"><h3>Lernuhr einstellen</h3><button class="sp-close" id="lu-set-close" aria-label="Schließen">✕</button></div>
+  <div id="lu-set-body"></div>
+  <button class="sp-apply" id="lu-set-ok">Fertig</button>
+</aside>
 
 <div id="feedback"></div>
 
@@ -813,6 +1037,7 @@ function speedFromSlider(v){
 
 // ══ STATE ══
 const st={
+  flow:'battle',
   mode:'wortarten',targetPts:3,score:[0,0],
   speeds:[3,3],names:['Spieler 1','Spieler 2'],
   ballX:.5,ballY:.5,ballVX:0,ballVY:0,toSide:1,
@@ -862,21 +1087,52 @@ const modeInfos={
   mathe:{ico:'🔢',title:'Mathematik'},
   uhrzeit:{ico:'🕐',title:'Uhrzeiten'},
 };
-document.querySelectorAll('.mode-tile:not(.sp-mode)').forEach(b=>{
+document.querySelectorAll('.mode-tile:not(.sp-mode):not(.pr-tile)').forEach(b=>{
   b.addEventListener('click',()=>{
     st.mode=b.dataset.mode;
+    st.flow='battle';
     const info=modeInfos[st.mode]||{ico:'📝',title:st.mode};
     document.getElementById('mn-mode-ico').textContent=info.ico;
     document.getElementById('mn-mode-title').textContent=info.title;
     updateModeViews(st.mode,'mn');
-    document.getElementById('mn-page1').classList.remove('active');
-    document.getElementById('mn-page2').classList.add('active');
+    setFlowView();
+    showMenuPage('mn-page2');
   });
 });
 document.getElementById('mn-back-btn').addEventListener('click',()=>{
-  document.getElementById('mn-page2').classList.remove('active');
-  document.getElementById('mn-page1').classList.add('active');
+  showMenuPage(st.flow==='practice'?'mn-pageP':'mn-page1');
 });
+
+// ── Menü-Navigation: Startseite → Übungsmodus / Battle-Modus ──
+function showMenuPage(id){
+  document.querySelectorAll('#modal .menu-page').forEach(p=>p.classList.toggle('active',p.id===id));
+  const ov=document.getElementById('modal'); if(ov) ov.scrollTop=0;
+}
+function setFlowView(){
+  const pr=st.flow==='practice';
+  document.getElementById('mn-runde-wrap').hidden=!pr;
+  document.getElementById('mn-ziel-wrap').hidden=pr;
+  document.getElementById('mn-spd-wrap').hidden=pr||st.mode==='uhrzeit';
+  document.getElementById('start-btn').textContent=pr?'Üben starten':'Spiel starten 🎾';
+}
+document.querySelectorAll('[data-back]').forEach(b=>b.addEventListener('click',()=>showMenuPage(b.dataset.back)));
+document.getElementById('go-battle').addEventListener('click',()=>{st.flow='battle';showMenuPage('mn-page1');});
+document.getElementById('go-practice').addEventListener('click',()=>{st.flow='practice';showMenuPage('mn-pageP');});
+const PR_INFO={mathe:{ico:'🔢',title:'Kopfrechnen'},wortarten:{ico:'📝',title:'Wortarten'},satzarten:{ico:'💬',title:'Satzarten'}};
+document.querySelectorAll('.pr-tile').forEach(b=>b.addEventListener('click',()=>{
+  st.flow='practice';
+  if(b.dataset.pmode==='uhr'){openLernuhr();return;}
+  st.mode=b.dataset.pmode;
+  document.getElementById('mn-mode-ico').textContent=PR_INFO[st.mode].ico;
+  document.getElementById('mn-mode-title').textContent=PR_INFO[st.mode].title+' üben';
+  updateModeViews(st.mode,'mn');
+  setFlowView();
+  showMenuPage('mn-page2');
+}));
+document.querySelectorAll('.chip[data-runde]').forEach(b=>b.addEventListener('click',()=>{
+  document.querySelectorAll('.chip[data-runde]').forEach(x=>x.classList.toggle('active',x===b));
+  PR.n=parseInt(b.dataset.runde);
+}));
 document.querySelectorAll('.chip[data-op]:not(.sp-op)').forEach(b=>{
   b.addEventListener('click',()=>{
     b.classList.toggle('active');
@@ -939,7 +1195,7 @@ document.getElementById('name1').addEventListener('input',e=>{
 document.getElementById('name2').addEventListener('input',e=>{
   document.getElementById('mn-lbl2').textContent=e.target.value.trim()||'Spieler 2';
 });
-document.getElementById('start-btn').addEventListener('click',startGame);
+document.getElementById('start-btn').addEventListener('click',()=>{ if(st.flow==='practice') startPractice(); else startGame(); });
 document.getElementById('btn-pause').addEventListener('click',pauseGame);
 document.getElementById('btn-settings').addEventListener('click',openSettings);
 document.getElementById('btn-quit').addEventListener('click',askQuit);
@@ -1018,7 +1274,7 @@ function applySettingsAndClose(){
   const modeChanged=newMode!==st.mode;
   st.mode=newMode;
   // Sync mode tiles in menu
-  document.querySelectorAll('.mode-tile:not(.sp-mode)').forEach(b=>{
+  document.querySelectorAll('.mode-tile:not(.sp-mode):not(.pr-tile)').forEach(b=>{
     b.classList.toggle('active',b.dataset.mode===st.mode);
   });
   updateModeViews(st.mode,'mn');
@@ -1079,8 +1335,7 @@ function goToMenu(){
   if(raf){cancelAnimationFrame(raf);raf=null;}
   gameEl.style.display='none';
   modal.style.display='flex';
-  document.getElementById('mn-page1').classList.add('active');
-  document.getElementById('mn-page2').classList.remove('active');
+  showMenuPage('mn-page0');
   st.score=[0,0]; st.paused=false;
 }
 function replayGame(){
@@ -1577,7 +1832,8 @@ function uhrMinutes(){
 }
 function uhrRand(n){return Math.floor(Math.random()*n)}
 function uhrShuffle(a){for(let i=a.length-1;i>0;i--){const j=uhrRand(i+1);[a[i],a[j]]=[a[j],a[i]];}return a}
-function uhrDistractors(h,m,n,mins){
+function uhrDistractors(h,m,n,mins,opt){
+  opt=opt||{level:UHR.level,zeiger:UHR.zeiger,fine:UHR.sets.minute};
   const out=[],used=new Set([h*60+m]);
   const add=(hh,mm)=>{
     if(out.length>=n)return;
@@ -1585,20 +1841,20 @@ function uhrDistractors(h,m,n,mins){
     const k=hh*60+mm; if(used.has(k))return;
     used.add(k); out.push([hh,mm]);
   };
-  if(UHR.level==='schwer'){
+  if(opt.level==='schwer'){
     const c=[];
-    if(UHR.zeiger!=='stunde') c.push([Math.round(m/5)%12,h*5]);     // Zeiger vertauscht
+    if(opt.zeiger!=='stunde') c.push([Math.round(m/5)%12,h*5]);     // Zeiger vertauscht
     c.push([h+1,m],[h-1,m]);                                       // Stunde daneben (halb-Falle)
     if(m!==0&&m!==30) c.push([h,60-m]);                            // vor/nach vertauscht
     if(m>30) c.push([h+1,60-m]); else if(m>0&&m<30) c.push([h-1,60-m]);
-    const step=UHR.sets.minute?1:5;
-    if(UHR.zeiger!=='stunde') c.push([h,m+step],[h,m-step]);       // knapp daneben
+    const step=opt.fine?1:5;
+    if(opt.zeiger!=='stunde') c.push([h,m+step],[h,m-step]);       // knapp daneben
     uhrShuffle(c).forEach(x=>add(x[0],x[1]));
   }
   let g=0;
   while(out.length<n&&g++<600){
     const hh=uhrRand(12), mm=mins[uhrRand(mins.length)];
-    if(UHR.level==='leicht'&&g<400){
+    if(opt.level==='leicht'&&g<400){
       const d=Math.min((hh-h+12)%12,(h-hh+12)%12);
       if(d<2)continue;
     }
@@ -1610,10 +1866,11 @@ function uhrDistractors(h,m,n,mins){
 
 // ── Zifferblatt ──
 function uhrPt(r,deg){const a=(deg-90)*Math.PI/180;return [200+Math.cos(a)*r,200+Math.sin(a)*r]}
-function uhrHand(deg,L,w,col,label,fs){
+function uhrHand(deg,L,w,col,label,fs,ghost){
   const T=24;
   const pts=[[-w/2,20],[w/2,20],[w/2,-L+T],[w*1.05,-L+T],[0,-L],[-w*1.05,-L+T],[-w/2,-L+T]]
     .map(p=>(200+p[0]).toFixed(1)+','+(200+p[1]).toFixed(1)).join(' ');
+  if(ghost) return `<g transform="rotate(${deg.toFixed(2)} 200 200)"><polygon points="${pts}" fill="rgba(255,255,255,.55)" stroke="#fff" stroke-width="8" stroke-linejoin="round"/><polygon points="${pts}" fill="none" stroke="${col}" stroke-width="4" stroke-dasharray="9 6" stroke-linejoin="round"/></g>`;
   let s=`<g transform="rotate(${deg.toFixed(2)} 200 200)"><polygon points="${pts}" fill="${col}" stroke="rgba(0,0,0,.35)" stroke-width="1.5" stroke-linejoin="round"/>`;
   if(label){
     const c=(16+(L-T))/2, flip=(deg%360)>180;
@@ -1621,27 +1878,50 @@ function uhrHand(deg,L,w,col,label,fs){
   }
   return s+'</g>';
 }
-function uhrSVG(h,m){
-  const f=UHR.face, RI=142;
+function uhrRing(r1,r2,a0,a1){
+  const large=(a1-a0)>180?1:0, f=v=>v.toFixed(1);
+  const [x0,y0]=uhrPt(r2,a0),[x1,y1]=uhrPt(r2,a1),[x2,y2]=uhrPt(r1,a1),[x3,y3]=uhrPt(r1,a0);
+  return `M${f(x0)} ${f(y0)} A${r2} ${r2} 0 ${large} 1 ${f(x1)} ${f(y1)} L${f(x2)} ${f(y2)} A${r1} ${r1} 0 ${large} 0 ${f(x3)} ${f(y3)} Z`;
+}
+function uhrSector(r,a0,a1){
+  const [x0,y0]=uhrPt(r,a0),[x1,y1]=uhrPt(r,a1);
+  return `M200 200 L${x0.toFixed(1)} ${y0.toFixed(1)} A${r} ${r} 0 ${(a1-a0)>180?1:0} 1 ${x1.toFixed(1)} ${y1.toFixed(1)} Z`;
+}
+// Zeichnet die Uhr. o = {T (Minuten seit 0 Uhr), face, hands:'beide'|'stunde'|'minute',
+//   farbe:'aus'|'viertel'|'gruen', targets:[Minuten für Grün], ghostT (gestrichelte Lösung)}
+function clockSVG(o){
+  const f=o.face, RI=142;
+  const T=((Math.round(o.T)%1440)+1440)%1440, m=T%60;
   const F="font-family=\"'Fredoka One',Arial,sans-serif\"";
+  const targets=o.targets||[0,15,30,45];
   let s='<svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Analoge Uhr">';
   s+='<circle cx="200" cy="200" r="198" fill="#1f3f8f"/><circle cx="200" cy="200" r="185" fill="#ffffff"/>';
-  // Innenfläche: Viertel farbig
-  if(f.farbe){
-    const cols=['#FFE27A','#FFB98A','#A7D8F7','#BCE6A6'];
-    for(let q=0;q<4;q++){
-      const [x0,y0]=uhrPt(RI,q*90),[x1,y1]=uhrPt(RI,q*90+90);
-      s+=`<path d="M200 200 L${x0.toFixed(1)} ${y0.toFixed(1)} A${RI} ${RI} 0 0 1 ${x1.toFixed(1)} ${y1.toFixed(1)} Z" fill="${cols[q]}"/>`;
-    }
-    // Trennlinien bei 12, 3, 6 und 9 Uhr
-    [0,90,180,270].forEach(d=>{const [x,y]=uhrPt(RI,d);s+=`<line x1="200" y1="200" x2="${x.toFixed(1)}" y2="${y.toFixed(1)}" stroke="rgba(31,63,143,.35)" stroke-width="2"/>`;});
-  } else s+=`<circle cx="200" cy="200" r="${RI}" fill="#fffdf6"/>`;
-  s+=`<circle cx="200" cy="200" r="${RI}" fill="none" stroke="#1f3f8f" stroke-width="3"/>`;
-  // Minutenring
-  if(f.farbe){ // farbige Marken bei 0, 15, 30, 45
-    const cols=['#e0a800','#e8742c','#2c8fd6','#3f9a3a'];
-    [0,15,30,45].forEach((mm,i)=>{const [x,y]=uhrPt(163,mm*6);s+=`<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="14" fill="${cols[i]}"/>`;});
+  // Zeitspanne: lila Bogen im Minutenring vom Start bis zum Minutenzeiger
+  if(o.span&&o.span.delta){
+    const d=o.span.delta, a0=(luNorm(o.span.from)%60)*6, ad=Math.abs(d), rem=ad%60;
+    if(ad>=60) s+='<circle cx="200" cy="200" r="163.5" fill="none" stroke="#9b59b6" stroke-opacity=".22" stroke-width="43"/>';
+    if(rem>0){const sw=rem*6, b=d>0?[a0,a0+sw]:[a0-sw,a0]; s+=`<path d="${uhrRing(142,185,b[0],b[1])}" fill="#9b59b6" fill-opacity=".38"/>`;}
   }
+  if(o.farbe==='viertel'){
+    const cols=['#FFE27A','#FFB98A','#A7D8F7','#BCE6A6'];
+    for(let q=0;q<4;q++) s+=`<path d="${uhrSector(RI,q*90,q*90+90)}" fill="${cols[q]}"/>`;
+    [0,90,180,270].forEach(d=>{const [x,y]=uhrPt(RI,d);s+=`<line x1="200" y1="200" x2="${x.toFixed(1)}" y2="${y.toFixed(1)}" stroke="rgba(31,63,143,.35)" stroke-width="2"/>`;});
+  } else {
+    s+=`<circle cx="200" cy="200" r="${RI}" fill="#fffdf6"/>`;
+    if(o.farbe==='gruen'){
+      const hit=targets.includes(m);
+      if(m===0){ if(hit) s+=`<circle cx="200" cy="200" r="${RI}" fill="#8fdc7a"/>`; }
+      else s+=`<path d="${uhrSector(RI,0,m*6)}" fill="${hit?'#8fdc7a':'#fff0b0'}"/>`;
+      targets.forEach(t=>{const [x,y]=uhrPt(RI,t*6);s+=`<line x1="200" y1="200" x2="${x.toFixed(1)}" y2="${y.toFixed(1)}" stroke="rgba(31,63,143,.28)" stroke-width="2" stroke-dasharray="6 6"/>`;});
+    }
+  }
+  s+=`<circle cx="200" cy="200" r="${RI}" fill="none" stroke="#1f3f8f" stroke-width="3"/>`;
+  // Marken bei den Vierteln im Minutenring
+  let marks=[];
+  if(o.farbe==='viertel') marks=[[0,'#e0a800'],[15,'#e8742c'],[30,'#2c8fd6'],[45,'#3f9a3a']];
+  if(o.farbe==='gruen') marks=targets.map(t=>[t,'#3f9a3a']);
+  marks.forEach(([mm,c])=>{const [x,y]=uhrPt(163,mm*6);s+=`<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="14" fill="${c}"/>`;});
+  const markSet=new Set(marks.map(x=>x[0]));
   if(f.striche){
     for(let i=0;i<60;i++){
       const big=i%5===0, [x1,y1]=uhrPt(184,i*6), [x2,y2]=uhrPt(big?171:177,i*6);
@@ -1650,11 +1930,10 @@ function uhrSVG(h,m){
   }
   if(f.min5){
     for(let i=0;i<60;i+=5){
-      const [x,y]=uhrPt(f.striche?158:163,i*6), q=f.farbe&&i%15===0;
+      const [x,y]=uhrPt(f.striche?158:163,i*6), q=markSet.has(i);
       s+=`<text x="${x.toFixed(1)}" y="${y.toFixed(1)}" text-anchor="middle" dominant-baseline="central" ${F} font-size="15" fill="${q?'#fff':'#c0392b'}">${i}</text>`;
     }
   }
-  // Stundenzahlen
   if(f.z12){
     for(let i=1;i<=12;i++){const [x,y]=uhrPt(112,i*30);s+=`<text x="${x.toFixed(1)}" y="${y.toFixed(1)}" text-anchor="middle" dominant-baseline="central" ${F} font-size="40" fill="#1a1a1a">${i}</text>`;}
   }
@@ -1662,17 +1941,26 @@ function uhrSVG(h,m){
     for(let i=1;i<=12;i++){const [x,y]=uhrPt(f.z12?80:104,i*30);s+=`<text x="${x.toFixed(1)}" y="${y.toFixed(1)}" text-anchor="middle" dominant-baseline="central" ${F} font-size="${f.z12?17:26}" fill="#a93226">${i+12}</text>`;}
   }
   if(f.vornach){
-    // bei 13–24 kleiner und näher an der Mitte, damit nichts überlappt
     const vr=f.z24&&f.z12?36:44, vf=f.z24&&f.z12?15:20;
     s+=`<text x="${200-vr}" y="200" text-anchor="middle" dominant-baseline="central" ${F} font-size="${vf}" fill="#1d6fb8">vor</text>`;
     s+=`<text x="${200+vr}" y="200" text-anchor="middle" dominant-baseline="central" ${F} font-size="${vf}" fill="#c0521b">nach</text>`;
   }
-  // Zeiger
-  const hd=((h%12)+m/60)*30, md=m*6;
-  s+=uhrHand(hd,94,20,'#1f4fb5',f.beschr?'STUNDE':'',12);
-  if(UHR.zeiger!=='stunde') s+=uhrHand(md,150,13,'#d93025',f.beschr?'MINUTE':'',10);
+  if(o.span){
+    const [x1,y1]=uhrPt(169,(luNorm(o.span.from)%60)*6),[x2,y2]=uhrPt(196,(luNorm(o.span.from)%60)*6);
+    s+=`<line x1="${x1.toFixed(1)}" y1="${y1.toFixed(1)}" x2="${x2.toFixed(1)}" y2="${y2.toFixed(1)}" stroke="#6a1b9a" stroke-width="5" stroke-linecap="round"/>`;
+  }
+  if(o.ghostT!=null){
+    const G=((o.ghostT%1440)+1440)%1440;
+    s+=uhrHand(((G/60)%12)*30,94,20,'#6a1b9a','',0,true)+uhrHand((G%60)*6,150,13,'#6a1b9a','',0,true);
+  }
+  const hands=o.hands||'beide';
+  if(hands!=='minute') s+=uhrHand(((T/60)%12)*30,94,20,'#1f4fb5',f.beschr?'STUNDE':'',12);
+  if(hands!=='stunde') s+=uhrHand(m*6,150,13,'#d93025',f.beschr?'MINUTE':'',10);
   s+='<circle cx="200" cy="200" r="12" fill="#222"/><circle cx="200" cy="200" r="5" fill="#f5e042"/></svg>';
   return s;
+}
+function uhrSVG(h,m){
+  return clockSVG({T:h*60+m,face:UHR.face,hands:UHR.zeiger==='stunde'?'stunde':'beide',farbe:UHR.face.farbe?'viertel':'aus'});
 }
 
 // ── Layout ──
@@ -1827,6 +2115,548 @@ function uhrEnd(){
     if(w!==undefined) showWin(w); else uhrNewRound();
   },UHR.loesung*1000);
 }
+
+// ══ ÜBUNGSMODUS (allein) ══
+function starsHTML(k){
+  let s='<div class="stars" aria-label="'+k+' von 3 Sternen">';
+  for(let i=0;i<3;i++) s+=`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4l-5.9 3.1 1.2-6.5L2.5 9.4l6.6-.9z" fill="${i<k?'#f5c400':'#e3dccb'}" stroke="${i<k?'#b38600':'#cfc6b0'}" stroke-width="1.2" stroke-linejoin="round"/></svg>`;
+  return s+'</div>';
+}
+function starCount(r,n){const p=r/n;return p>=1?3:p>=.8?2:p>=.5?1:0}
+const STAR_MSG=['Versuch es gleich noch einmal. Du schaffst das!','Gut! Übe noch ein bisschen weiter.','Sehr gut!','Super gemacht! Alles richtig!'];
+function progHTML(i,n,res){
+  let h=`<div class="prog"><span class="prog-txt">Aufgabe ${Math.min(i+1,n)} von ${n}</span><div class="dots">`;
+  for(let k=0;k<n;k++) h+=`<span class="dot${k<res.length?(res[k]?' ok':' no'):(k===i?' cur':'')}"></span>`;
+  return h+'</div></div>';
+}
+const ANS_COLORS=['#c0392b','#1a5276','#7d3c98','#117a65','#b9770e','#2e4053'];
+
+// ── Kopfrechnen / Wortarten / Satzarten ──
+const PR={kind:'mathe',n:10,i:0,res:[],task:null,pool:[],timer:null};
+function startPractice(){
+  PR.kind=st.mode; PR.i=0; PR.res=[]; PR.pool=[];
+  document.getElementById('pr-title').textContent=PR_INFO[PR.kind].title;
+  modal.style.display='none';
+  document.getElementById('pr-screen').hidden=false;
+  prNext();
+}
+function prMakeTask(){
+  if(PR.kind==='mathe'){
+    if(st.mathCarry==='verliebt'){
+      const t=generateVerliebtTask();
+      return {text:t.display+' + ? = 10',choices:t.choices.map((v,i)=>({label:String(v),ok:v===t.correct,color:ANS_COLORS[i]}))};
+    }
+    const t=generateMathTask();
+    return {text:t.display+' ?',choices:t.choices.map((v,i)=>({label:String(v),ok:v===t.correct,color:ANS_COLORS[i]}))};
+  }
+  const data=PR.kind==='wortarten'?WORTARTEN:SATZARTEN, act=PR.kind==='wortarten'?activeWA:activeSA;
+  if(!PR.pool.length) PR.pool=data.words.filter(w=>act.has(w.c));
+  const w=PR.pool.splice(uhrRand(PR.pool.length),1)[0];
+  return {text:w.w,small:w.w.length>10,
+    choices:data.categories.filter(c=>act.has(c.id)).map(c=>({label:c.label,ok:c.id===w.c,color:c.color}))};
+}
+function prNext(){
+  clearTimeout(PR.timer);
+  const main=document.getElementById('pr-main');
+  if(PR.i>=PR.n){
+    const r=PR.res.filter(Boolean).length, k=starCount(r,PR.n);
+    main.innerHTML=`<div class="end-box">${starsHTML(k)}<div class="end-title">${r} von ${PR.n} richtig</div>
+      <p class="lu-hint">${STAR_MSG[k]}</p>
+      <div class="row"><button class="btn-big" id="pr-again">Nochmal üben</button><button class="btn-big blue" id="pr-menu">Menü</button></div></div>`;
+    return;
+  }
+  PR.task=prMakeTask();
+  const t=PR.task;
+  main.innerHTML=progHTML(PR.i,PR.n,PR.res)
+    +`<div class="pr-task${t.small?' small':''}">${uhrEsc(t.text)}</div>`
+    +'<div class="ans-grid">'+t.choices.map((c,i)=>`<button class="ans-btn" data-pans="${i}" style="background:${c.color}">${uhrEsc(c.label)}</button>`).join('')+'</div>'
+    +'<p class="fb" id="pr-fb" aria-live="polite"></p><button class="btn-big blue" id="pr-next" hidden>Weiter</button>';
+}
+function prAnswer(i){
+  const t=PR.task; if(!t||t.done)return;
+  t.done=true;
+  const ok=t.choices[i].ok; PR.res.push(ok);
+  document.querySelectorAll('#pr-main [data-pans]').forEach((b,k)=>{
+    b.disabled=true;
+    if(t.choices[k].ok) b.classList.add('ok'); else if(k===i) b.classList.add('no'); else b.classList.add('dim');
+  });
+  const fb=document.getElementById('pr-fb');
+  const dots=document.querySelectorAll('#pr-main .dot'); if(dots[PR.i]){dots[PR.i].classList.remove('cur');dots[PR.i].classList.add(ok?'ok':'no');}
+  if(ok){ fb.className='fb ok'; fb.textContent='Richtig! Super!'; PR.timer=setTimeout(()=>{PR.i++;prNext();},1100); }
+  else { fb.className='fb no'; fb.textContent='Leider falsch. Richtig ist: '+t.choices.find(c=>c.ok).label;
+    const nx=document.getElementById('pr-next'); nx.hidden=false; nx.focus(); }
+}
+document.getElementById('pr-main').addEventListener('click',e=>{
+  const a=e.target.closest('[data-pans]'); if(a){prAnswer(+a.dataset.pans);return;}
+  if(e.target.closest('#pr-next')){PR.i++;prNext();return;}
+  if(e.target.closest('#pr-again')){PR.i=0;PR.res=[];PR.pool=[];prNext();return;}
+  if(e.target.closest('#pr-menu')) prHome();
+});
+function prHome(){
+  clearTimeout(PR.timer);
+  document.getElementById('pr-screen').hidden=true;
+  modal.style.display='flex';
+  showMenuPage('mn-page2');
+}
+document.getElementById('pr-home').addEventListener('click',prHome);
+
+// ── Lernuhr ──
+const LU={T:7*60+15,tab:'entdecken',stufe:'viertel',hands:'beide',farbe:'gruen',
+  face:{z12:true,z24:false,striche:true,min5:true,vornach:true,beschr:true},
+  anz:{h12:true,h24:false,wort:true},aufg:{h12:true,h24:false,wort:true},runde:10,
+  hide:false,revealed:{},drag:null,q:null,ghost:null,timer:null,changed:false,
+  hilfe:{viertel:true,bogen:true,rechnung:true},eye:true,
+  zArten:{spaeter:true,frueher:true,dauer:true},zSchritt:5,zMax:60,zUeber:'beide'};
+const LU_STEP={voll:60,halb:30,viertel:15,fuenf:5,minute:1};
+const LU_STUFEN=[['voll','Volle Stunden'],['halb','Halbe Stunden'],['viertel','Viertelstunden'],['fuenf','5 Minuten'],['minute','Jede Minute']];
+const LU_UI=[
+  {label:'Stufe',kind:'single',key:'stufe',items:LU_STUFEN,hint:'Die Zeiger rasten in diesen Schritten ein. Die Übungsaufgaben kommen aus dieser Stufe.'},
+  {label:'Farbhilfe für Viertel und halbe Stunden',kind:'single',key:'farbe',items:[['gruen','Grün bei Treffern'],['viertel','Feste Viertel-Farben'],['aus','Aus']],
+    hint:'„Grün bei Treffern“: Die Fläche hinter dem Minutenzeiger ist gelb und springt erst auf Grün, wenn der Zeiger genau auf einem Ziel steht. Ziele bei Viertelstunden: 15, 30, 45 und volle Stunde. Bei halben Stunden: 30 und volle Stunde.'},
+  {label:'Zifferblatt',kind:'multi',obj:'face',allowNone:true,items:[['z12','Zahlen 1–12'],['z24','Zahlen 13–24'],['striche','Minutenstriche'],['min5','Minutenzahlen 0–55'],['vornach','„vor“ und „nach“'],['beschr','Zeiger beschriften']],
+    hint:'Für 12 und 24 Stunden gleichzeitig: „Zahlen 1–12“ und „Zahlen 13–24“ beide einschalten.'},
+  {label:'Anzeige beim Entdecken',kind:'multi',obj:'anz',allowNone:true,items:[['h12','12 Stunden (7:15)'],['h24','24 Stunden (19:15)'],['wort','Wörter (Viertel nach sieben)']],
+    hint:'Einzeln oder zusammen einschaltbar.'},
+  {label:'Zeiger beim Entdecken',kind:'single',key:'hands',items:[['beide','Beide Zeiger'],['stunde','Nur Stundenzeiger'],['minute','Nur Minutenzeiger']],
+    hint:'Beim Üben sind immer beide Zeiger zu sehen.'},
+  {label:'Aufgaben beim Üben als',kind:'multi',obj:'aufg',items:[['h12','12 Stunden'],['h24','24 Stunden'],['wort','Wörter']],
+    hint:'Mehrere auswählbar. Jede Aufgabe kommt in einer der gewählten Formen.'},
+  {label:'Hilfen',kind:'multi',obj:'hilfe',allowNone:true,items:[['viertel','Name bei vollen, halben und Viertelstunden unter der Uhr'],['bogen','Zeitspanne auf der Uhr lila färben'],['rechnung','Rechnung bei Zeitspannen gleich zeigen']],
+    hint:'Die Rechnung können die Kinder jederzeit mit dem Auge-Symbol ein- und ausblenden.'},
+  {label:'Zeitspannen: Aufgabenarten',kind:'multi',obj:'zArten',items:[['spaeter','Wie spät ist es später?'],['frueher','Wie spät war es vorher?'],['dauer','Wie lange dauert es?']]},
+  {label:'Zeitspannen in Schritten von',kind:'single',key:'zSchritt',items:[[15,'15 Minuten'],[5,'5 Minuten'],[1,'1 Minute']]},
+  {label:'Zeitspannen höchstens',kind:'single',key:'zMax',items:[[30,'30 Minuten'],[60,'1 Stunde'],[120,'2 Stunden'],[180,'3 Stunden']]},
+  {label:'Zeitspannen über die volle Stunde',kind:'single',key:'zUeber',items:[['beide','mit und ohne'],['mit','nur mit'],['ohne','nur ohne']],
+    hint:'Wie beim Zehnerübergang: Mit Übergang rechnen die Kinder zuerst bis zur vollen Stunde.'},
+  {label:'Aufgaben pro Runde',kind:'single',key:'runde',items:[[5,'5'],[10,'10'],[15,'15'],[20,'20']]}
+];
+const LU_TITLES={entdecken:'Uhr entdecken',lesen:'Uhr lesen',stellen:'Uhr stellen',gemischt:'Gemischt',spannen:'Zeitspannen'};
+function cgHTML(groups,S){
+  return groups.map(g=>{
+    let h=`<div class="uhr-group"><div class="sec-label">${uhrEsc(g.label)}</div><div class="chip-row">`;
+    if(g.kind==='multi') h+=g.items.map(([k,l])=>`<button class="chip chip-sm${S[g.obj][k]?' active':''}" data-cg="multi" data-co="${g.obj}" data-cv="${k}" aria-pressed="${!!S[g.obj][k]}">${uhrEsc(l)}</button>`).join('');
+    else h+=g.items.map(([v,l])=>`<button class="chip chip-sm${S[g.key]===v?' active':''}" data-cg="single" data-ck="${g.key}" data-cv="${v}" aria-pressed="${S[g.key]===v}">${uhrEsc(l)}</button>`).join('');
+    h+='</div>';
+    if(g.hint) h+=`<div class="uhr-hint">${uhrEsc(g.hint)}</div>`;
+    return h+'</div>';
+  }).join('');
+}
+function cgClick(e,groups,S){
+  const b=e.target.closest('[data-cg]'); if(!b)return false;
+  if(b.dataset.cg==='multi'){
+    const o=S[b.dataset.co], g=groups.find(x=>x.obj===b.dataset.co);
+    const on=Object.values(o).filter(Boolean).length;
+    if(o[b.dataset.cv]&&on<=1&&!g.allowNone)return false;
+    o[b.dataset.cv]=!o[b.dataset.cv];
+  } else {
+    const k=b.dataset.ck, cur=S[k];
+    S[k]=typeof cur==='number'?parseFloat(b.dataset.cv):b.dataset.cv;
+  }
+  return true;
+}
+const luEl=document.getElementById('lu-clock'), luSide=document.getElementById('lu-side');
+function luNorm(T){return ((T%1440)+1440)%1440}
+function luTargets(){return LU.stufe==='voll'?[0]:LU.stufe==='halb'?[0,30]:[0,15,30,45]}
+function luMinutes(){
+  return {voll:[0],halb:[0,30],viertel:[0,15,30,45],
+    fuenf:Array.from({length:12},(_,i)=>i*5),minute:Array.from({length:60},(_,i)=>i)}[LU.stufe];
+}
+function luHands(){return LU.tab==='entdecken'?LU.hands:'beide'}
+function luCanDrag(){
+  if(LU.tab==='entdecken')return true;
+  const t=LU.q&&LU.q.task;
+  return !!(t&&(t.type==='stellen'||t.type==='spanne')&&!t.done&&LU.q.i<LU.q.n);
+}
+function luStep(){return LU.tab==='spannen'?LU.zSchritt:LU_STEP[LU.stufe]}
+function luSigned(d){d=luNorm(Math.round(d));return d>720?d-1440:d}
+function luDurLong(d){const h=Math.floor(d/60),m=d%60;const H=h?(h+(h===1?' Stunde':' Stunden')):'',M=m?(m+(m===1?' Minute':' Minuten')):'';return H&&M?H+' '+M:(H||M||'0 Minuten')}
+function luDurShort(d){const h=Math.floor(d/60),m=d%60;return h?(m?h+' h '+m+' min':h+' h'):m+' min'}
+function luT12(T){T=luNorm(Math.round(T));return uhrZiffer(Math.floor(T/60)%12,T%60)}
+function luLabelText(){
+  const T=luNorm(Math.round(LU.T)), m=T%60, t=LU.q&&LU.q.task;
+  if(LU.tab==='spannen'&&t&&LU.q.i<LU.q.n){
+    if(!LU.hilfe.bogen)return ['',''];
+    const d=luSigned(T-t.T0);
+    return [d===0?'Start: '+luT12(t.T0):luDurLong(Math.abs(d))+(d>0?' später':' früher'),'span'];
+  }
+  if(!LU.hilfe.viertel)return ['',''];
+  if(t&&!t.done&&LU.q.i<LU.q.n)return ['',''];
+  if(m%15===0)return [uhrWort(Math.floor(T/60)%12,m),''];
+  return ['',''];
+}
+function luRenderClock(){
+  const t=LU.q&&LU.q.task;
+  const span=(LU.tab==='spannen'&&t&&LU.hilfe.bogen)?{from:t.T0,delta:luSigned(LU.T-t.T0)}:null;
+  luEl.innerHTML=clockSVG({T:LU.T,face:LU.face,hands:luHands(),farbe:LU.tab==='spannen'?'aus':LU.farbe,targets:luTargets(),ghostT:LU.ghost,span});
+  luEl.classList.toggle('can',luCanDrag());
+  const [txt,cls]=luLabelText(), lb=document.getElementById('lu-label');
+  lb.textContent=txt; lb.className='lu-label'+(cls?' '+cls:'');
+}
+function luH12(T){T=luNorm(Math.round(T));return uhrZiffer(Math.floor(T/60)%12,T%60)}
+function luH24(T){T=luNorm(Math.round(T));return uhrZiffer24(Math.floor(T/60),T%60)}
+function luWort(T){T=luNorm(Math.round(T));return uhrWort(Math.floor(T/60)%12,T%60)}
+
+function openLernuhr(){ showMenuPage('mn-pageU'); }
+document.querySelectorAll('[data-utab]').forEach(b=>b.addEventListener('click',()=>{
+  modal.style.display='none';
+  document.getElementById('lu-screen').hidden=false;
+  luSetTab(b.dataset.utab);
+}));
+function luHome(){
+  clearTimeout(LU.timer); LU.drag=null;
+  luCloseSet(true);
+  document.getElementById('lu-screen').hidden=true;
+  modal.style.display='flex';
+  showMenuPage('mn-pageU');
+}
+document.getElementById('lu-home').addEventListener('click',luHome);
+function luSetTab(tab){
+  clearTimeout(LU.timer);
+  LU.tab=tab; LU.ghost=null;
+  document.getElementById('lu-title').textContent=LU_TITLES[tab];
+  if(tab==='entdecken'){LU.q=null;luRenderClock();luRenderSide();}
+  else luStartQuiz();
+}
+document.querySelectorAll('.lu-tab').forEach(b=>b.addEventListener('click',()=>luSetTab(b.dataset.lutab)));
+
+// Seitenbereich
+function luRenderSide(){
+  if(LU.tab==='entdecken') return luSideEntdecken();
+  const q=LU.q;
+  if(q.i>=q.n) return luSideEnd();
+  luSideQuiz();
+}
+function luSideEntdecken(){
+  const cards=[['h12','12 Stunden'],['h24','24 Stunden'],['wort','In Wörtern']].filter(([k])=>LU.anz[k]);
+  let h='';
+  if(cards.length) h+='<div class="lu-cards" id="lu-cards">'+cards.map(([k,l])=>`<button class="lu-card${k==='wort'?' wort':''}" data-card="${k}"><span class="lu-card-lbl" data-lbl="${k}">${l}</span><span class="lu-card-val" data-val="${k}"></span></button>`).join('')+'</div>';
+  else h+='<p class="lu-hint">Keine Anzeige eingeschaltet. Unter „Einstellungen“ kannst du 12 Stunden, 24 Stunden oder Wörter einschalten.</p>';
+  h+=`<div class="row" style="justify-content:flex-start"><button class="scr-btn" id="lu-now">Jetzt</button><button class="scr-btn" id="lu-rand">Zufall</button>
+    <button class="scr-btn" id="lu-hide" aria-pressed="${LU.hide}">${LU.hide?'Anzeige zeigen':'Anzeige verstecken'}</button></div>`;
+  h+='<div class="uhr-group"><div class="sec-label" style="margin-top:2px">Stufe</div><div class="chip-row">'
+    +LU_STUFEN.map(([k,l])=>`<button class="chip chip-sm${LU.stufe===k?' active':''}" data-lustufe="${k}" aria-pressed="${LU.stufe===k}">${l}</button>`).join('')+'</div></div>';
+  h+='<p class="lu-hint">Ziehe die Zeiger mit dem Finger. Tippst du auf das Zifferblatt, springt der nähere Zeiger dorthin. Mit den Pfeiltasten geht es schrittweise, mit Umschalt stundenweise.</p>';
+  if(LU.hide) h+='<p class="lu-hint">Tippe auf eine Anzeige, um die Lösung zu sehen.</p>';
+  luSide.innerHTML=h;
+  luUpdateCards();
+}
+function luUpdateCards(){
+  if(LU.tab!=='entdecken')return;
+  const T=luNorm(Math.round(LU.T));
+  luSide.querySelectorAll('[data-val]').forEach(el=>{
+    const k=el.dataset.val, hid=LU.hide&&!LU.revealed[k];
+    el.textContent=hid?'?':(k==='h12'?luH12(T):k==='h24'?luH24(T):luWort(T));
+    el.parentElement.classList.toggle('hid',hid);
+  });
+  const l=luSide.querySelector('[data-lbl="h24"]');
+  if(l) l.textContent='24 Stunden · '+uhrTageszeit(Math.floor(T/60));
+}
+function luSideQuiz(){
+  const q=LU.q, t=q.task;
+  if(t.type==='spanne') return luSideZsp();
+  let h=progHTML(q.i,q.n,q.res);
+  const H=Math.floor(t.T/60), hint24=t.fmt==='h24'&&H>12?`<p class="lu-hint">Auf der Uhr steht ${H} Uhr an derselben Stelle wie ${H-12} Uhr.</p>`:'';
+  if(t.type==='lesen'){
+    h+='<h3 class="lu-q">Wie spät ist es?</h3>';
+    if(t.fmt==='h24') h+=`<p class="lu-hint">Es ist ${uhrTageszeit(H)}.</p>`;
+    h+='<div class="ans-grid">'+t.items.map((it,i)=>`<button class="ans-btn" data-luans="${i}" style="background:${ANS_COLORS[i]}">${uhrEsc(it.txt)}</button>`).join('')+'</div>';
+  } else {
+    h+='<h3 class="lu-q">Stelle die Uhr auf:</h3><div class="lu-target">'+uhrEsc(t.txt)+'</div>'+hint24;
+    h+='<button class="btn-big" id="lu-check">Prüfen</button>';
+  }
+  h+='<p class="fb" id="lu-fb" aria-live="polite"></p><button class="btn-big blue" id="lu-next" hidden>Weiter</button>';
+  luSide.innerHTML=h;
+}
+function luSideEnd(){
+  const r=LU.q.res.filter(Boolean).length, n=LU.q.n, k=starCount(r,n);
+  luSide.innerHTML=`<div class="end-box">${starsHTML(k)}<div class="end-title">${r} von ${n} richtig</div>
+    <p class="lu-hint">${STAR_MSG[k]}</p>
+    <div class="row"><button class="btn-big" id="lu-again">Nochmal üben</button><button class="btn-big blue" id="lu-explore">Zur Auswahl</button></div></div>`;
+  luRenderClock();
+}
+
+// Üben: Uhr lesen / Uhr stellen / Gemischt
+function luStartQuiz(){LU.q={n:LU.runde,i:0,res:[],task:null};LU.eye=LU.hilfe.rechnung;luNextTask();}
+function luNextTask(){
+  clearTimeout(LU.timer);
+  const q=LU.q; LU.ghost=null;
+  if(q.i>=q.n){luRenderSide();return;}
+  if(LU.tab==='spannen'){q.task=luZspTask();LU.T=q.task.T0;luRenderClock();luRenderSide();return;}
+  const type=LU.tab==='gemischt'?(Math.random()<.5?'lesen':'stellen'):LU.tab;
+  const mins=luMinutes();
+  let T;
+  do{T=uhrRand(24)*60+mins[uhrRand(mins.length)];}while(q.task&&luNorm(T)%720===q.task.T%720);
+  const H=Math.floor(T/60), m=T%60;
+  const fmts=Object.keys(LU.aufg).filter(k=>LU.aufg[k]);
+  const fmt=fmts[uhrRand(fmts.length)]||'h12';
+  const t={type,T,fmt,done:false};
+  if(type==='lesen'){
+    const h=H%12;
+    const ds=uhrDistractors(h,m,3,mins,{level:'schwer',zeiger:'beide',fine:LU.stufe==='minute'});
+    let items=[{h,m,ok:true}].concat(ds.map(d=>({h:d[0],m:d[1],ok:false})));
+    if(fmt==='h24'){
+      const pm=H>=12;
+      items.forEach(it=>it.H=it.h+(pm?12:0));
+      items[items.length-1]={h,m,H:(H+12)%24,ok:false};
+      items.forEach(it=>it.txt=uhrZiffer24(it.H,it.m));
+    } else items.forEach(it=>it.txt=fmt==='wort'?uhrWort(it.h,it.m):uhrZiffer(it.h,it.m));
+    t.items=uhrShuffle(items);
+    LU.T=T;
+  } else {
+    t.txt=fmt==='h24'?uhrZiffer24(H,m):fmt==='wort'?uhrWort(H%12,m):uhrZiffer(H%12,m);
+    LU.T=(T%720===0)?6*60:0;   // Start bei 12:00, sonst 6:00
+  }
+  q.task=t;
+  luRenderClock(); luRenderSide();
+}
+function luMarkDot(ok){
+  const d=luSide.querySelectorAll('.dot')[LU.q.i];
+  if(d){d.classList.remove('cur');d.classList.add(ok?'ok':'no');}
+}
+function luAfter(ok,msgNo){
+  const fb=document.getElementById('lu-fb');
+  luMarkDot(ok);
+  luRenderClock();
+  if(ok&&LU.q.task.type==='spanne'){fb.className='fb ok';fb.textContent='Richtig! Super!';const nx=document.getElementById('lu-next');nx.hidden=false;}
+  else if(ok){fb.className='fb ok';fb.textContent='Richtig! Super!';LU.timer=setTimeout(()=>{LU.q.i++;luNextTask();},1300);}
+  else {fb.className='fb no';fb.textContent=msgNo;const nx=document.getElementById('lu-next');nx.hidden=false;nx.focus();}
+}
+function luAnswer(i){
+  const t=LU.q.task; if(t.done)return;
+  t.done=true;
+  const ok=t.items[i].ok; LU.q.res.push(ok);
+  luSide.querySelectorAll('[data-luans]').forEach((b,k)=>{
+    b.disabled=true;
+    if(t.items[k].ok) b.classList.add('ok'); else if(k===i) b.classList.add('no'); else b.classList.add('dim');
+  });
+  luAfter(ok,'Leider falsch. Richtig ist: '+t.items.find(x=>x.ok).txt);
+}
+function luCheck(){
+  const t=LU.q.task; if(t.done)return;
+  luSnap();
+  t.done=true;
+  const ok=luNorm(Math.round(LU.T))%720===t.T%720;
+  LU.q.res.push(ok);
+  if(!ok) LU.ghost=t.T;
+  luRenderClock();
+  const c=document.getElementById('lu-check'); if(c) c.disabled=true;
+  luAfter(ok,'Noch nicht. Die lila gestrichelten Zeiger zeigen, wo die Zeiger hingehören.');
+}
+luSide.addEventListener('click',e=>{
+  const g=e.target;
+  const card=g.closest('[data-card]'); if(card){LU.revealed[card.dataset.card]=true;luUpdateCards();return;}
+  const st_=g.closest('[data-lustufe]'); if(st_){LU.stufe=st_.dataset.lustufe;luSnap();luSideEntdecken();return;}
+  const a=g.closest('[data-luans]'); if(a){luAnswer(+a.dataset.luans);return;}
+  if(g.closest('#lu-now')){const d=new Date();LU.T=d.getHours()*60+d.getMinutes();LU.revealed={};luRenderClock();luUpdateCards();return;}
+  if(g.closest('#lu-rand')){const mins=luMinutes();LU.T=uhrRand(24)*60+mins[uhrRand(mins.length)];LU.revealed={};luRenderClock();luUpdateCards();return;}
+  if(g.closest('#lu-hide')){LU.hide=!LU.hide;LU.revealed={};luSideEntdecken();return;}
+  if(g.closest('#lu-check')){luCheck();return;}
+  if(g.closest('#lu-next')){LU.q.i++;luNextTask();return;}
+  if(g.closest('#lu-again')){luStartQuiz();return;}
+  if(g.closest('#lu-explore')){luHome();return;}
+  if(g.closest('#lu-eye')){LU.eye=!LU.eye;luRenderEq();return;}
+  const za=g.closest('[data-zans]'); if(za){luZspAnswer(+za.dataset.zans);return;}
+  if(g.closest('#lu-zcheck')){luZspCheck();return;}
+});
+
+// ── Zeitspannen ──
+const ZSP_STORY={
+  spaeter:[
+    (a,D)=>`Es ist ${a}. In ${D} beginnt die Pause. Wann beginnt die Pause?`,
+    (a,D)=>`Es ist ${a}. Der Kuchen muss ${D} backen. Wann ist er fertig?`,
+    (a,D)=>`Es ist ${a}. Die Busfahrt dauert ${D}. Wann kommt der Bus an?`,
+    (a,D)=>`Es ist ${a}. Das Fußballtraining dauert ${D}. Wann ist es zu Ende?`],
+  frueher:[
+    (a,D)=>`Es ist ${a}. Mia liest schon seit ${D}. Wann hat sie angefangen?`,
+    (a,D)=>`Es ist ${a}. Der Film läuft schon ${D}. Wann hat er begonnen?`,
+    (a,D)=>`Es ist ${a}. Ben ist vor ${D} losgegangen. Wann ist er losgegangen?`],
+  dauer:[
+    (a,b)=>`Die Pause beginnt um ${a} und endet um ${b}. Wie lange dauert die Pause?`,
+    (a,b)=>`Der Film beginnt um ${a} und endet um ${b}. Wie lange dauert der Film?`,
+    (a,b)=>`Das Training beginnt um ${a} und endet um ${b}. Wie lange dauert das Training?`]
+};
+function luZspTask(){
+  const arten=Object.keys(LU.zArten).filter(k=>LU.zArten[k]);
+  const kind=arten[uhrRand(arten.length)]||'spaeter';
+  const st_=LU.zSchritt, maxN=Math.max(1,Math.floor(LU.zMax/st_));
+  let T0,d,g=0;
+  while(true){
+    T0=(1+uhrRand(11))*60+uhrRand(60/st_)*st_;
+    d=st_*(1+uhrRand(maxN));
+    const m0=T0%60, part=d%60;
+    const cross=kind==='frueher'?(part>m0):(m0+part>60);
+    if(g++>800)break;
+    if(LU.zUeber==='mit'&&!cross)continue;
+    if(LU.zUeber==='ohne'&&cross)continue;
+    if(LU.q.task&&LU.q.task.T0===T0&&LU.q.task.d===d)continue;
+    break;
+  }
+  const T1=kind==='frueher'?T0-d:T0+d;
+  const a=luT12(T0), b=luT12(T1), D=luDurLong(d);
+  const stories=ZSP_STORY[kind], f=stories[uhrRand(stories.length)];
+  const t={type:'spanne',kind,T0,T1,d,done:false,story:kind==='dauer'?f(a,b):f(a,D)};
+  if(kind==='dauer'){
+    const c=uhrShuffle([d+st_,d-st_,60-d,d+60,d-60,d+10,d-10,d+5,d-5,d+15,d-15]);
+    const seen=new Set([d]), opts=[];
+    c.forEach(v=>{if(opts.length<3&&v>0&&!seen.has(v)){seen.add(v);opts.push(v);}});
+    let k=1; while(opts.length<3){const v=d+st_*(++k);if(!seen.has(v)){seen.add(v);opts.push(v);}}
+    t.items=uhrShuffle([{v:d,ok:true}].concat(opts.map(v=>({v,ok:false})))).map(it=>({...it,txt:luDurLong(it.v)}));
+  }
+  return t;
+}
+function luZspEq(t,solved){
+  const a=luT12(t.T0), b=luT12(t.T1), ds=luDurShort(t.d);
+  if(t.kind==='spaeter') return `${a} + ${ds} = ${solved?b:'?'}`;
+  if(t.kind==='frueher') return `${a} − ${ds} = ${solved?b:'?'}`;
+  return `${b} − ${a} = ${solved?ds:'?'}`;
+}
+function luZspWay(t){
+  // Rechenweg: zuerst bis zur vollen Stunde
+  const m0=luNorm(t.T0)%60;
+  if(t.kind==='spaeter'||t.kind==='dauer'){
+    const a1=(60-m0)%60, rest=t.d-a1;
+    if(!a1||rest<=0)return '';
+    const Tm=t.T0+a1;
+    if(t.kind==='spaeter') return [`${luT12(t.T0)} + ${luDurShort(a1)} = ${luT12(Tm)}`,`${luT12(Tm)} + ${luDurShort(rest)} = ${luT12(t.T1)}`];
+    return [`Von ${luT12(t.T0)} bis ${luT12(Tm)}: ${luDurShort(a1)}`,`Von ${luT12(Tm)} bis ${luT12(t.T1)}: ${luDurShort(rest)}`,`Zusammen: ${luDurShort(a1)} + ${luDurShort(rest)} = ${luDurShort(t.d)}`];
+  }
+  const a1=m0, rest=t.d-a1;
+  if(!a1||rest<=0)return '';
+  const Tm=t.T0-a1;
+  return [`${luT12(t.T0)} − ${luDurShort(a1)} = ${luT12(Tm)}`,`${luT12(Tm)} − ${luDurShort(rest)} = ${luT12(t.T1)}`];
+}
+const EYE_ON='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="3.3" fill="currentColor"/></svg>';
+const EYE_OFF='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="3.3" fill="currentColor"/><path d="M4 20L20 4" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>';
+function luRenderEq(){
+  const box=document.getElementById('lu-eq'); if(!box)return;
+  const t=LU.q.task;
+  box.innerHTML=`<button class="eye-btn" id="lu-eye" aria-pressed="${LU.eye}" aria-label="${LU.eye?'Rechnung ausblenden':'Rechnung einblenden'}">${LU.eye?EYE_ON:EYE_OFF}</button>`
+    +(LU.eye?`<span class="eq-txt">${uhrEsc(luZspEq(t,t.done))}</span>`:'<span class="eq-txt off">Rechnung versteckt. Tippe auf das Auge.</span>');
+}
+function luSideZsp(){
+  const q=LU.q, t=q.task;
+  let h=progHTML(q.i,q.n,q.res);
+  h+=`<p class="zsp-story">${uhrEsc(t.story)}</p><div class="zsp-eq" id="lu-eq"></div>`;
+  if(t.kind==='dauer'){
+    h+='<div class="ans-grid">'+t.items.map((it,i)=>`<button class="ans-btn" data-zans="${i}" style="background:${ANS_COLORS[i]}">${uhrEsc(it.txt)}</button>`).join('')+'</div>';
+    h+='<p class="lu-hint">Tipp: Ziehe den Minutenzeiger von der Startzeit bis zur Endzeit und zähle mit.</p>';
+  } else {
+    h+=`<p class="lu-hint">Die Uhr zeigt ${luT12(t.T0)}. Stelle die Zeiger auf die ${t.kind==='spaeter'?'spätere':'frühere'} Uhrzeit und tippe auf „Prüfen“.</p>`;
+    h+='<button class="btn-big" id="lu-zcheck">Prüfen</button>';
+  }
+  h+='<p class="fb" id="lu-fb" aria-live="polite"></p><div id="lu-sol"></div><button class="btn-big blue" id="lu-next" hidden>Weiter</button>';
+  luSide.innerHTML=h;
+  luRenderEq();
+}
+function luZspSolution(){
+  const t=LU.q.task, way=luZspWay(t);
+  let h=`<div class="zsp-sol"><span class="big">${uhrEsc(luZspEq(t,true))}</span>`;
+  if(way) h+='<span class="way">Rechenweg: erst bis zur vollen Stunde</span>'+way.map(x=>`<span class="stp">${uhrEsc(x)}</span>`).join('');
+  document.getElementById('lu-sol').innerHTML=h+'</div>';
+}
+function luZspAnswer(i){
+  const t=LU.q.task; if(t.done)return;
+  t.done=true;
+  const ok=t.items[i].ok; LU.q.res.push(ok);
+  luSide.querySelectorAll('[data-zans]').forEach((b,k)=>{
+    b.disabled=true;
+    if(t.items[k].ok) b.classList.add('ok'); else if(k===i) b.classList.add('no'); else b.classList.add('dim');
+  });
+  LU.T=t.T1; luRenderClock();
+  luZspSolution(); luRenderEq();
+  luAfter(ok,'Leider falsch. Richtig ist: '+luDurLong(t.d));
+}
+function luZspCheck(){
+  const t=LU.q.task; if(t.done)return;
+  luSnap();
+  t.done=true;
+  const ok=luNorm(Math.round(LU.T))%720===luNorm(t.T1)%720;
+  LU.q.res.push(ok);
+  if(!ok) LU.ghost=luNorm(t.T1);
+  luRenderClock();
+  const c=document.getElementById('lu-zcheck'); if(c) c.disabled=true;
+  luZspSolution(); luRenderEq();
+  luAfter(ok,'Noch nicht. Richtig ist '+luT12(t.T1)+'. Die lila gestrichelten Zeiger zeigen es.');
+}
+
+// Zeiger ziehen
+function luAngle(e){
+  const svg=luEl.querySelector('svg'); const pt=svg.createSVGPoint();
+  pt.x=e.clientX; pt.y=e.clientY;
+  const p=pt.matrixTransform(svg.getScreenCTM().inverse());
+  const dx=p.x-200, dy=p.y-200;
+  let a=Math.atan2(dx,-dy)*180/Math.PI; if(a<0)a+=360;
+  return {a,r:Math.hypot(dx,dy)};
+}
+function luDiff(a,b){let d=a-b;while(d>180)d-=360;while(d<-180)d+=360;return d}
+function luMoveTo(a){
+  if(LU.drag==='m'){const cur=luNorm(LU.T)%60*6;LU.T+=luDiff(a,cur)/6;}
+  else {const cur=(luNorm(LU.T)/60%12)*30;LU.T+=luDiff(a,cur)*2;}
+  LU.T=luNorm(LU.T); LU.revealed={};
+  luRenderClock(); luUpdateCards();
+}
+function luSnap(){
+  const s=luStep();
+  LU.T=luNorm(Math.round(LU.T/s)*s);
+  luRenderClock(); luUpdateCards();
+}
+luEl.addEventListener('pointerdown',e=>{
+  if(!luCanDrag()||!luEl.querySelector('svg'))return;
+  const {a,r}=luAngle(e); if(r>200)return;
+  const hands=luHands(); let which;
+  if(hands==='stunde') which='h';
+  else if(hands==='minute') which='m';
+  else {
+    const T=luNorm(LU.T), dm=Math.abs(luDiff(a,T%60*6)), dh=Math.abs(luDiff(a,(T/60%12)*30));
+    which=Math.abs(dm-dh)<20?(r>105?'m':'h'):(dm<dh?'m':'h');
+  }
+  LU.drag=which;
+  try{luEl.setPointerCapture(e.pointerId);}catch(_){}
+  luEl.classList.add('drag');
+  e.preventDefault();
+  luMoveTo(a);
+});
+luEl.addEventListener('pointermove',e=>{if(LU.drag)luMoveTo(luAngle(e).a);});
+function luEnd(){if(!LU.drag)return;LU.drag=null;luEl.classList.remove('drag');luSnap();}
+luEl.addEventListener('pointerup',luEnd);
+luEl.addEventListener('pointercancel',luEnd);
+document.addEventListener('keydown',e=>{
+  if(document.getElementById('lu-screen').hidden||!luCanDrag())return;
+  if(document.getElementById('lu-set').classList.contains('open'))return;
+  if(e.key!=='ArrowRight'&&e.key!=='ArrowLeft')return;
+  e.preventDefault();
+  const dir=e.key==='ArrowRight'?1:-1;
+  if(e.shiftKey) LU.T=luNorm(LU.T+60*dir);
+  else {const s=luStep();LU.T=luNorm(Math.round(LU.T/s)*s+s*dir);}
+  LU.revealed={}; luRenderClock(); luUpdateCards();
+});
+
+// Einstellungen der Lernuhr
+const luSetEl=document.getElementById('lu-set'), luSetOv=document.getElementById('lu-set-ov'), luSetBody=document.getElementById('lu-set-body');
+function luOpenSet(){
+  luSetBody.innerHTML=cgHTML(LU_UI,LU); LU.changed=false;
+  luSetOv.hidden=false; luSetEl.classList.add('open');
+}
+function luCloseSet(silent){
+  if(!luSetEl.classList.contains('open'))return;
+  luSetOv.hidden=true; luSetEl.classList.remove('open');
+  if(silent)return;
+  if(LU.changed&&LU.tab!=='entdecken') luStartQuiz();
+  else if(LU.tab==='entdecken'){luSnap();luSideEntdecken();}
+}
+luSetBody.addEventListener('click',e=>{
+  if(!cgClick(e,LU_UI,LU))return;
+  LU.changed=true;
+  const y=luSetEl.scrollTop;
+  luSetBody.innerHTML=cgHTML(LU_UI,LU);
+  luSetEl.scrollTop=y;
+  luRenderClock();
+  if(LU.tab==='entdecken') luSideEntdecken();
+});
+document.getElementById('lu-set-btn').addEventListener('click',luOpenSet);
+document.getElementById('lu-set-close').addEventListener('click',()=>luCloseSet());
+document.getElementById('lu-set-ok').addEventListener('click',()=>luCloseSet());
+luSetOv.addEventListener('click',()=>luCloseSet());
 
 // ══ KONFETTI ══
 const CONFETTI_COLORS=['#f5e042','#e74c3c','#3498db','#2ecc71','#e91e63','#ff9800','#9c27b0','#00bcd4'];
