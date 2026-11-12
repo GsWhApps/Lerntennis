@@ -1,6 +1,6 @@
 <!doctype html><html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"></head><body>
 <title>Lern-Tennis</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Andika:wght@700&family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap">
 <style>
 :root {
   --court:#1e5c1e;--sand:#faf6ee;--sand-dark:#ede5d0;--sand-border:#d5c9b0;
@@ -548,11 +548,92 @@ button:focus-visible,[tabindex]:focus-visible{outline:3px solid #f5c400;outline-
 .sp-close{font-size:1.6rem;width:52px;height:52px;border-radius:50%;background:var(--sand-dark)}
 #settings-panel .chip,.drawer .chip{font-size:1.05rem;padding:11px 18px}
 #settings-panel .chip.chip-sq,.drawer .chip.chip-sq{padding:0;width:58px;height:58px}
-#lu-set-body,#sp-uhrzeit-opts.visible{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr));gap:14px;align-items:start}
+#lu-set-body,#sb-set-body,#sp-uhrzeit-opts.visible{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr));gap:14px;align-items:start}
 .drawer .uhr-group,#settings-panel .uhr-group{background:#fff;border:2.5px solid var(--sand-border);border-radius:20px;padding:4px 16px 16px}
 #sp-uhrzeit-opts > .sp-divider{display:none}
 #settings-panel .mode-tile{min-width:110px}
 #settings-panel .sp-apply,.drawer .sp-apply{font-size:1.3rem;padding:16px;margin-top:18px;position:sticky;bottom:0;box-shadow:0 0 0 14px var(--sand),0 6px 18px rgba(0,0,0,.25)}
+
+/* ══ SILBENAUTOMAT ══ */
+.sb-main{flex:1;min-height:0;overflow-y:auto;display:grid;grid-template-columns:1fr;gap:16px;padding:16px;align-content:start;justify-items:center}
+.sb-main.duell{grid-template-columns:minmax(150px,1fr) minmax(0,3fr) minmax(150px,1fr);align-items:start}
+.sb-player{display:none}
+.sb-main.duell .sb-player{display:flex;flex-direction:column;gap:12px;align-self:stretch;justify-content:center;width:100%;min-width:0}
+.sb-center{width:min(900px,100%);display:flex;flex-direction:column;gap:14px;min-width:0}
+.sb-machine{position:relative;background:linear-gradient(180deg,#3949ab,#1a237e);border-radius:34px;padding:34px 22px 22px;
+  border:6px solid #ffca28;box-shadow:inset 0 -10px 0 rgba(0,0,0,.25),0 14px 30px rgba(0,0,0,.25);display:flex;flex-direction:column;align-items:center;gap:16px}
+.sb-bulbs{position:absolute;left:24px;right:24px;top:10px;height:12px;border-radius:6px;
+  background:radial-gradient(circle at 8px 6px,#fff59d 0 4px,#f9a825 5px,transparent 6px) 0 0/22px 12px repeat-x}
+.sb-machine.spin .sb-bulbs{animation:sbBlink .25s steps(2) infinite}
+@keyframes sbBlink{50%{background-position:11px 0;filter:brightness(1.4)}}
+.sb-marquee{font-family:'Fredoka One',sans-serif;letter-spacing:.32em;color:#ffe082;font-size:clamp(1.1rem,3.4vw,2rem);
+  background:#0d1440;border-radius:16px;padding:8px 22px;border:3px solid #ffca28;text-align:center;max-width:100%;overflow:hidden}
+.sb-window{display:flex;gap:14px;align-items:center;background:#0d1440;border-radius:24px;padding:16px;width:100%}
+.sb-reels{flex:1;min-width:0;display:grid;grid-template-columns:repeat(var(--n,3),minmax(0,1fr));gap:clamp(8px,1.6vw,14px)}
+.sb-reel{background:#fff;border-radius:18px;height:clamp(110px,24vh,200px);display:grid;place-items:center;overflow:hidden;border:none;padding:0;
+  box-shadow:inset 0 14px 16px -8px rgba(0,0,0,.35),inset 0 -14px 16px -8px rgba(0,0,0,.35);cursor:pointer;-webkit-tap-highlight-color:transparent;min-width:0}
+.sb-reel{container-type:inline-size}
+.sb-syl{font-family:'Andika','Nunito',sans-serif;font-weight:700;font-size:min(clamp(2.4rem,8.5vw,5.4rem),36cqw);color:#222;line-height:1;white-space:nowrap}
+.sb-syl[data-l="4"]{font-size:min(clamp(2.4rem,8.5vw,5.4rem),27cqw)}
+.sb-syl[data-l="5"]{font-size:min(clamp(2.4rem,8.5vw,5.4rem),22cqw)}
+.sb-syl[data-l="6"]{font-size:min(clamp(2.4rem,8.5vw,5.4rem),18cqw)}
+@media (max-height:820px){
+  .sb-reel,.sb-lever{height:clamp(90px,19vh,170px)}
+  .sb-machine{padding-top:28px;gap:10px}
+  .sb-marquee{font-size:1rem;padding:4px 18px}
+  .sb-start{padding:10px 46px}
+}
+.sb-reel.c0 .sb-syl{color:#1565c0}.sb-reel.c1 .sb-syl{color:#c62828}
+.sb-reel.spin .sb-syl{animation:sbRoll .09s linear infinite;color:#555;filter:blur(1.5px)}
+.sb-reel.stop .sb-syl{animation:sbStop .35s ease-out}
+@keyframes sbRoll{0%{transform:translateY(-35%)}100%{transform:translateY(35%)}}
+@keyframes sbStop{0%{transform:translateY(-30%)}60%{transform:translateY(8%)}100%{transform:translateY(0)}}
+.sb-lever{position:relative;width:52px;height:clamp(110px,24vh,200px);flex:none;cursor:pointer;-webkit-tap-highlight-color:transparent;border-radius:12px}
+.sb-stick{position:absolute;left:50%;bottom:16px;width:12px;height:70%;transform:translateX(-50%);border-radius:6px;
+  background:linear-gradient(90deg,#9e9e9e,#f5f5f5,#9e9e9e);transform-origin:bottom center;transition:transform .25s}
+.sb-knob{position:absolute;left:50%;top:6%;width:40px;height:40px;transform:translateX(-50%);border-radius:50%;
+  background:radial-gradient(circle at 35% 30%,#ff8a80,#d32f2f 60%,#8e0000);box-shadow:0 3px 6px rgba(0,0,0,.4);transition:top .25s}
+.sb-base{position:absolute;left:50%;bottom:0;width:44px;height:26px;transform:translateX(-50%);border-radius:10px;background:linear-gradient(180deg,#ffd54f,#f9a825)}
+.sb-lever.pull .sb-stick{transform:translateX(-50%) scaleY(.35)}
+.sb-lever.pull .sb-knob{top:62%}
+.sb-start{font-family:'Fredoka One',sans-serif;font-size:clamp(1.3rem,3vw,1.8rem);letter-spacing:.08em;color:#fff;border:none;border-radius:20px;
+  padding:14px 54px;background:linear-gradient(180deg,#ef5350,#c62828);box-shadow:0 6px 0 #7f0000;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.sb-start:active{transform:translateY(4px);box-shadow:0 2px 0 #7f0000}
+.sb-start:disabled{opacity:.5;cursor:default}
+.sb-under{display:flex;flex-direction:column;gap:12px;align-items:center;text-align:center}
+.sb-joined{font-family:'Andika','Nunito',sans-serif;font-weight:700;font-size:clamp(2rem,6vw,3.4rem);background:#fff;border:3px solid var(--sand-border);
+  border-radius:22px;padding:6px 26px;line-height:1.25}
+.sb-joined .c0,.sb-sol .c0{color:#1565c0}.sb-joined .c1,.sb-sol .c1{color:#c62828}
+.sb-hint{font-weight:700;color:var(--text-muted);font-size:1rem;line-height:1.4;max-width:60ch}
+.sb-count{font-family:'Fredoka One',sans-serif;color:var(--court);font-size:1.15rem}
+.sb-q{font-family:'Fredoka One',sans-serif;font-size:1.5rem;color:var(--court);margin:0}
+.sb-ans{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;width:min(620px,100%)}
+.sb-ans .ans-btn{min-height:78px;font-size:clamp(1.15rem,2.8vw,1.6rem)}
+.sb-sol{display:flex;align-items:center;gap:14px;background:#fff;border:3px solid var(--sand-border);border-radius:22px;padding:8px 22px}
+.sb-sol .em{font-size:clamp(2.4rem,7vw,3.6rem);line-height:1}
+.sb-sol .wd{font-family:'Andika','Nunito',sans-serif;font-weight:700;font-size:clamp(1.6rem,4.4vw,2.4rem)}
+.sb-pname{font-family:'Fredoka One',sans-serif;font-size:1.3rem;text-align:center;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sb-pts{font-family:'Fredoka One',sans-serif;font-size:clamp(2.6rem,6vw,4rem);text-align:center;line-height:1;color:var(--court)}
+.sb-pstate{font-weight:800;text-align:center;min-height:1.3em;color:var(--text-muted)}
+.sb-player .ans-btn{min-height:clamp(70px,14vh,120px);font-size:clamp(1.05rem,2.2vw,1.5rem)}
+.sb-player.locked .ans-btn{filter:grayscale(1) brightness(.75)}
+.sb-player.win .sb-pts{color:#1f9d55}
+@media (max-width:900px) and (orientation:portrait),(max-width:700px){
+  .sb-main.duell{grid-template-columns:1fr 1fr}
+  .sb-main.duell .sb-center{grid-column:1 / -1;grid-row:1}
+  .sb-main.duell .sb-player{grid-row:2}
+}
+@media (prefers-reduced-motion:reduce){.sb-reel.spin .sb-syl,.sb-machine.spin .sb-bulbs{animation:none}}
+
+/* Schnellwahl Leicht / Mittel / Schwer */
+.lvl-wrap{grid-column:1 / -1}
+.lvl-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.lvl-tile{display:flex;flex-direction:column;align-items:center;gap:2px;padding:14px 8px;border-radius:20px;cursor:pointer;
+  border:3px solid var(--lc);background:#fff;color:var(--lc);font-family:'Fredoka One',sans-serif;-webkit-tap-highlight-color:transparent;transition:transform .1s}
+.lvl-tile:active{transform:scale(.97)}
+.lvl-tile.active{background:var(--lc);color:#fff;box-shadow:0 5px 14px rgba(0,0,0,.2)}
+.lvl-t{font-size:clamp(1.2rem,3vw,1.6rem)}
+.lvl-s{font-family:'Nunito',sans-serif;font-weight:700;font-size:.85rem;opacity:.9}
 ::-webkit-scrollbar{width:5px}
 ::-webkit-scrollbar-track{background:var(--sand-dark)}
 ::-webkit-scrollbar-thumb{background:var(--sand-border);border-radius:3px}
@@ -594,7 +675,19 @@ button:focus-visible,[tabindex]:focus-visible{outline:3px solid #f5c400;outline-
       <button class="mode-tile pr-tile big-mt" data-pmode="anlaute"><span class="tile-ico">🔤</span><span class="tile-lbl">Anlaute</span></button>
       <button class="mode-tile pr-tile big-mt" data-pmode="silben"><span class="tile-ico">👏</span><span class="tile-lbl">Silben</span></button>
       <button class="mode-tile pr-tile big-mt" data-pmode="zeitformen"><span class="tile-ico">⏰</span><span class="tile-lbl">Zeitformen</span></button>
+      <button class="mode-tile pr-tile big-mt" data-pmode="sbauto"><span class="tile-ico">🎰</span><span class="tile-lbl">Silbenautomat</span></button>
       <button class="mode-tile pr-tile big-mt" data-pmode="uhr"><span class="tile-ico">🕐</span><span class="tile-lbl">Lernuhr</span></button>
+    </div>
+  </div>
+
+  <!-- SILBENAUTOMAT: Auswahl für Kinder -->
+  <div class="menu-page" id="mn-pageS">
+    <button class="back-btn" data-back="mn-pageP">← Zurück</button>
+    <div class="mode-header"><h2>Silbenautomat</h2></div>
+    <p class="logo-sub" style="text-align:left;margin-top:0">Was möchtest du machen?</p>
+    <div class="tile-grid">
+      <button class="mode-tile big-mt" data-sbmode="frei"><span class="tile-ico">📖</span><span class="tile-lbl">Silben lesen</span><span class="tile-sub">Drehen und laut lesen</span></button>
+      <button class="mode-tile big-mt" data-sbmode="quiz"><span class="tile-ico">🤔</span><span class="tile-lbl">Wort oder Quatsch?</span><span class="tile-sub">Lesen und entscheiden</span></button>
     </div>
   </div>
 
@@ -632,6 +725,7 @@ button:focus-visible,[tabindex]:focus-visible{outline:3px solid #f5c400;outline-
       <button class="mode-tile" data-mode="anlaute"><span class="tile-ico">🔤</span><span class="tile-lbl">Anlaute</span></button>
       <button class="mode-tile" data-mode="silben"><span class="tile-ico">👏</span><span class="tile-lbl">Silben</span></button>
       <button class="mode-tile" data-mode="zeitformen"><span class="tile-ico">⏰</span><span class="tile-lbl">Zeitformen</span></button>
+      <button class="mode-tile" data-mode="sbauto"><span class="tile-ico">🎰</span><span class="tile-lbl">Silben-Duell</span></button>
       <button class="mode-tile" data-mode="uhrzeit"><span class="tile-ico">🕐</span><span class="tile-lbl">Uhrzeiten</span></button>
     </div>
   </div>
@@ -809,6 +903,38 @@ button:focus-visible,[tabindex]:focus-visible{outline:3px solid #f5c400;outline-
   </div>
   <div class="pr-main" id="pr-main"></div>
 </div>
+
+<!-- ══ SILBENAUTOMAT ══ -->
+<div id="sb-screen" class="scr" hidden>
+  <div class="scr-top">
+    <button class="scr-btn" id="sb-home">← Zurück</button>
+    <div class="scr-title" id="sb-title">Silben lesen</div>
+    <button class="scr-btn" id="sb-sound" aria-pressed="true">Ton an</button>
+    <button class="scr-btn" id="sb-set-btn">Einstellungen</button>
+  </div>
+  <div class="sb-main" id="sb-main">
+    <div class="sb-player" id="sb-p0"></div>
+    <div class="sb-center">
+      <div class="sb-machine" id="sb-machine">
+        <div class="sb-bulbs" aria-hidden="true"></div>
+        <div class="sb-marquee">SILBENAUTOMAT</div>
+        <div class="sb-window">
+          <div class="sb-reels" id="sb-reels"></div>
+          <div class="sb-lever" id="sb-lever" role="button" tabindex="0" aria-label="Hebel ziehen und Walzen drehen"><span class="sb-stick"></span><span class="sb-knob"></span><span class="sb-base"></span></div>
+        </div>
+        <button class="sb-start" id="sb-start">START</button>
+      </div>
+      <div class="sb-under" id="sb-under" aria-live="polite"></div>
+    </div>
+    <div class="sb-player" id="sb-p1"></div>
+  </div>
+</div>
+<div id="sb-set-ov" class="drawer-ov" hidden></div>
+<aside id="sb-set" class="drawer" aria-label="Einstellungen Silbenautomat">
+  <div class="sp-header"><h3>Silbenautomat einstellen</h3><button class="sp-close" id="sb-set-close" aria-label="Schließen">✕</button></div>
+  <div id="sb-set-body"></div>
+  <button class="sp-apply" id="sb-set-ok">Fertig</button>
+</aside>
 
 <!-- ══ ÜBUNGSMODUS: Lernuhr ══ -->
 <div id="lu-screen" class="scr" hidden>
@@ -1100,10 +1226,10 @@ let activeZF = new Set(ZEITFORMEN.categories.map(c=>c.id));
 // ══ KLASSEN 1–4: Inhalte und Freigaben ══
 const ALL_OPS=['plus','minus','mal','geteilt'], ALL_CARRY=['beide','mit','ohne','zehner','verliebt'];
 const KL_CFG={
-  1:{practice:['mathe','anlaute','silben'],battle:['mathe','anlaute','silben'],
+  1:{practice:['mathe','anlaute','silben','sbauto'],battle:['mathe','anlaute','silben','sbauto'],
      ops:['plus','minus'],ranges:[10,20],carry:ALL_CARRY,uhr:null,
      def:{ops:['plus'],range:10}},
-  2:{practice:['mathe','wortarten','satzarten','uhr'],battle:['mathe','wortarten','satzarten','uhrzeit'],
+  2:{practice:['mathe','wortarten','satzarten','sbauto','uhr'],battle:['mathe','wortarten','satzarten','sbauto','uhrzeit'],
      ops:ALL_OPS,ranges:[10,20,100],carry:ALL_CARRY,
      wa:['best-art','unbest-art','nomen','verb','adjektiv'],
      uhr:{stufen:['voll','halb','viertel','fuenf'],h24:false,zSchritt:[15,5],zMax:[30,60]},
@@ -1234,7 +1360,7 @@ function updateModeViews(mode, prefix){
   if(ma) ma.classList.toggle('visible', mode==='mathe');
   if(uh) uh.classList.toggle('visible', mode==='uhrzeit');
   const sw=document.getElementById(prefix==='sp'?'sp-spd-wrap':'mn-spd-wrap');
-  if(sw) sw.hidden=(mode==='uhrzeit');
+  if(sw) sw.hidden=(mode==='uhrzeit'||mode==='sbauto');
   if(mode==='uhrzeit') uhrRenderOpts();
 }
 
@@ -1246,6 +1372,7 @@ const modeInfos={
   mathe:{ico:'🔢',title:'Mathematik'},
   uhrzeit:{ico:'🕐',title:'Uhrzeiten'},
   anlaute:{ico:'🔤',title:'Anlaute'},
+  sbauto:{ico:'🎰',title:'Silben-Duell'},
   silben:{ico:'👏',title:'Silben'},
   zeitformen:{ico:'⏰',title:'Zeitformen'},
 };
@@ -1274,7 +1401,7 @@ function setFlowView(){
   const pr=st.flow==='practice';
   document.getElementById('mn-runde-wrap').hidden=!pr;
   document.getElementById('mn-ziel-wrap').hidden=pr;
-  document.getElementById('mn-spd-wrap').hidden=pr||st.mode==='uhrzeit';
+  document.getElementById('mn-spd-wrap').hidden=pr||st.mode==='uhrzeit'||st.mode==='sbauto';
   document.getElementById('start-btn').textContent=pr?'Üben starten':'Spiel starten 🎾';
 }
 document.querySelectorAll('[data-back]').forEach(b=>b.addEventListener('click',()=>showMenuPage(b.dataset.back)));
@@ -1284,6 +1411,7 @@ const PR_INFO={mathe:{ico:'🔢',title:'Kopfrechnen'},wortarten:{ico:'📝',titl
 document.querySelectorAll('.pr-tile').forEach(b=>b.addEventListener('click',()=>{
   st.flow='practice';
   if(b.dataset.pmode==='uhr'){openLernuhr();return;}
+  if(b.dataset.pmode==='sbauto'){showMenuPage('mn-pageS');return;}
   st.mode=b.dataset.pmode;
   document.getElementById('mn-mode-ico').textContent=PR_INFO[st.mode].ico;
   document.getElementById('mn-mode-title').textContent=PR_INFO[st.mode].title+' üben';
@@ -1357,7 +1485,14 @@ document.getElementById('name1').addEventListener('input',e=>{
 document.getElementById('name2').addEventListener('input',e=>{
   document.getElementById('mn-lbl2').textContent=e.target.value.trim()||'Spieler 2';
 });
-document.getElementById('start-btn').addEventListener('click',()=>{ if(st.flow==='practice') startPractice(); else startGame(); });
+document.getElementById('start-btn').addEventListener('click',()=>{
+  if(st.mode==='sbauto'){
+    st.names[0]=document.getElementById('name1').value.trim()||'Spieler 1';
+    st.names[1]=document.getElementById('name2').value.trim()||'Spieler 2';
+    sbOpen('duell'); return;
+  }
+  if(st.flow==='practice') startPractice(); else startGame();
+});
 document.getElementById('btn-pause').addEventListener('click',pauseGame);
 document.getElementById('btn-settings').addEventListener('click',openSettings);
 document.getElementById('btn-quit').addEventListener('click',askQuit);
@@ -2842,8 +2977,30 @@ document.addEventListener('keydown',e=>{
 
 // Einstellungen der Lernuhr
 const luSetEl=document.getElementById('lu-set'), luSetOv=document.getElementById('lu-set-ov'), luSetBody=document.getElementById('lu-set-body');
+// ── Schnellwahl Leicht / Mittel / Schwer ──
+function lvlHTML(cur){
+  const L=[['leicht','Leicht','Zum Kennenlernen','#2e7d32'],['mittel','Mittel','Zum Üben','#ef8f00'],['schwer','Schwer','Für Profis','#c62828']];
+  return '<div class="lvl-wrap"><div class="sec-label" style="margin-top:0">⭐ Schnellwahl</div><div class="lvl-row">'
+    +L.map(([k,t,sub,c])=>`<button class="lvl-tile${cur===k?' active':''}" data-preset="${k}" style="--lc:${c}" aria-pressed="${cur===k}"><span class="lvl-t">${t}</span><span class="lvl-s">${sub}</span></button>`).join('')
+    +'</div><div class="uhr-hint">Stellt alles darunter passend ein. Danach kannst du jede Einstellung einzeln ändern.</div></div>';
+}
+const LU_PRESETS={
+  leicht:{stufe:'halb',farbe:'gruen',hands:'beide',face:{z12:true,z24:false,striche:true,min5:true,vornach:true,beschr:true},
+    anz:{h12:true,h24:false,wort:true},aufg:{h12:true,h24:false,wort:false},hilfe:{viertel:true,bogen:true,rechnung:true},
+    zArten:{spaeter:true,frueher:false,dauer:false},zSchritt:15,zMax:30,zUeber:'ohne',runde:5},
+  mittel:{stufe:'viertel',farbe:'gruen',hands:'beide',face:{z12:true,z24:false,striche:true,min5:true,vornach:true,beschr:false},
+    anz:{h12:true,h24:false,wort:true},aufg:{h12:true,h24:false,wort:true},hilfe:{viertel:true,bogen:true,rechnung:true},
+    zArten:{spaeter:true,frueher:true,dauer:false},zSchritt:5,zMax:60,zUeber:'beide',runde:10},
+  schwer:{stufe:'minute',farbe:'aus',hands:'beide',face:{z12:true,z24:true,striche:true,min5:false,vornach:false,beschr:false},
+    anz:{h12:true,h24:true,wort:true},aufg:{h12:true,h24:true,wort:true},hilfe:{viertel:false,bogen:false,rechnung:false},
+    zArten:{spaeter:true,frueher:true,dauer:true},zSchritt:1,zMax:180,zUeber:'mit',runde:15}
+};
+function luApplyPreset(k){
+  Object.assign(LU,JSON.parse(JSON.stringify(LU_PRESETS[k])));
+  klClamp(); LU.preset=k;
+}
 function luOpenSet(){
-  luSetBody.innerHTML=cgHTML(LU_UI,LU); LU.changed=false;
+  luSetBody.innerHTML=lvlHTML(LU.preset)+cgHTML(LU_UI,LU); LU.changed=false;
   luSetOv.hidden=false; luSetEl.classList.add('open');
 }
 function luCloseSet(silent){
@@ -2854,10 +3011,12 @@ function luCloseSet(silent){
   else if(LU.tab==='entdecken'){luSnap();luSideEntdecken();}
 }
 luSetBody.addEventListener('click',e=>{
-  if(!cgClick(e,LU_UI,LU))return;
+  const pr=e.target.closest('[data-preset]');
+  if(pr) luApplyPreset(pr.dataset.preset);
+  else { if(!cgClick(e,LU_UI,LU))return; LU.preset=null; }
   LU.changed=true;
   const y=luSetEl.scrollTop;
-  luSetBody.innerHTML=cgHTML(LU_UI,LU);
+  luSetBody.innerHTML=lvlHTML(LU.preset)+cgHTML(LU_UI,LU);
   luSetEl.scrollTop=y;
   luRenderClock();
   if(LU.tab==='entdecken') luSideEntdecken();
@@ -2869,10 +3028,10 @@ luSetOv.addEventListener('click',()=>luCloseSet());
 
 function klClamp(){
   const u=klCfg().uhr; if(!u)return;
-  if(!klAllow('stufe',LU.stufe)) LU.stufe='viertel';
+  if(!klAllow('stufe',LU.stufe)) LU.stufe=u.stufen[u.stufen.length-1];
   ['anz','aufg','face'].forEach(o=>Object.keys(LU[o]).forEach(k=>{if(!klAllow(o,k))LU[o][k]=false;}));
   if(!Object.values(LU.aufg).some(Boolean)) LU.aufg.h12=true;
-  if(!klAllow('zSchritt',LU.zSchritt)) LU.zSchritt=u.zSchritt[0];
+  if(!klAllow('zSchritt',LU.zSchritt)) LU.zSchritt=u.zSchritt[u.zSchritt.length-1];
   if(!klAllow('zMax',LU.zMax)) LU.zMax=u.zMax[u.zMax.length-1];
   Object.keys(UHR.sets).forEach(k=>{if(!klAllow('sets',k))UHR.sets[k]=false;});
   if(!Object.values(UHR.sets).some(Boolean)){UHR.sets.voll=true;UHR.sets.halb=true;}
@@ -2904,6 +3063,7 @@ function applyKlasse(k){
     buildCatChips(p+'-zf-chips',ZEITFORMEN,activeZF,p);
   });
   if(c.def.stufe) LU.stufe=c.def.stufe;
+  if(k<=2) sbClassDefaults(k);
   klClamp();
   uhrRenderOpts();
 }
@@ -2911,6 +3071,365 @@ document.querySelectorAll('[data-klasse]').forEach(b=>b.addEventListener('click'
   applyKlasse(+b.dataset.klasse);
   showMenuPage('mn-page0');
 }));
+
+// ══ SILBENAUTOMAT (Klasse 1 und 2) ══
+const SB={
+  kons:{m:true,l:true,r:true,s:true,n:true,t:false,f:false,w:false,h:false,d:false,b:false,k:false,p:false,g:false,z:false,j:false,sch:false},
+  vok:{a:true,e:true,i:true,o:true,u:true,au:false,ei:false,eu:false,'ä':false,'ö':false,'ü':false},
+  walzen:3,ende:'nein',schreib:'klein',farben:'an',zusammen:'an',tempo:'mittel',selbst:'aus',anteil:50,runde:10,zeit:0,
+  ton:true,mode:'frei',spinning:false,syl:[],timers:[],count:0,q:null,d:null,task:null
+};
+const SB_UI=[
+  {label:'Anfangsbuchstaben (Konsonanten)',kind:'multi',obj:'kons',items:[['m','M'],['l','L'],['r','R'],['s','S'],['n','N'],['t','T'],['f','F'],['w','W'],['h','H'],['d','D'],['b','B'],['k','K'],['p','P'],['g','G'],['z','Z'],['j','J'],['sch','Sch']],
+    hint:'Nimm die Buchstaben, die deine Klasse schon kennt.'},
+  {label:'Selbstlaute (Vokale)',kind:'multi',obj:'vok',items:[['a','a'],['e','e'],['i','i'],['o','o'],['u','u'],['au','au'],['ei','ei'],['eu','eu'],['ä','ä'],['ö','ö'],['ü','ü']]},
+  {label:'Wie viele Walzen?',kind:'single',key:'walzen',items:[[1,'1 Silbe'],[2,'2 Silben'],[3,'3 Silben']],
+    hint:'Bei „Wort oder Quatsch?“ und im Duell sind es mindestens 2 Silben.'},
+  {label:'Silben mit Endbuchstabe',kind:'single',key:'ende',items:[['nein','Nur offene Silben (ma)'],['ja','Auch geschlossene (mal, rot)']]},
+  {label:'Schreibweise',kind:'single',key:'schreib',items:[['klein','klein (ma mi)'],['gross1','Erste groß (Ma mi)'],['GROSS','GROSS (MA MI)']]},
+  {label:'Silben farbig (blau / rot)',kind:'single',key:'farben',items:[['an','An'],['aus','Aus']]},
+  {label:'Ganzes Wort darunter zeigen',kind:'single',key:'zusammen',items:[['an','An'],['aus','Aus']],hint:'Gilt für „Silben lesen“. Hilft beim Zusammenziehen der Silben.'},
+  {label:'Drehtempo',kind:'single',key:'tempo',items:[['langsam','Langsam'],['mittel','Mittel'],['schnell','Schnell']]},
+  {label:'Walzen selbst anhalten',kind:'single',key:'selbst',items:[['aus','Aus'],['an','An: Walze antippen zum Anhalten']],hint:'Gilt für „Silben lesen“.'},
+  {label:'Echte Wörter',kind:'single',key:'anteil',items:[[30,'Selten'],[50,'Halb-halb'],[70,'Oft']],hint:'Wie oft bei „Wort oder Quatsch?“ und im Duell ein echtes Wort kommt.'},
+  {label:'Aufgaben pro Runde',kind:'single',key:'runde',items:[[5,'5'],[10,'10'],[15,'15'],[20,'20']],hint:'Gilt für „Wort oder Quatsch?“.'},
+  {label:'Zeit im Duell',kind:'single',key:'zeit',items:[[0,'Ohne'],[15,'15 s'],[10,'10 s'],[6,'6 s']]}
+];
+Object.assign(LU_ICO,{kons:'🔤',vok:'🅰️',walzen:'🎰',ende:'🔚',schreib:'✍️',farben:'🎨',zusammen:'🧩',tempo:'🐢',selbst:'✋',anteil:'🎯',zeit:'⏱️'});
+// Echte Wörter: Silben (klein), Schreibung, Bild
+const SB_WORDS=[
+  ['ma-ma','Mama','👩'],['pa-pa','Papa','👨'],['na-se','Nase','👃'],['ro-se','Rose','🌹'],['ho-se','Hose','👖'],['do-se','Dose','🥫'],
+  ['ha-se','Hase','🐰'],['la-ma','Lama','🦙'],['ki-no','Kino','🎬'],['li-mo','Limo','🥤'],['lu-pe','Lupe','🔍'],['so-fa','Sofa','🛋️'],
+  ['ki-wi','Kiwi','🥝'],['ra-be','Rabe','🐦'],['hu-pe','Hupe','📯'],['mö-we','Möwe','🐦'],['lö-we','Löwe','🦁'],['no-te','Note','🎵'],
+  ['tu-be','Tube','🧴'],['ru-te','Rute','🎣'],['mei-se','Meise','🐦'],['sei-fe','Seife','🧼'],['rei-se','Reise','🧳'],['wa-de','Wade','🦵'],
+  ['ka-mel','Kamel','🐫'],['sa-lat','Salat','🥗'],['pi-rat','Pirat','🏴‍☠️'],['ka-ter','Kater','🐈'],['ma-ler','Maler','🎨'],['ti-ger','Tiger','🐯'],
+  ['bi-ber','Biber','🦫'],['be-sen','Besen','🧹'],['wa-gen','Wagen','🚗'],['fa-den','Faden','🧵'],['ho-nig','Honig','🍯'],['kö-nig','König','👑'],
+  ['ga-bel','Gabel','🍴'],['na-del','Nadel','🪡'],['fe-der','Feder','🪶'],['ku-gel','Kugel','🔮'],['pa-ket','Paket','📦'],['ra-sen','Rasen','🌱'],
+  ['le-sen','lesen','📖'],['ma-len','malen','🖍️'],['ro-bo-ter','Roboter','🤖'],['ra-ke-te','Rakete','🚀'],['to-ma-te','Tomate','🍅'],
+  ['ba-na-ne','Banane','🍌'],['me-lo-ne','Melone','🍉'],['ka-me-ra','Kamera','📷'],['sa-la-mi','Salami','🍕'],['pa-pa-gei','Papagei','🦜'],
+  ['ka-ra-te','Karate','🥋'],['ro-sa','Rosa','🌸'],['ro-si-ne','Rosine','🍇'],['do-mi-no','Domino','🎲']
+].map(([t,w,e])=>({syl:t.split('-'),w,e,key:t.replace(/-/g,'')}));
+// Weitere echte Wörter, die nie als „Quatschwort“ kommen dürfen
+const SB_REAL=new Set(SB_WORDS.map(x=>x.key).concat(['oma','opa','rede','lese','mode','bote','gabe','name','dame','sage','lage','tage','wege','rote','lila','sole','rate','reime','leine','beine','seile','weine','ruhe','hasen','rosen','hosen','nasen','dosen','lose','sohle','mole','tomaten','bananen','rosa','kino','sonne','miete','liebe','rübe','nudel','reis','eis','mus','mut','rot','tor','tal','mal','los','rad','not','wal','hut','ofen','faden','boden','regen','segen','besen','leben','haben','geben','sagen','legen','raten','baden','laden','nase','tante','fee','see','reh','kuh','zoo','wo','da','so','ja','nie','du','wir','sie','mama','papa','lama','sofa','kiwi','rabe','hupe','note','tube','rute','wade','dose','hose','rose','hase','lupe','limo','pute','jule','tina','nina','lena','mila','lina','tim','tom','ben']));
+// Diese Buchstabenfolgen kommen nie (auch nicht als Quatschwort)
+const SB_BAD=['kaka','pipi','popo','pupu','kack','nazi','hure','piss','pis','kot','fotz','titt','arsch','hitler','sex','schei','tot','mord','fick','fik','gay','puff','nutte','nut'];
+function sbBad(s){s=s.toLowerCase();return SB_BAD.some(b=>s.includes(b))}
+function sbKons(){return Object.keys(SB.kons).filter(k=>SB.kons[k])}
+function sbVok(){return Object.keys(SB.vok).filter(k=>SB.vok[k])}
+const SB_END=['n','m','l','r','s','t'];
+function sbEnds(){const e=SB_END.filter(k=>SB.kons[k]);return e.length?e:['n','r']}
+function sbRandSyl(){
+  const k=sbKons(),v=sbVok();
+  let s=k[uhrRand(k.length)]+v[uhrRand(v.length)];
+  if(SB.ende==='ja'&&Math.random()<.4){const e=sbEnds();s+=e[uhrRand(e.length)];}
+  return s;
+}
+function sbSylOk(syl){
+  const m=/^(sch|[bcdfghjklmnpqrstvwxyz])(au|ei|eu|[aeiouäöü])([bcdfghjklmnpqrstvwxyz]?)$/.exec(syl);
+  if(!m)return false;
+  if(!SB.kons[m[1]]||!SB.vok[m[2]])return false;
+  if(m[3]){if(SB.ende!=='ja'||!sbEnds().includes(m[3]))return false;}
+  return true;
+}
+function sbN(){return SB.mode==='frei'?SB.walzen:Math.max(2,SB.walzen)}
+function sbRealPool(n){return SB_WORDS.filter(w=>w.syl.length===n&&w.syl.every(sbSylOk))}
+function sbPseudo(n){
+  for(let g=0;g<400;g++){
+    const a=Array.from({length:n},sbRandSyl), j=a.join('');
+    if(!sbBad(j)&&(n<2||!SB_REAL.has(j)))return a;
+  }
+  return Array.from({length:n},sbRandSyl);
+}
+function sbFmt(syl,i){
+  if(SB.schreib==='GROSS')return syl.toUpperCase();
+  if(SB.schreib==='gross1'&&i===0)return syl.charAt(0).toUpperCase()+syl.slice(1);
+  return syl;
+}
+// Ton
+let sbCtx=null;
+function sbBeep(f,d,vol,type){
+  if(!SB.ton)return;
+  try{sbCtx=sbCtx||new(window.AudioContext||window.webkitAudioContext)();const t=sbCtx.currentTime,o=sbCtx.createOscillator(),g=sbCtx.createGain();
+    o.type=type||'square';o.frequency.value=f;g.gain.setValueAtTime(vol||.05,t);g.gain.exponentialRampToValueAtTime(.0001,t+d);o.connect(g).connect(sbCtx.destination);o.start(t);o.stop(t+d+.02);}catch(e){}
+}
+function sbJingle(ok){(ok?[660,880,1100]:[330,250]).forEach((f,i)=>setTimeout(()=>sbBeep(f,.22,.08,'sine'),i*110));}
+
+// Darstellung
+const sbReelsEl=document.getElementById('sb-reels'), sbUnder=document.getElementById('sb-under'), sbMain=document.getElementById('sb-main');
+function sbRenderReels(){
+  const n=sbN();
+  sbReelsEl.style.setProperty('--n',n);
+  if(SB.syl.length!==n) SB.syl=sbPseudo(n);
+  sbReelsEl.innerHTML=SB.syl.map((x,i)=>`<button class="sb-reel${SB.farben==='an'?' c'+(i%2):''}" data-reel="${i}" aria-label="Walze ${i+1}"><span class="sb-syl" data-l="${Math.min(6,Math.max(3,x.length))}">${uhrEsc(sbFmt(x,i))}</span></button>`).join('');
+}
+function sbText(r,t){const e=r.querySelector('.sb-syl');e.textContent=t;e.dataset.l=Math.min(6,Math.max(3,t.length));}
+function sbSetReel(i,txt,cls){
+  const r=sbReelsEl.children[i]; if(!r)return;
+  sbText(r,sbFmt(txt,i));
+  r.classList.remove('spin','stop'); if(cls){void r.offsetWidth;r.classList.add(cls);}
+}
+function sbClear(){SB.timers.forEach(t=>{clearTimeout(t);clearInterval(t);});SB.timers=[];}
+const SB_TEMPO={langsam:[1300,650],mittel:[800,420],schnell:[420,240]};
+
+// Drehen. which = Liste der Walzen (sonst alle), final = Zielsilben
+function sbSpin(final,which){
+  if(SB.spinning)return;
+  const n=sbN();
+  if(SB.syl.length!==n||sbReelsEl.children.length!==n){SB.syl=sbPseudo(n);sbRenderReels();}
+  which=which||Array.from({length:n},(_,i)=>i);
+  final=final||sbPseudo(n);
+  SB.spinning=true; SB.stopped=new Set();
+  document.getElementById('sb-machine').classList.add('spin');
+  document.getElementById('sb-start').disabled=true;
+  const lv=document.getElementById('sb-lever'); lv.classList.add('pull'); SB.timers.push(setTimeout(()=>lv.classList.remove('pull'),350));
+  sbBeep(180,.08,.06);
+  const [base,step]=SB_TEMPO[SB.tempo];
+  const self=SB.mode==='frei'&&SB.selbst==='an';
+  SB.pending={final,which,left:which.length};
+  which.forEach((i,k)=>{
+    const r=sbReelsEl.children[i]; r.classList.remove('stop'); r.classList.add('spin');
+    const iv=setInterval(()=>{sbText(r,sbFmt(sbRandSyl(),i));},70);
+    SB.timers.push(iv); r._iv=iv;
+    const stopAt=self?9000+k*400:base+k*step;
+    SB.timers.push(setTimeout(()=>sbStopReel(i),stopAt));
+  });
+  if(SB.mode==='frei') sbUnderFrei(true);
+}
+function sbStopReel(i){
+  const P=SB.pending; if(!P||SB.stopped.has(i)||!P.which.includes(i))return;
+  SB.stopped.add(i);
+  const r=sbReelsEl.children[i]; clearInterval(r._iv);
+  SB.syl[i]=P.final[i]; sbSetReel(i,P.final[i],'stop');
+  sbBeep(520,.06,.05);
+  if(--P.left===0){
+    sbClear(); SB.spinning=false; SB.pending=null;
+    document.getElementById('sb-machine').classList.remove('spin');
+    document.getElementById('sb-start').disabled=SB.mode==='duell';
+    sbAfterSpin();
+  }
+}
+function sbAfterSpin(){
+  if(SB.mode==='frei'){SB.count++;sbUnderFrei(false);}
+  else if(SB.mode==='quiz') sbQuizReady();
+  else sbDuelReady();
+}
+function sbJoinedHTML(){
+  return SB.syl.map((x,i)=>`<span class="${SB.farben==='an'?'c'+(i%2):''}">${uhrEsc(sbFmt(x,i))}</span>`).join('');
+}
+// Modus: Silben lesen
+function sbUnderFrei(spinning){
+  let h='';
+  if(SB.zusammen==='an'&&sbN()>1) h+=`<div class="sb-joined" aria-label="ganzes Wort">${spinning?'…':sbJoinedHTML()}</div>`;
+  h+=`<div class="sb-count">Gedreht: ${SB.count}</div>`;
+  h+=`<p class="sb-hint">Ziehe am Hebel oder drücke START. Lies die Silben laut, dann das ganze Wort.${SB.selbst==='an'?' Tippe auf eine Walze, um sie anzuhalten.':' Tippst du auf eine Walze, dreht sich nur diese neu.'}</p>`;
+  sbUnder.innerHTML=h;
+}
+// Modus: Wort oder Quatsch?
+function sbMakeTask(){
+  const n=sbN(), pool=sbRealPool(n);
+  const real=pool.length>0&&Math.random()*100<SB.anteil;
+  if(real){
+    let w; do{w=pool[uhrRand(pool.length)];}while(pool.length>1&&SB.task&&SB.task.w===w.w);
+    return{real:true,syl:w.syl.slice(),w:w.w,e:w.e,pool:pool.length};
+  }
+  return{real:false,syl:sbPseudo(n),pool:pool.length};
+}
+function sbQuizStart(){SB.q={n:SB.runde,i:0,res:[]};SB.task=null;sbQuizIdle();}
+function sbQuizIdle(){
+  const q=SB.q;
+  if(q.i>=q.n){
+    const r=q.res.filter(Boolean).length,k=starCount(r,q.n);
+    sbUnder.innerHTML=`<div class="end-box">${starsHTML(k)}<div class="end-title">${r} von ${q.n} richtig</div><p class="lu-hint">${STAR_MSG[k]}</p>
+      <div class="row"><button class="btn-big" id="sb-again">Nochmal üben</button><button class="btn-big blue" id="sb-back2">Zur Auswahl</button></div></div>`;
+    document.getElementById('sb-start').disabled=true; return;
+  }
+  SB.task=sbMakeTask(); SB.task.done=false; SB.task.ready=false;
+  const few=SB.task.pool===0?'<p class="sb-hint">Mit diesen Buchstaben gibt es keine echten Wörter in der Liste. Schalte in den Einstellungen mehr Buchstaben ein.</p>':'';
+  sbUnder.innerHTML=progHTML(q.i,q.n,q.res)+'<p class="sb-q">Drücke START und lies die Silben.</p>'+few;
+  document.getElementById('sb-start').disabled=false;
+}
+function sbQuizReady(){
+  const q=SB.q,t=SB.task; t.ready=true;
+  document.getElementById('sb-start').disabled=true;
+  sbUnder.innerHTML=progHTML(q.i,q.n,q.res)+'<p class="sb-q">Lies laut. Ist das ein echtes Wort?</p>'
+    +'<div class="sb-ans"><button class="ans-btn" data-sbans="1" style="background:#1f8a4c">Echtes Wort</button><button class="ans-btn" data-sbans="0" style="background:#e67e22">Quatschwort</button></div>'
+    +'<div class="row" style="align-items:center"><div id="sb-sol"></div><button class="btn-big blue" id="sb-next" hidden>Weiter</button></div>';
+}
+function sbSolHTML(t){
+  return t.real?`<div class="sb-sol"><span class="em">${t.e}</span><span class="wd">${uhrEsc(t.w)}</span></div>`
+    :`<div class="sb-sol"><span class="wd">${sbJoinedHTML()}</span><span class="lu-hint" style="margin:0">ist ein Quatschwort</span></div>`;
+}
+function sbQuizAnswer(v){
+  const t=SB.task; if(!t||!t.ready||t.done)return;
+  t.done=true; const ok=(v===1)===t.real; SB.q.res.push(ok);
+  sbUnder.querySelectorAll('[data-sbans]').forEach(b=>{b.disabled=true;const right=(+b.dataset.sbans===1)===t.real;b.classList.add(right?'ok':(+b.dataset.sbans===v?'no':'dim'));});
+  const d=sbUnder.querySelectorAll('.dot')[SB.q.i]; if(d){d.classList.remove('cur');d.classList.add(ok?'ok':'no');}
+  const fb=sbUnder.querySelector('.sb-q'); fb.className='sb-q fb '+(ok?'ok':'no'); fb.style.fontSize='1.5rem';
+  fb.textContent=ok?'Richtig!':(t.real?'Leider falsch. Das ist ein echtes Wort.':'Leider falsch. Das ist ein Quatschwort.');
+  document.getElementById('sb-sol').innerHTML=sbSolHTML(t);
+  document.getElementById('sb-next').hidden=false;
+  sbJingle(ok);
+}
+// Modus: Silben-Duell
+function sbPlayerHTML(p){
+  return `<div class="sb-pname">${uhrEsc(SB.d.names[p])}</div><div class="sb-pts" id="sb-pts${p}">${SB.d.score[p]}</div>
+    <div class="sb-pstate" id="sb-ps${p}"></div>
+    <button class="ans-btn" data-sbd="${p}" data-v="1" style="background:#1f8a4c">Echtes Wort</button>
+    <button class="ans-btn" data-sbd="${p}" data-v="0" style="background:#e67e22">Quatschwort</button>`;
+}
+function sbDuelStart(){
+  SB.d={names:[st.names[0],st.names[1]],score:[0,0],target:st.targetPts,locked:[false,false],over:true};
+  [0,1].forEach(p=>{document.getElementById('sb-p'+p).innerHTML=sbPlayerHTML(p);});
+  sbDuelNext();
+}
+function sbDuelNext(keep){
+  sbClear();
+  const d=SB.d; d.locked=[false,false]; d.over=true; d.waiting=true;
+  if(!keep) sbDuelResetPanels();
+  SB.task=sbMakeTask();
+  const few=SB.task.pool===0?'<p class="sb-hint">Mit diesen Buchstaben gibt es keine echten Wörter in der Liste. Schalte in den Einstellungen mehr Buchstaben ein.</p>':'';
+  const prompt=`<p class="sb-q">Zieht am Hebel oder drückt START!</p>${few}`;
+  if(keep) sbUnder.insertAdjacentHTML('beforeend',prompt); else sbUnder.innerHTML=prompt;
+  document.getElementById('sb-start').disabled=false;
+}
+function sbDuelResetPanels(){
+  [0,1].forEach(p=>{const el=document.getElementById('sb-p'+p);el.classList.remove('locked','win');document.getElementById('sb-ps'+p).textContent='';
+    el.querySelectorAll('[data-sbd]').forEach(b=>{b.disabled=true;b.classList.remove('ok','no','dim');});});
+}
+function sbDuelReady(){
+  const d=SB.d; d.over=false;
+  document.querySelectorAll('[data-sbd]').forEach(b=>b.disabled=false);
+  sbUnder.innerHTML='<p class="sb-q">Lies laut. Echtes Wort oder Quatsch?</p>'+(SB.zeit?'<div id="uhr-timer" style="width:min(520px,100%)"><div id="sb-tfill" style="height:100%;width:100%;background:var(--gold);border-radius:7px"></div></div>':'');
+  if(SB.zeit){
+    const f=document.getElementById('sb-tfill'); void f.offsetWidth; f.style.transition='width '+SB.zeit+'s linear'; f.style.width='0%';
+    SB.timers.push(setTimeout(()=>{if(!d.over){d.over=true;sbDuelEnd(null,'Zeit ist um!');}},SB.zeit*1000));
+  }
+}
+function sbDuelPress(p,v,btn){
+  const d=SB.d,t=SB.task; if(!d||d.over||d.locked[p])return;
+  const ok=(v===1)===t.real;
+  if(ok){d.over=true;d.score[p]++;btn.classList.add('ok');document.getElementById('sb-p'+p).classList.add('win');document.getElementById('sb-ps'+p).textContent='Richtig!';sbDuelEnd(p,'Punkt für '+d.names[p]+'!');}
+  else{d.locked[p]=true;btn.classList.add('no');document.getElementById('sb-p'+p).classList.add('locked');document.getElementById('sb-ps'+p).textContent='Gesperrt';sbBeep(200,.2,.06,'sine');
+    if(d.locked[0]&&d.locked[1]){d.over=true;sbDuelEnd(null,'Beide falsch.');}}
+}
+function sbDuelEnd(winner,msg){
+  sbClear();
+  const d=SB.d;
+  document.querySelectorAll('[data-sbd]').forEach(b=>b.disabled=true);
+  [0,1].forEach(p=>document.getElementById('sb-pts'+p).textContent=d.score[p]);
+  sbJingle(winner!==null);
+  const w=[0,1].find(p=>d.score[p]>=d.target);
+  sbUnder.innerHTML=`<p class="sb-q">${uhrEsc(msg)}</p>`+sbSolHTML(SB.task)
+    +(w!==undefined?`<div class="end-box"><div class="end-title">${uhrEsc(d.names[w])} gewinnt ${d.score[0]} : ${d.score[1]}!</div>
+      <div class="row"><button class="btn-big" id="sb-dagain">Nochmal spielen</button><button class="btn-big blue" id="sb-back2">Menü</button></div></div>`:'');
+  if(w===undefined) sbDuelNext(true);
+  else if(typeof startConfetti==='function'){try{startConfetti();}catch(e){}}
+}
+// Öffnen / Schließen
+const SB_TITLES={frei:'Silben lesen',quiz:'Wort oder Quatsch?',duell:'Silben-Duell'};
+function sbOpen(mode){
+  SB.mode=mode; sbClear(); SB.spinning=false; SB.pending=null; SB.count=0; SB.task=null;
+  modal.style.display='none';
+  document.getElementById('sb-screen').hidden=false;
+  document.getElementById('sb-title').textContent=SB_TITLES[mode];
+  sbMain.classList.toggle('duell',mode==='duell');
+  document.getElementById('sb-start').hidden=false;
+  SB.syl=sbPseudo(sbN()); sbRenderReels();
+  document.getElementById('sb-machine').classList.remove('spin');
+  document.getElementById('sb-start').disabled=false;
+  if(mode==='frei') sbUnderFrei(false);
+  else if(mode==='quiz') sbQuizStart();
+  else sbDuelStart();
+}
+function sbHome(){
+  sbClear(); SB.spinning=false; SB.pending=null; sbCloseSet(true);
+  if(typeof stopConfetti==='function'){try{stopConfetti();}catch(e){}}
+  document.getElementById('sb-screen').hidden=true;
+  modal.style.display='flex';
+  showMenuPage(SB.mode==='duell'?'mn-page1':'mn-pageS');
+}
+function sbTrigger(){
+  if(SB.spinning||document.getElementById('sb-screen').hidden)return;
+  if(SB.mode==='frei') sbSpin();
+  else if(SB.mode==='quiz'){const t=SB.task; if(t&&!t.ready) sbSpin(t.syl);}
+  else if(SB.mode==='duell'&&SB.d&&SB.d.waiting){SB.d.waiting=false;sbDuelResetPanels();sbUnder.innerHTML='<p class="sb-q">Der Automat dreht …</p>';sbSpin(SB.task.syl);}
+}
+document.getElementById('sb-home').addEventListener('click',sbHome);
+document.getElementById('sb-start').addEventListener('click',sbTrigger);
+document.getElementById('sb-lever').addEventListener('click',sbTrigger);
+document.getElementById('sb-lever').addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();sbTrigger();}});
+document.getElementById('sb-sound').addEventListener('click',e=>{SB.ton=!SB.ton;e.currentTarget.setAttribute('aria-pressed',SB.ton);e.currentTarget.textContent=SB.ton?'Ton an':'Ton aus';});
+sbReelsEl.addEventListener('click',e=>{
+  const r=e.target.closest('[data-reel]'); if(!r||SB.mode!=='frei')return;
+  const i=+r.dataset.reel;
+  if(SB.spinning){ if(SB.selbst==='an') sbStopReel(i); return; }
+  const fin=SB.syl.slice(); fin[i]=sbPseudo(1)[0];
+  for(let g=0;g<50&&sbBad(fin.join(''));g++) fin[i]=sbPseudo(1)[0];
+  sbSpin(fin,[i]);
+});
+sbUnder.addEventListener('click',e=>{
+  const a=e.target.closest('[data-sbans]'); if(a){sbQuizAnswer(+a.dataset.sbans);return;}
+  if(e.target.closest('#sb-next')){SB.q.i++;sbQuizIdle();return;}
+  if(e.target.closest('#sb-again')){sbQuizStart();return;}
+  if(e.target.closest('#sb-dagain')){if(typeof stopConfetti==='function'){try{stopConfetti();}catch(_){}}sbDuelStart();return;}
+  if(e.target.closest('#sb-back2')) sbHome();
+});
+sbMain.addEventListener('pointerdown',e=>{
+  const b=e.target.closest('[data-sbd]'); if(!b||b.disabled)return;
+  e.preventDefault(); sbDuelPress(+b.dataset.sbd,+b.dataset.v,b);
+});
+document.addEventListener('keydown',e=>{
+  if(document.getElementById('sb-screen').hidden||document.getElementById('sb-set').classList.contains('open'))return;
+  if((e.key===' '||e.key==='Enter')&&!e.target.closest('button')){e.preventDefault();sbTrigger();}
+});
+document.querySelectorAll('[data-sbmode]').forEach(b=>b.addEventListener('click',()=>sbOpen(b.dataset.sbmode)));
+// Einstellungen
+const sbSetEl=document.getElementById('sb-set'), sbSetOv=document.getElementById('sb-set-ov'), sbSetBody=document.getElementById('sb-set-body');
+const SB_PRESETS={
+  leicht:{kons:['m','l','r','s','n'],vok:['a','i','o'],walzen:2,ende:'nein',schreib:'klein',farben:'an',zusammen:'an',tempo:'langsam',selbst:'aus',anteil:50,zeit:0},
+  mittel:{kons:['m','l','r','s','n','t','f','w','h','d','b'],vok:['a','e','i','o','u'],walzen:2,ende:'nein',schreib:'klein',farben:'an',zusammen:'an',tempo:'mittel',selbst:'aus',anteil:50,zeit:15},
+  schwer:{kons:['m','l','r','s','n','t','f','w','h','d','b','k','p','g','z','j','sch'],vok:['a','e','i','o','u','au','ei','eu','ä','ö','ü'],walzen:3,ende:'ja',schreib:'gross1',farben:'aus',zusammen:'aus',tempo:'schnell',selbst:'aus',anteil:50,zeit:10}
+};
+function sbApplyPreset(k){
+  const P=SB_PRESETS[k];
+  Object.keys(SB.kons).forEach(x=>SB.kons[x]=P.kons.includes(x));
+  Object.keys(SB.vok).forEach(x=>SB.vok[x]=P.vok.includes(x));
+  ['walzen','ende','schreib','farben','zusammen','tempo','selbst','anteil','zeit'].forEach(x=>SB[x]=P[x]);
+  SB.preset=k;
+}
+function sbOpenSet(){
+  if(SB.mode==='duell'&&SB.d&&!SB.d.over){sbClear();SB.d.over=true;}
+  if(SB.spinning){sbClear();SB.spinning=false;SB.pending=null;document.getElementById('sb-machine').classList.remove('spin');}
+  sbSetBody.innerHTML=lvlHTML(SB.preset)+cgHTML(SB_UI,SB); SB.changed=false;
+  sbSetOv.hidden=false; sbSetEl.classList.add('open');
+}
+function sbCloseSet(silent){
+  if(!sbSetEl.classList.contains('open'))return;
+  sbSetOv.hidden=true; sbSetEl.classList.remove('open');
+  if(silent)return;
+  SB.syl=sbPseudo(sbN()); sbRenderReels();
+  document.getElementById('sb-start').disabled=false;
+  if(SB.mode==='frei') sbUnderFrei(false);
+  else if(SB.mode==='quiz'){ if(SB.changed) sbQuizStart(); else sbQuizIdle(); }
+  else sbDuelNext();
+}
+sbSetBody.addEventListener('click',e=>{
+  const pr=e.target.closest('[data-preset]');
+  if(pr) sbApplyPreset(pr.dataset.preset);
+  else { if(!cgClick(e,SB_UI,SB))return; SB.preset=null; }
+  SB.changed=true; const y=sbSetEl.scrollTop;
+  sbSetBody.innerHTML=lvlHTML(SB.preset)+cgHTML(SB_UI,SB); sbSetEl.scrollTop=y;
+});
+document.getElementById('sb-set-btn').addEventListener('click',sbOpenSet);
+document.getElementById('sb-set-close').addEventListener('click',()=>sbCloseSet());
+document.getElementById('sb-set-ok').addEventListener('click',()=>sbCloseSet());
+sbSetOv.addEventListener('click',()=>sbCloseSet());
+function sbClassDefaults(k){
+  const on=(o,keys)=>Object.keys(o).forEach(x=>o[x]=keys.includes(x));
+  SB.preset=null;
+  if(k===1){on(SB.kons,['m','l','r','s','n']);on(SB.vok,['a','e','i','o','u']);SB.walzen=2;SB.ende='nein';}
+  else {on(SB.kons,['m','l','r','s','n','t','f','w','h','d','b','k','p','g']);on(SB.vok,['a','e','i','o','u','au','ei']);SB.walzen=3;SB.ende='ja';}
+}
 
 // ══ KONFETTI ══
 const CONFETTI_COLORS=['#f5e042','#e74c3c','#3498db','#2ecc71','#e91e63','#ff9800','#9c27b0','#00bcd4'];
