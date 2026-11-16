@@ -1,5 +1,4 @@
-<!doctype html><html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"></head><body>
-<title>Lern-Tennis</title>
+<!doctype html><html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"></head><body><title>Lern-Tennis</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Andika:wght@400;700&display=swap">
 <style>
 /* Grundschrift (Beta) © 2011 Grundschulverband e.V. und Wissenschaftliche Einrichtung Laborschule Bielefeld – unverändert eingebettet, nicht-kommerzielle Nutzung */
@@ -638,6 +637,108 @@ button:focus-visible,[tabindex]:focus-visible{outline:3px solid #f5c400;outline-
 .lvl-t{font-size:clamp(1.2rem,3vw,1.6rem)}
 .lvl-s{font-family:'Grundschrift','Andika',sans-serif;font-weight:700;font-size:.85rem;opacity:.9}
 .gs-credit{margin:16px 0 0;font-size:.72rem;color:var(--text-muted);text-align:center;line-height:1.35}
+
+/* Reiter Mathe / Deutsch */
+.subj-tabs{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:4px 0 14px}
+.subj-tab{display:flex;align-items:center;justify-content:center;gap:8px;font-family:'Grundschrift','Andika',sans-serif;font-weight:700;
+  font-size:1.35rem;padding:12px;border-radius:18px;border:3px solid var(--sand-border);background:var(--sand-dark);color:var(--text);cursor:pointer;-webkit-tap-highlight-color:transparent}
+.subj-tab[aria-selected="true"]{background:var(--court);border-color:var(--court);color:#fff;box-shadow:0 4px 12px rgba(30,92,30,.3)}
+.subj-tab[data-subj="deutsch"][aria-selected="true"]{background:#1565c0;border-color:#1565c0;box-shadow:0 4px 12px rgba(21,101,192,.3)}
+.subj-ico{font-size:1.5rem}
+.subj-grid[data-show="mathe"] [data-subj="deutsch"],.subj-grid[data-show="deutsch"] [data-subj="mathe"]{display:none}
+
+/* ══ VERLIEBTE ZAHLEN ══ */
+.hz-main{flex:1;min-height:0;overflow-y:auto;display:flex;flex-direction:column;align-items:center;gap:14px;padding:16px}
+.hz-main > *{width:min(860px,100%)}
+.hz-svg{display:block;width:100%;height:100%;overflow:visible}
+.hz-stage{display:flex;align-items:center;justify-content:center;gap:0;position:relative}
+.hz-big{width:min(280px,38vw,30vh);aspect-ratio:100/90}
+.hz-main .fb{text-align:center}
+.hz-eq:empty{display:none}
+.hz-slot{width:min(300px,38vw);aspect-ratio:100/90}
+.hz-whole{animation:hzPulse .7s ease-out}
+@keyframes hzPulse{0%{transform:scale(.9)}50%{transform:scale(1.08)}100%{transform:scale(1)}}
+.hz-q{font-family:'Grundschrift','Andika',sans-serif;font-weight:700;font-size:clamp(1.3rem,3vw,1.7rem);color:var(--court);text-align:center;margin:0}
+.hz-eq{font-family:'Grundschrift','Andika',sans-serif;font-weight:700;font-size:clamp(2rem,6vw,3.2rem);text-align:center;min-height:1.3em;color:#c62828}
+.hz-opts{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:12px;justify-items:center}
+.hz-opt{background:none;border:none;padding:6px;cursor:pointer;width:min(115px,100%,13vh);aspect-ratio:50/90;border-radius:20px;-webkit-tap-highlight-color:transparent;transition:transform .12s}
+.hz-opt:active{transform:scale(.95)}
+.hz-opt.no{animation:ushake .4s;opacity:.35;cursor:default}
+.hz-opt.ok{opacity:.25}
+.hz-help{display:flex;justify-content:center}
+.zf{display:inline-grid;grid-template-columns:repeat(5,clamp(18px,3.8vh,34px));gap:5px;padding:8px;border:3px solid #333;border-radius:12px;background:#fff}
+.zf + .zf{margin-left:14px}
+.zf i{width:100%;aspect-ratio:1;border-radius:50%;background:#eee;display:block}
+.zf i.r{background:#e53935}.zf i.b{background:#1e88e5}
+.rods{display:flex;gap:6px;padding:8px;background:#fff;border:3px solid #333;border-radius:12px}
+.rods i{width:clamp(14px,2.6vw,22px);height:clamp(80px,15vh,140px);border-radius:4px;border:2px solid #333;display:block;
+  background:repeating-linear-gradient(#eee 0 calc(10% - 2px),#bbb calc(10% - 2px) 10%)}
+.rods i.r{background:repeating-linear-gradient(#e53935 0 calc(10% - 2px),#8e1b18 calc(10% - 2px) 10%)}
+.rods i.b{background:repeating-linear-gradient(#1e88e5 0 calc(10% - 2px),#0d47a1 calc(10% - 2px) 10%)}
+.hz-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(120px,28vw),1fr));gap:10px;justify-items:center}
+.hz-card{background:#fff;border:3px solid var(--sand-border);border-radius:18px;padding:8px 4px;cursor:pointer;width:100%;max-width:150px;
+  display:flex;justify-content:center;-webkit-tap-highlight-color:transparent;transition:transform .12s,border-color .12s}
+.hz-card .hz-half{width:62%;aspect-ratio:50/90}
+.hz-card.sel{border-color:#c62828;box-shadow:0 0 0 4px rgba(198,40,40,.25);transform:translateY(-4px)}
+.hz-card.no{animation:ushake .4s}
+.hz-card.done{visibility:hidden}
+.hz-found{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;min-height:64px}
+.hz-mini{display:flex;flex-direction:column;align-items:center;font-family:'Grundschrift','Andika',sans-serif;font-weight:700;font-size:.95rem}
+.hz-mini .w{width:70px;aspect-ratio:100/90}
+.hz-info{display:flex;gap:18px;justify-content:center;font-family:'Grundschrift','Andika',sans-serif;font-weight:700;font-size:1.15rem;color:var(--text-muted)}
+.hz-main.duell{display:grid;grid-template-columns:minmax(150px,1fr) minmax(0,2.4fr) minmax(150px,1fr);align-items:start;gap:16px}
+.hz-main.duell > *{width:auto}
+.hz-center{display:flex;flex-direction:column;align-items:center;gap:12px;min-width:0}
+.hz-player{display:flex;flex-direction:column;gap:10px;min-width:0}
+.hz-player .hz-opts{grid-template-columns:1fr 1fr;gap:6px}
+.hz-player .hz-opt{width:min(100px,100%,11vh)}
+.hz-player.locked .hz-opt{filter:grayscale(1);opacity:.5}
+.hz-player.win .sb-pts{color:#1f9d55}
+@media (max-width:900px) and (orientation:portrait),(max-width:700px){
+  .hz-main.duell{grid-template-columns:1fr 1fr}
+  .hz-main.duell .hz-center{grid-column:1 / -1;grid-row:1}
+  .hz-main.duell .hz-player{grid-row:2}
+  .hz-main.duell .hz-player .hz-opts{grid-template-columns:repeat(4,minmax(0,1fr))}
+}
+
+/* Fachwahl */
+.fach-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.fach-tile{display:flex;flex-direction:column;align-items:center;gap:6px;padding:26px 12px 22px;border-radius:26px;border:none;cursor:pointer;
+  background:var(--fc);color:#fff;box-shadow:0 7px 0 rgba(0,0,0,.25);font-family:'Grundschrift','Andika',sans-serif;-webkit-tap-highlight-color:transparent}
+.fach-tile:active{transform:translateY(5px);box-shadow:0 2px 0 rgba(0,0,0,.25)}
+.fach-ico{font-size:clamp(3rem,10vw,4.4rem);line-height:1}
+.fach-t{font-weight:700;font-size:clamp(1.6rem,5vw,2.3rem)}
+.fach-s{font-weight:700;font-size:.9rem;opacity:.9;text-align:center;line-height:1.35;min-height:2.6em}
+@media (max-width:420px){.fach-grid{grid-template-columns:1fr}}
+
+/* Herzregen */
+.hz-main.regen{position:relative;display:flex;flex-direction:column;align-items:stretch;gap:10px;overflow:hidden;padding:10px 14px 14px}
+.hz-main.regen > *{width:100%}
+.hz-rtop{display:flex;align-items:center;justify-content:center;gap:16px;flex:0 0 auto;min-height:min(170px,22vh)}
+.hz-rheart{width:min(150px,20vw,17vh);aspect-ratio:100/90;flex:0 0 auto}
+.hz-rtxt{display:flex;flex-direction:column;align-items:center;gap:4px;min-width:0;max-width:420px}
+.hz-rtxt .hz-q{margin:0;text-align:center}
+.hz-rtxt{min-height:5.2em;justify-content:center;flex:0 0 auto}
+.hz-main.regen #hz-dmsg:empty{display:none}
+.hz-main.regen #hz-dmsg{position:absolute;inset:0;z-index:5;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.25)}
+.hz-main.regen #hz-dmsg .end-box{margin:0;max-width:92%;background:#fff;padding:22px 26px;border-radius:24px;box-shadow:0 10px 30px rgba(0,0,0,.3);text-align:center}
+.hz-lane.win .hz-lmsg{color:#2e7d32}
+.hz-rhelp{flex:0 1 auto;min-width:0;max-width:440px}
+.hz-rhelp:empty{display:none}
+.hz-lanes{flex:1 1 auto;min-height:220px;display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.hz-lane{position:relative;display:flex;flex-direction:column;border-radius:20px;overflow:hidden;background:linear-gradient(#e3f2fd,#fce4ec);border:4px solid #fff;box-shadow:0 4px 0 rgba(0,0,0,.15);min-height:0}
+.hz-lane.win{border-color:#43a047}
+.hz-lane.locked .hz-sky{filter:grayscale(1);opacity:.45}
+.hz-lhead{display:flex;justify-content:space-between;align-items:center;padding:6px 12px;background:rgba(255,255,255,.75);font-weight:700;font-size:1.15rem;gap:8px}
+.hz-lname{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+.hz-lpts{background:#e53935;color:#fff;border-radius:999px;min-width:2.2em;text-align:center;padding:2px 10px;flex:0 0 auto}
+.hz-sky{position:relative;flex:1;min-height:0;overflow:hidden;touch-action:none}
+.hz-fall{position:absolute;top:0;width:clamp(46px,21%,84px);aspect-ratio:56/90;padding:0;border:none;background:none;cursor:pointer;will-change:transform;-webkit-tap-highlight-color:transparent;touch-action:none}
+.hz-fall .hz-svg{width:100%;height:100%;display:block;pointer-events:none}
+.hz-fall.no{filter:grayscale(1);opacity:.4}
+.hz-fall.hit{filter:drop-shadow(0 0 8px #43a047)}
+.hz-lmsg{position:absolute;left:50%;top:55%;transform:translate(-50%,-50%);background:#fff;color:#c62828;font-weight:700;font-size:1.2rem;padding:10px 16px;border-radius:14px;box-shadow:0 4px 12px rgba(0,0,0,.2);white-space:nowrap;z-index:2}
+@media (max-width:560px){.hz-rhelp{display:none}.hz-rheart{width:min(110px,28vw)}}
 ::-webkit-scrollbar{width:5px}
 ::-webkit-scrollbar-track{background:var(--sand-dark)}
 ::-webkit-scrollbar-thumb{background:var(--sand-border);border-radius:3px}
@@ -657,9 +758,20 @@ button:focus-visible,[tabindex]:focus-visible{outline:3px solid #f5c400;outline-
     <p class="gs-credit">Schrift: Grundschrift (Beta) © 2011 Grundschulverband e.V. und Wissenschaftliche Einrichtung Laborschule Bielefeld</p>
   </div>
 
-  <!-- STARTSEITE -->
-  <div class="menu-page" id="mn-page0">
+  <!-- FACHWAHL -->
+  <div class="menu-page" id="mn-pageF">
     <div class="kl-bar"><button class="back-btn" data-back="mn-pageK" style="margin:0">← Klasse ändern</button><span class="kl-badge" id="kl-badge">Klasse 3</span></div>
+    <div class="logo">🎾 Lern-Tennis</div>
+    <p class="logo-sub">Was möchtest du lernen?</p>
+    <div class="fach-grid">
+      <button class="fach-tile" data-fach="deutsch" style="--fc:#1565c0"><span class="fach-ico">📚</span><span class="fach-t">Deutsch</span><span class="fach-s" id="fach-s-deutsch"></span></button>
+      <button class="fach-tile" data-fach="mathe" style="--fc:#2e7d32"><span class="fach-ico">🔢</span><span class="fach-t">Mathe</span><span class="fach-s" id="fach-s-mathe"></span></button>
+    </div>
+  </div>
+
+  <!-- STARTSEITE: Übung oder Battle -->
+  <div class="menu-page" id="mn-page0">
+    <div class="kl-bar"><button class="back-btn" data-back="mn-pageF" style="margin:0">← Fach ändern</button><span class="kl-badge" id="kl-badge2">Klasse 3 · Mathe</span></div>
     <div class="logo">🎾 Lern-Tennis</div>
     <p class="logo-sub">Wie möchtest du heute lernen?</p>
     <div class="big-tiles">
@@ -671,17 +783,29 @@ button:focus-visible,[tabindex]:focus-visible{outline:3px solid #f5c400;outline-
   <!-- ÜBUNGSMODUS: Auswahl -->
   <div class="menu-page" id="mn-pageP">
     <button class="back-btn" data-back="mn-page0">← Zurück</button>
-    <div class="mode-header"><h2>Übungsmodus</h2></div>
+    <div class="mode-header"><h2 id="pr-head">Übungsmodus</h2></div>
     <p class="logo-sub" style="text-align:left;margin-top:0">Was möchtest du üben?</p>
+    <div class="tile-grid subj-grid" data-show="mathe">
+      <button class="mode-tile pr-tile big-mt" data-subj="mathe" data-pmode="mathe"><span class="tile-ico">🔢</span><span class="tile-lbl">Kopfrechnen</span></button>
+      <button class="mode-tile pr-tile big-mt" data-subj="mathe" data-pmode="verliebt"><span class="tile-ico">❤️</span><span class="tile-lbl">Verliebte Zahlen</span></button>
+      <button class="mode-tile pr-tile big-mt" data-subj="mathe" data-pmode="uhr"><span class="tile-ico">🕐</span><span class="tile-lbl">Lernuhr</span></button>
+      <button class="mode-tile pr-tile big-mt" data-subj="deutsch" data-pmode="anlaute"><span class="tile-ico">🔤</span><span class="tile-lbl">Anlaute</span></button>
+      <button class="mode-tile pr-tile big-mt" data-subj="deutsch" data-pmode="silben"><span class="tile-ico">👏</span><span class="tile-lbl">Silben</span></button>
+      <button class="mode-tile pr-tile big-mt" data-subj="deutsch" data-pmode="sbauto"><span class="tile-ico">🎰</span><span class="tile-lbl">Silbenautomat</span></button>
+      <button class="mode-tile pr-tile big-mt" data-subj="deutsch" data-pmode="wortarten"><span class="tile-ico">📝</span><span class="tile-lbl">Wortarten</span></button>
+      <button class="mode-tile pr-tile big-mt" data-subj="deutsch" data-pmode="satzarten"><span class="tile-ico">💬</span><span class="tile-lbl">Satzarten</span></button>
+      <button class="mode-tile pr-tile big-mt" data-subj="deutsch" data-pmode="zeitformen"><span class="tile-ico">⏰</span><span class="tile-lbl">Zeitformen</span></button>
+    </div>
+  </div>
+
+  <!-- VERLIEBTE ZAHLEN: Auswahl für Kinder -->
+  <div class="menu-page" id="mn-pageV">
+    <button class="back-btn" data-back="mn-pageP">← Zurück</button>
+    <div class="mode-header"><h2>Verliebte Zahlen</h2></div>
+    <p class="logo-sub" style="text-align:left;margin-top:0">Welche Zahlen gehören zusammen?</p>
     <div class="tile-grid">
-      <button class="mode-tile pr-tile big-mt" data-pmode="mathe"><span class="tile-ico">🔢</span><span class="tile-lbl">Kopfrechnen</span></button>
-      <button class="mode-tile pr-tile big-mt" data-pmode="wortarten"><span class="tile-ico">📝</span><span class="tile-lbl">Wortarten</span></button>
-      <button class="mode-tile pr-tile big-mt" data-pmode="satzarten"><span class="tile-ico">💬</span><span class="tile-lbl">Satzarten</span></button>
-      <button class="mode-tile pr-tile big-mt" data-pmode="anlaute"><span class="tile-ico">🔤</span><span class="tile-lbl">Anlaute</span></button>
-      <button class="mode-tile pr-tile big-mt" data-pmode="silben"><span class="tile-ico">👏</span><span class="tile-lbl">Silben</span></button>
-      <button class="mode-tile pr-tile big-mt" data-pmode="zeitformen"><span class="tile-ico">⏰</span><span class="tile-lbl">Zeitformen</span></button>
-      <button class="mode-tile pr-tile big-mt" data-pmode="sbauto"><span class="tile-ico">🎰</span><span class="tile-lbl">Silbenautomat</span></button>
-      <button class="mode-tile pr-tile big-mt" data-pmode="uhr"><span class="tile-ico">🕐</span><span class="tile-lbl">Lernuhr</span></button>
+      <button class="mode-tile big-mt" data-hzmode="finden"><span class="tile-ico">💘</span><span class="tile-lbl">Herz finden</span><span class="tile-sub">Finde die passende Hälfte</span></button>
+      <button class="mode-tile big-mt" data-hzmode="memory"><span class="tile-ico">💞</span><span class="tile-lbl">Herzpaare</span><span class="tile-sub">Finde alle Paare</span></button>
     </div>
   </div>
 
@@ -713,7 +837,7 @@ button:focus-visible,[tabindex]:focus-visible{outline:3px solid #f5c400;outline-
   <!-- BATTLE: Namen + Modus -->
   <div class="menu-page" id="mn-page1">
     <button class="back-btn" data-back="mn-page0">← Zurück</button>
-    <div class="mode-header"><h2>Battle-Modus</h2></div>
+    <div class="mode-header"><h2 id="bt-head">Battle-Modus</h2></div>
     <p class="logo-sub" style="text-align:left;margin-top:0">Klicke die richtige Antwort, bevor das Wort landet!</p>
 
     <div class="sec-label">Spielernamen</div>
@@ -723,15 +847,16 @@ button:focus-visible,[tabindex]:focus-visible{outline:3px solid #f5c400;outline-
     </div>
 
     <div class="sec-label">Spielmodus wählen</div>
-    <div class="chip-row" id="mode-tiles" style="flex-wrap:wrap">
-      <button class="mode-tile" data-mode="wortarten"><span class="tile-ico">📝</span><span class="tile-lbl">Wortarten</span></button>
-      <button class="mode-tile" data-mode="satzarten"><span class="tile-ico">💬</span><span class="tile-lbl">Satzarten</span></button>
-      <button class="mode-tile" data-mode="mathe"><span class="tile-ico">🔢</span><span class="tile-lbl">Mathematik</span></button>
-      <button class="mode-tile" data-mode="anlaute"><span class="tile-ico">🔤</span><span class="tile-lbl">Anlaute</span></button>
-      <button class="mode-tile" data-mode="silben"><span class="tile-ico">👏</span><span class="tile-lbl">Silben</span></button>
-      <button class="mode-tile" data-mode="zeitformen"><span class="tile-ico">⏰</span><span class="tile-lbl">Zeitformen</span></button>
-      <button class="mode-tile" data-mode="sbauto"><span class="tile-ico">🎰</span><span class="tile-lbl">Silben-Duell</span></button>
-      <button class="mode-tile" data-mode="uhrzeit"><span class="tile-ico">🕐</span><span class="tile-lbl">Uhrzeiten</span></button>
+    <div class="chip-row subj-grid" id="mode-tiles" data-show="mathe" style="flex-wrap:wrap">
+      <button class="mode-tile" data-subj="mathe" data-mode="mathe"><span class="tile-ico">🔢</span><span class="tile-lbl">Kopfrechnen</span></button>
+      <button class="mode-tile" data-subj="mathe" data-mode="verliebt"><span class="tile-ico">❤️</span><span class="tile-lbl">Verliebte Zahlen</span></button>
+      <button class="mode-tile" data-subj="mathe" data-mode="uhrzeit"><span class="tile-ico">🕐</span><span class="tile-lbl">Uhrzeiten</span></button>
+      <button class="mode-tile" data-subj="deutsch" data-mode="anlaute"><span class="tile-ico">🔤</span><span class="tile-lbl">Anlaute</span></button>
+      <button class="mode-tile" data-subj="deutsch" data-mode="silben"><span class="tile-ico">👏</span><span class="tile-lbl">Silben</span></button>
+      <button class="mode-tile" data-subj="deutsch" data-mode="sbauto"><span class="tile-ico">🎰</span><span class="tile-lbl">Silben-Duell</span></button>
+      <button class="mode-tile" data-subj="deutsch" data-mode="wortarten"><span class="tile-ico">📝</span><span class="tile-lbl">Wortarten</span></button>
+      <button class="mode-tile" data-subj="deutsch" data-mode="satzarten"><span class="tile-ico">💬</span><span class="tile-lbl">Satzarten</span></button>
+      <button class="mode-tile" data-subj="deutsch" data-mode="zeitformen"><span class="tile-ico">⏰</span><span class="tile-lbl">Zeitformen</span></button>
     </div>
   </div>
 
@@ -908,6 +1033,22 @@ button:focus-visible,[tabindex]:focus-visible{outline:3px solid #f5c400;outline-
   </div>
   <div class="pr-main" id="pr-main"></div>
 </div>
+
+<!-- ══ VERLIEBTE ZAHLEN ══ -->
+<div id="hz-screen" class="scr" hidden>
+  <div class="scr-top">
+    <button class="scr-btn" id="hz-home">← Zurück</button>
+    <div class="scr-title" id="hz-title">Herz finden</div>
+    <button class="scr-btn" id="hz-set-btn">Einstellungen</button>
+  </div>
+  <div class="hz-main" id="hz-main"></div>
+</div>
+<div id="hz-set-ov" class="drawer-ov" hidden></div>
+<aside id="hz-set" class="drawer" aria-label="Einstellungen Verliebte Zahlen">
+  <div class="sp-header"><h3>Verliebte Zahlen einstellen</h3><button class="sp-close" id="hz-set-close" aria-label="Schließen">✕</button></div>
+  <div id="hz-set-body"></div>
+  <button class="sp-apply" id="hz-set-ok">Fertig</button>
+</aside>
 
 <!-- ══ SILBENAUTOMAT ══ -->
 <div id="sb-screen" class="scr" hidden>
@@ -1231,10 +1372,10 @@ let activeZF = new Set(ZEITFORMEN.categories.map(c=>c.id));
 // ══ KLASSEN 1–4: Inhalte und Freigaben ══
 const ALL_OPS=['plus','minus','mal','geteilt'], ALL_CARRY=['beide','mit','ohne','zehner','verliebt'];
 const KL_CFG={
-  1:{practice:['mathe','anlaute','silben','sbauto'],battle:['mathe','anlaute','silben','sbauto'],
+  1:{practice:['mathe','verliebt','anlaute','silben','sbauto'],battle:['mathe','verliebt','anlaute','silben','sbauto'],hzZiel:['10','20'],
      ops:['plus','minus'],ranges:[10,20],carry:ALL_CARRY,uhr:null,
      def:{ops:['plus'],range:10}},
-  2:{practice:['mathe','wortarten','satzarten','sbauto','uhr'],battle:['mathe','wortarten','satzarten','sbauto','uhrzeit'],
+  2:{practice:['mathe','verliebt','wortarten','satzarten','sbauto','uhr'],battle:['mathe','verliebt','wortarten','satzarten','sbauto','uhrzeit'],hzZiel:['10','20','100z','100'],
      ops:ALL_OPS,ranges:[10,20,100],carry:ALL_CARRY,
      wa:['best-art','unbest-art','nomen','verb','adjektiv'],
      uhr:{stufen:['voll','halb','viertel','fuenf'],h24:false,zSchritt:[15,5],zMax:[30,60]},
@@ -1249,6 +1390,7 @@ const KL_CFG={
 let KLASSE=3;
 function klCfg(){return KL_CFG[KLASSE]}
 function klAllow(group,val){
+  if(group==='ziel') return (klCfg().hzZiel||['10','20','100z','100']).includes(val);
   const u=klCfg().uhr; if(!u)return true;
   if(group==='stufe') return !u.stufen||u.stufen.includes(val);
   if(group==='sets') return val!=='minute'||!u.stufen||u.stufen.includes('minute');
@@ -1365,7 +1507,7 @@ function updateModeViews(mode, prefix){
   if(ma) ma.classList.toggle('visible', mode==='mathe');
   if(uh) uh.classList.toggle('visible', mode==='uhrzeit');
   const sw=document.getElementById(prefix==='sp'?'sp-spd-wrap':'mn-spd-wrap');
-  if(sw) sw.hidden=(mode==='uhrzeit'||mode==='sbauto');
+  if(sw) sw.hidden=(mode==='uhrzeit'||mode==='sbauto'||mode==='verliebt');
   if(mode==='uhrzeit') uhrRenderOpts();
 }
 
@@ -1378,6 +1520,7 @@ const modeInfos={
   uhrzeit:{ico:'🕐',title:'Uhrzeiten'},
   anlaute:{ico:'🔤',title:'Anlaute'},
   sbauto:{ico:'🎰',title:'Silben-Duell'},
+  verliebt:{ico:'❤️',title:'Verliebte Zahlen'},
   silben:{ico:'👏',title:'Silben'},
   zeitformen:{ico:'⏰',title:'Zeitformen'},
 };
@@ -1406,17 +1549,29 @@ function setFlowView(){
   const pr=st.flow==='practice';
   document.getElementById('mn-runde-wrap').hidden=!pr;
   document.getElementById('mn-ziel-wrap').hidden=pr;
-  document.getElementById('mn-spd-wrap').hidden=pr||st.mode==='uhrzeit'||st.mode==='sbauto';
+  document.getElementById('mn-spd-wrap').hidden=pr||st.mode==='uhrzeit'||st.mode==='sbauto'||st.mode==='verliebt';
   document.getElementById('start-btn').textContent=pr?'Üben starten':'Spiel starten 🎾';
 }
 document.querySelectorAll('[data-back]').forEach(b=>b.addEventListener('click',()=>showMenuPage(b.dataset.back)));
 document.getElementById('go-battle').addEventListener('click',()=>{st.flow='battle';showMenuPage('mn-page1');});
+// Fachwahl: Deutsch oder Mathe
+st.fach='mathe';
+function setFach(f){
+  st.fach=f;
+  document.querySelectorAll('.subj-grid').forEach(g=>g.dataset.show=f);
+  const F=f==='mathe'?'Mathe':'Deutsch';
+  document.getElementById('kl-badge2').textContent='Klasse '+KLASSE+' · '+F;
+  document.getElementById('pr-head').textContent='Übungsmodus '+F;
+  document.getElementById('bt-head').textContent='Battle-Modus '+F;
+}
+document.querySelectorAll('[data-fach]').forEach(b=>b.addEventListener('click',()=>{setFach(b.dataset.fach);showMenuPage('mn-page0');}));
 document.getElementById('go-practice').addEventListener('click',()=>{st.flow='practice';showMenuPage('mn-pageP');});
 const PR_INFO={mathe:{ico:'🔢',title:'Kopfrechnen'},wortarten:{ico:'📝',title:'Wortarten'},satzarten:{ico:'💬',title:'Satzarten'},zeitformen:{ico:'⏰',title:'Zeitformen'},anlaute:{ico:'🔤',title:'Anlaute'},silben:{ico:'👏',title:'Silben'}};
 document.querySelectorAll('.pr-tile').forEach(b=>b.addEventListener('click',()=>{
   st.flow='practice';
   if(b.dataset.pmode==='uhr'){openLernuhr();return;}
   if(b.dataset.pmode==='sbauto'){showMenuPage('mn-pageS');return;}
+  if(b.dataset.pmode==='verliebt'){showMenuPage('mn-pageV');return;}
   st.mode=b.dataset.pmode;
   document.getElementById('mn-mode-ico').textContent=PR_INFO[st.mode].ico;
   document.getElementById('mn-mode-title').textContent=PR_INFO[st.mode].title+' üben';
@@ -1491,10 +1646,11 @@ document.getElementById('name2').addEventListener('input',e=>{
   document.getElementById('mn-lbl2').textContent=e.target.value.trim()||'Spieler 2';
 });
 document.getElementById('start-btn').addEventListener('click',()=>{
-  if(st.mode==='sbauto'){
+  if(st.mode==='sbauto'||st.mode==='verliebt'){
     st.names[0]=document.getElementById('name1').value.trim()||'Spieler 1';
     st.names[1]=document.getElementById('name2').value.trim()||'Spieler 2';
-    sbOpen('duell'); return;
+    if(st.mode==='sbauto') sbOpen('duell'); else hzOpen('duell');
+    return;
   }
   if(st.flow==='practice') startPractice(); else startGame();
 });
@@ -3047,6 +3203,10 @@ function klClamp(){
 function applyKlasse(k){
   KLASSE=k; const c=klCfg();
   document.getElementById('kl-badge').textContent='Klasse '+k;
+  const NAMES={mathe:'Kopfrechnen',verliebt:'Verliebte Zahlen',uhr:'Lernuhr',anlaute:'Anlaute',silben:'Silben',sbauto:'Silbenautomat',wortarten:'Wortarten',satzarten:'Satzarten',zeitformen:'Zeitformen'};
+  const M=['mathe','verliebt','uhr'];
+  document.getElementById('fach-s-mathe').textContent=c.practice.filter(x=>M.includes(x)).map(x=>NAMES[x]).join(' · ');
+  document.getElementById('fach-s-deutsch').textContent=c.practice.filter(x=>!M.includes(x)).map(x=>NAMES[x]).join(' · ');
   document.querySelectorAll('.pr-tile[data-pmode]').forEach(b=>b.hidden=!c.practice.includes(b.dataset.pmode));
   document.querySelectorAll('.mode-tile[data-mode]').forEach(b=>b.hidden=!c.battle.includes(b.dataset.mode));
   document.querySelectorAll('.chip[data-op]').forEach(b=>b.hidden=!c.ops.includes(b.dataset.op));
@@ -3068,13 +3228,13 @@ function applyKlasse(k){
     buildCatChips(p+'-zf-chips',ZEITFORMEN,activeZF,p);
   });
   if(c.def.stufe) LU.stufe=c.def.stufe;
-  if(k<=2) sbClassDefaults(k);
+  if(k<=2){ sbClassDefaults(k); hzClassDefaults(k); }
   klClamp();
   uhrRenderOpts();
 }
 document.querySelectorAll('[data-klasse]').forEach(b=>b.addEventListener('click',()=>{
   applyKlasse(+b.dataset.klasse);
-  showMenuPage('mn-page0');
+  showMenuPage('mn-pageF');
 }));
 
 // ══ SILBENAUTOMAT (Klasse 1 und 2) ══
@@ -3435,6 +3595,370 @@ function sbClassDefaults(k){
   if(k===1){on(SB.kons,['m','l','r','s','n']);on(SB.vok,['a','e','i','o','u']);SB.walzen=2;SB.ende='nein';}
   else {on(SB.kons,['m','l','r','s','n','t','f','w','h','d','b','k','p','g']);on(SB.vok,['a','e','i','o','u','au','ei']);SB.walzen=3;SB.ende='ja';}
 }
+
+// ══ VERLIEBTE ZAHLEN (Klasse 1 und 2) ══
+const HZ={ziel:'10',hilfe:'an',anz:4,null0:'an',runde:10,paare:6,spiel:'regen',tempo:'mittel',mode:'finden',preset:null,r:null,
+  q:null,task:null,mem:null,d:null,timers:[]};
+const HZ_UI=[
+  {label:'Zu welcher Zahl gehören die Paare?',kind:'single',key:'ziel',items:[['10','Zusammen 10'],['20','Zusammen 20'],['100z','100 mit Zehnerzahlen (30 + 70)'],['100','100 mit allen Zahlen (37 + 63)']]},
+  {label:'Rechenhilfe anzeigen',kind:'single',key:'hilfe',items:[['an','An (Zehnerfeld / Zehnerstangen)'],['aus','Aus']],hint:'Bei „100 mit allen Zahlen“ gibt es keine Rechenhilfe.'},
+  {label:'Auch 0 und die Zielzahl selbst (10 + 0)',kind:'single',key:'null0',items:[['an','Ja'],['aus','Nein']]},
+  {label:'Antworten zur Auswahl',kind:'single',key:'anz',items:[[3,'3'],[4,'4'],[6,'6']],hint:'Bei „Herz finden“ und im Battle mit Antwort-Knöpfen.'},
+  {label:'Aufgaben pro Runde',kind:'single',key:'runde',items:[[5,'5'],[10,'10'],[15,'15'],[20,'20']],hint:'Bei „Herz finden“.'},
+  {label:'Wie viele Herzpaare?',kind:'single',key:'paare',items:[[4,'4'],[6,'6'],[8,'8']],hint:'Bei „Herzpaare“.'},
+  {label:'Battle-Spielart',kind:'single',key:'spiel',items:[['regen','Herzregen (Herzen fallen von oben)'],['knopf','Antwort-Knöpfe']],hint:'Nur im Battle-Modus.'},
+  {label:'Wie schnell fallen die Herzen?',kind:'single',key:'tempo',items:[['langsam','Langsam'],['mittel','Mittel'],['schnell','Schnell']],hint:'Beim Herzregen.'}
+];
+Object.assign(LU_ICO,{ziel:'❤️',hilfe:'🧮',null0:'0️⃣',anz:'🔘',paare:'💞',spiel:'🎮',tempo:'⏱️'});
+function hzT(){return HZ.ziel==='10'?10:HZ.ziel==='20'?20:100}
+function hzStep(){return HZ.ziel==='100z'?10:1}
+function hzValues(){
+  const T=hzT(), st=hzStep(), out=[];
+  for(let a=0;a<=T;a+=st){ if(HZ.null0==='aus'&&(a===0||a===T))continue; out.push(a); }
+  return out;
+}
+function hzRand(n){return Math.floor(Math.random()*n)}
+// Herz (viewBox 0 0 100 90), Bruchkante als Zickzack
+const HZ_PATH='M50 86 C 20 64, 2 46, 2 27 C 2 12, 14 2, 28 2 C 38 2, 46 8, 50 16 C 54 8, 62 2, 72 2 C 86 2, 98 12, 98 27 C 98 46, 80 64, 50 86 Z';
+const HZ_CRACK='50,16 44,30 54,44 45,58 52,70 50,86';
+let hzId=0;
+function hzFont(n){const l=String(n).length;return l>=3?20:l===2?26:30}
+function hzHalfSVG(side,num,opts){
+  opts=opts||{}; const id='hzc'+(++hzId);
+  const poly=side==='L'?'0,0 50,0 '+HZ_CRACK+' 50,90 0,90':'100,0 50,0 '+HZ_CRACK+' 50,90 100,90';
+  const vb=side==='L'?'0 0 56 90':'44 0 56 90';
+  const x=side==='L'?28:72, col=opts.color||'#e53935';
+  return `<svg class="hz-svg hz-half" viewBox="${vb}" aria-hidden="true"><defs><clipPath id="${id}"><polygon points="${poly}"/></clipPath></defs>
+    <path d="${HZ_PATH}" fill="${col}" stroke="#7a1010" stroke-width="2" clip-path="url(#${id})"/>
+    <polyline points="${HZ_CRACK}" fill="none" stroke="#7a1010" stroke-width="2"/>
+    <text x="${x}" y="40" text-anchor="middle" dominant-baseline="central" font-family="'Grundschrift',Andika,sans-serif" font-weight="700" font-size="${hzFont(num)}" fill="#fff">${num}</text></svg>`;
+}
+function hzWholeSVG(a,b,opts){
+  opts=opts||{}; const id='hzc'+(++hzId), id2='hzc'+(++hzId);
+  const right=b===null||b===undefined?`<path d="${HZ_PATH}" fill="#fff" stroke="#c62828" stroke-width="2" stroke-dasharray="5 4" clip-path="url(#${id2})"/><text x="72" y="40" text-anchor="middle" dominant-baseline="central" font-family="'Grundschrift',Andika,sans-serif" font-weight="700" font-size="30" fill="#c62828">?</text>`
+    :`<path d="${HZ_PATH}" fill="#e53935" stroke="#7a1010" stroke-width="2" clip-path="url(#${id2})"/><text x="72" y="40" text-anchor="middle" dominant-baseline="central" font-family="'Grundschrift',Andika,sans-serif" font-weight="700" font-size="${hzFont(b)}" fill="#fff">${b}</text>`;
+  const whole=b!==null&&b!==undefined&&opts.joined;
+  return `<svg class="hz-svg${whole?' hz-whole':''}" viewBox="0 0 100 90" role="img" aria-label="Herz ${a} und ${b==null?'?':b}"><defs>
+      <clipPath id="${id}"><polygon points="0,0 50,0 ${HZ_CRACK} 50,90 0,90"/></clipPath>
+      <clipPath id="${id2}"><polygon points="100,0 50,0 ${HZ_CRACK} 50,90 100,90"/></clipPath></defs>
+    <path d="${HZ_PATH}" fill="#e53935" stroke="#7a1010" stroke-width="2" clip-path="url(#${id})"/>${right}
+    ${whole?'':`<polyline points="${HZ_CRACK}" fill="none" stroke="#7a1010" stroke-width="2"/>`}
+    <text x="28" y="40" text-anchor="middle" dominant-baseline="central" font-family="'Grundschrift',Andika,sans-serif" font-weight="700" font-size="${hzFont(a)}" fill="#fff">${a}</text></svg>`;
+}
+// Rechenhilfe: Zehnerfeld (10, 20) oder Zehnerstangen (100 mit Zehnerzahlen)
+function hzHelpHTML(a,b){
+  if(HZ.hilfe!=='an'||HZ.ziel==='100')return '';
+  const T=hzT();
+  if(HZ.ziel==='100z'){
+    let h='<div class="rods" aria-label="Zehnerstangen">';
+    for(let i=0;i<10;i++) h+=`<i class="${i<a/10?'r':(b!=null&&i<(a+b)/10?'b':'')}"></i>`;
+    return '<div class="hz-help">'+h+'</div></div>';
+  }
+  let h='<div class="hz-help">';
+  for(let f=0;f<T/10;f++){
+    h+='<div class="zf">';
+    for(let i=0;i<10;i++){const n=f*10+i;h+=`<i class="${n<a?'r':(b!=null&&n<a+b?'b':'')}"></i>`;}
+    h+='</div>';
+  }
+  return h+'</div>';
+}
+function hzOptions(a,n){
+  const T=hzT(), c=T-a, vals=hzValues().filter(v=>v!==c);
+  const near=vals.filter(v=>Math.abs(v-c)<=(HZ.ziel==='100'?12:hzStep()*3));
+  const pool=(near.length>=n-1?near:vals).slice().sort(()=>Math.random()-.5);
+  const out=[c]; for(const v of pool){if(out.length>=n)break;if(!out.includes(v))out.push(v);}
+  for(const v of vals.sort(()=>Math.random()-.5)){if(out.length>=n)break;if(!out.includes(v))out.push(v);}
+  return out.sort(()=>Math.random()-.5);
+}
+function hzNewA(prev){
+  const v=hzValues(); let a; let g=0;
+  do{a=v[hzRand(v.length)];}while(a===prev&&v.length>1&&g++<20);
+  return a;
+}
+// ── Herz finden ──
+function hzFindStart(){HZ.q={n:HZ.runde,i:0,res:[]};HZ.task=null;hzFindNext();}
+function hzFindNext(){
+  const q=HZ.q, m=document.getElementById('hz-main');
+  if(q.i>=q.n){
+    const r=q.res.filter(Boolean).length,k=starCount(r,q.n);
+    m.innerHTML=`<div class="end-box">${starsHTML(k)}<div class="end-title">${r} von ${q.n} beim ersten Versuch richtig</div><p class="lu-hint">${STAR_MSG[k]}</p>
+      <div class="row"><button class="btn-big" id="hz-again">Nochmal üben</button><button class="btn-big blue" id="hz-back2">Zur Auswahl</button></div></div>`;
+    return;
+  }
+  const a=hzNewA(HZ.task&&HZ.task.a);
+  HZ.task={a,opts:hzOptions(a,HZ.anz),first:true,done:false};
+  hzFindRender();
+}
+function hzFindRender(){
+  const t=HZ.task, q=HZ.q, T=hzT(), m=document.getElementById('hz-main');
+  m.innerHTML=progHTML(q.i,q.n,q.res)
+    +`<p class="hz-q">${t.done?'Verliebt!':'Welche Zahl gehört zu '+t.a+'? Zusammen sind es '+T+'.'}</p>`
+    +`<div class="hz-stage"><div class="hz-big" style="width:min(300px,60vw,34vh)">${hzWholeSVG(t.a,t.done?T-t.a:null,{joined:t.done})}</div></div>`
+    +`<div class="hz-eq" id="hz-eq">${t.done?`${t.a} + ${T-t.a} = ${T}`:''}</div>`
+    +hzHelpHTML(t.a,t.done?T-t.a:null)
+    +(t.done?'<div class="row"><button class="btn-big blue" id="hz-next">Weiter</button></div>'
+      :'<div class="hz-opts">'+t.opts.map((v,i)=>`<button class="hz-opt" data-hzopt="${v}" aria-label="${v}">${hzHalfSVG('R',v)}</button>`).join('')+'</div>')
+    +'<p class="fb" id="hz-fb" aria-live="polite"></p>';
+}
+function hzFindPick(v,btn){
+  const t=HZ.task, T=hzT(); if(!t||t.done)return;
+  if(t.a+v===T){
+    t.done=true; HZ.q.res.push(t.first); sbJingle(true);
+    hzFindRender();
+    const d=document.querySelectorAll('#hz-main .dot')[HZ.q.i]; if(d){d.classList.remove('cur');d.classList.add(HZ.q.res[HZ.q.i]?'ok':'no');}
+    if(typeof startConfetti==='function'&&HZ.q.res[HZ.q.i]){try{startConfetti();setTimeout(()=>{try{stopConfetti();}catch(_){}} ,1200);}catch(_){}}
+  } else {
+    t.first=false; btn.classList.add('no'); btn.disabled=true; sbBeep(220,.18,.06,'sine');
+    const fb=document.getElementById('hz-fb'); fb.className='fb no';
+    fb.textContent=`${t.a} + ${v} = ${t.a+v}. Das sind ${t.a+v<T?'zu wenig':'zu viele'}. Probiere es noch einmal!`;
+  }
+}
+// ── Herzpaare (alle Paare finden) ──
+function hzMemStart(){
+  const T=hzT(), vals=hzValues().filter(a=>a<=T-a);
+  const pairs=vals.sort(()=>Math.random()-.5).slice(0,Math.min(HZ.paare,vals.length));
+  const cards=[];
+  pairs.forEach((a,i)=>{const L=Math.random()<.5;cards.push({v:a,side:L?'L':'R',p:i});cards.push({v:T-a,side:L?'R':'L',p:i});});
+  cards.sort(()=>Math.random()-.5);
+  HZ.mem={cards,sel:null,found:[],errors:0,total:pairs.length};
+  hzMemRender();
+}
+function hzMemRender(){
+  const M=HZ.mem, T=hzT(), m=document.getElementById('hz-main');
+  if(M.found.length===M.total){
+    const k=M.errors===0?3:M.errors<=2?2:M.errors<=5?1:0;
+    m.innerHTML=`<div class="end-box">${starsHTML(k)}<div class="end-title">Alle ${M.total} Herzen gefunden!</div><p class="lu-hint">Daneben getippt: ${M.errors}-mal. ${STAR_MSG[k]}</p>
+      <div class="hz-found">${M.found.map(([a,b])=>`<div class="hz-mini"><div class="w">${hzWholeSVG(a,b,{joined:true})}</div>${a} + ${b}</div>`).join('')}</div>
+      <div class="row"><button class="btn-big" id="hz-again">Nochmal spielen</button><button class="btn-big blue" id="hz-back2">Zur Auswahl</button></div></div>`;
+    return;
+  }
+  m.innerHTML=`<p class="hz-q">Tippe zwei Hälften an, die zusammen ${T} ergeben.</p>
+    <div class="hz-info"><span>Gefunden: ${M.found.length} von ${M.total}</span><span>Daneben: ${M.errors}</span></div>
+    <div class="hz-found">${M.found.map(([a,b])=>`<div class="hz-mini"><div class="w">${hzWholeSVG(a,b,{joined:true})}</div>${a} + ${b}</div>`).join('')}</div>
+    <div class="hz-grid">${M.cards.map((c,i)=>`<button class="hz-card${c.done?' done':''}${M.sel===i?' sel':''}" data-hzcard="${i}" aria-label="${c.v}">${hzHalfSVG(c.side,c.v)}</button>`).join('')}</div>
+    <p class="fb" id="hz-fb" aria-live="polite"></p>`;
+}
+function hzMemPick(i){
+  const M=HZ.mem, c=M.cards[i], T=hzT(); if(!c||c.done)return;
+  if(M.sel===null){M.sel=i;hzMemRender();return;}
+  if(M.sel===i){M.sel=null;hzMemRender();return;}
+  const o=M.cards[M.sel];
+  if(o.v+c.v===T){
+    o.done=c.done=true; const L=o.side==='L'?o:c, R=L===o?c:o;
+    M.found.push([L.v,R.v]); M.sel=null; sbJingle(true); hzMemRender();
+    const fb=document.getElementById('hz-fb'); if(fb){fb.className='fb ok';fb.textContent=`${L.v} + ${R.v} = ${T}. Verliebt!`;}
+  } else {
+    M.errors++; const a=M.sel; M.sel=null; sbBeep(220,.18,.06,'sine'); hzMemRender();
+    [a,i].forEach(k=>{const el=document.querySelector(`[data-hzcard="${k}"]`); if(el) el.classList.add('no');});
+    const fb=document.getElementById('hz-fb'); fb.className='fb no'; fb.textContent=`${o.v} + ${c.v} = ${o.v+c.v}. Das passt nicht.`;
+  }
+}
+// ── Herz-Duell ──
+function hzDuelPlayer(p){
+  return `<div class="sb-pname">${uhrEsc(HZ.d.names[p])}</div><div class="sb-pts" id="hz-pts${p}">${HZ.d.score[p]}</div><div class="sb-pstate" id="hz-ps${p}"></div><div class="hz-opts" id="hz-o${p}"></div>`;
+}
+function hzDuelStart(){
+  HZ.d={names:[st.names[0],st.names[1]],score:[0,0],target:st.targetPts,locked:[false,false],over:true,a:null,opts:[]};
+  const m=document.getElementById('hz-main');
+  m.innerHTML=`<div class="hz-player" id="hz-p0">${hzDuelPlayer(0)}</div>
+    <div class="hz-center"><div class="hz-big" id="hz-dheart"></div><div class="hz-eq" id="hz-eq"></div><div id="hz-dhelp"></div><div id="hz-dmsg" class="hz-center"></div></div>
+    <div class="hz-player" id="hz-p1">${hzDuelPlayer(1)}</div>`;
+  hzDuelRound();
+}
+function hzDuelRound(){
+  const d=HZ.d; d.locked=[false,false]; d.over=false;
+  d.a=hzNewA(d.a); d.opts=hzOptions(d.a,HZ.anz);
+  document.getElementById('hz-dheart').innerHTML=hzWholeSVG(d.a,null);
+  document.getElementById('hz-eq').textContent='';
+  document.getElementById('hz-dhelp').innerHTML=hzHelpHTML(d.a,null);
+  document.getElementById('hz-dmsg').innerHTML=`<p class="hz-q">Welche Zahl gehört zu ${d.a}? Zusammen ${hzT()}.</p>`;
+  [0,1].forEach(p=>{
+    const el=document.getElementById('hz-p'+p); el.classList.remove('locked','win');
+    document.getElementById('hz-ps'+p).textContent='';
+    document.getElementById('hz-o'+p).innerHTML=d.opts.map(v=>`<button class="hz-opt" data-hzd="${p}" data-v="${v}" aria-label="${v}">${hzHalfSVG('R',v)}</button>`).join('');
+  });
+}
+function hzDuelPress(p,v,btn){
+  const d=HZ.d; if(!d||d.over||d.locked[p])return;
+  const T=hzT();
+  if(d.a+v===T){
+    d.over=true; d.score[p]++; sbJingle(true);
+    document.getElementById('hz-pts'+p).textContent=d.score[p];
+    document.getElementById('hz-p'+p).classList.add('win'); document.getElementById('hz-ps'+p).textContent='Richtig!';
+    hzDuelEnd('Punkt für '+d.names[p]+'!');
+  } else {
+    d.locked[p]=true; btn.classList.add('no'); sbBeep(220,.18,.06,'sine');
+    document.getElementById('hz-p'+p).classList.add('locked'); document.getElementById('hz-ps'+p).textContent='Gesperrt';
+    if(d.locked[0]&&d.locked[1]){d.over=true;hzDuelEnd('Beide falsch.');}
+  }
+}
+function hzDuelEnd(msg){
+  const d=HZ.d, T=hzT();
+  document.getElementById('hz-dheart').innerHTML=hzWholeSVG(d.a,T-d.a,{joined:true});
+  document.getElementById('hz-eq').textContent=`${d.a} + ${T-d.a} = ${T}`;
+  document.getElementById('hz-dhelp').innerHTML=hzHelpHTML(d.a,T-d.a);
+  const w=[0,1].find(p=>d.score[p]>=d.target);
+  document.getElementById('hz-dmsg').innerHTML=`<p class="hz-q">${uhrEsc(msg)}</p>`+(w!==undefined
+    ?`<div class="end-box"><div class="end-title">${uhrEsc(d.names[w])} gewinnt ${d.score[0]} : ${d.score[1]}!</div><div class="row"><button class="btn-big" id="hz-dagain">Nochmal spielen</button><button class="btn-big blue" id="hz-back2">Menü</button></div></div>`
+    :'<button class="btn-big" id="hz-dnext">Nächstes Herz</button>');
+  if(w!==undefined&&typeof startConfetti==='function'){try{startConfetti();}catch(_){}}
+}
+// ── Battle: Herzregen ──
+const HZ_TEMPO={langsam:{v:.10,gap:1700},mittel:{v:.15,gap:1250},schnell:{v:.22,gap:900}};
+function hzRainStop(){const r=HZ.r; if(!r)return; r.stop=true; cancelAnimationFrame(r.raf); clearTimeout(r.tNext); r.lockT.forEach(clearTimeout);}
+function hzRainLane(p){
+  return `<div class="hz-lane" id="hz-lane${p}" data-lane="${p}"><div class="hz-lhead"><span class="hz-lname">${uhrEsc(HZ.r.names[p])}</span><span class="hz-lpts" id="hz-pts${p}">${HZ.r.score[p]}</span></div><div class="hz-sky" id="hz-sky${p}"></div><div class="hz-lmsg" id="hz-lmsg${p}" hidden></div></div>`;
+}
+function hzRainStart(){
+  hzRainStop();
+  HZ.r={names:[st.names[0],st.names[1]],score:[0,0],target:st.targetPts,a:null,items:[],over:true,stop:false,paused:false,
+    locked:[false,false],lockT:[0,0],raf:0,tNext:0,last:0,spawnAcc:0,since:0,lastSlot:-1,id:0};
+  const m=document.getElementById('hz-main');
+  m.innerHTML=`<div class="hz-rtop"><div class="hz-rheart" id="hz-dheart"></div><div class="hz-rtxt"><p class="hz-q" id="hz-dq"></p><div class="hz-eq" id="hz-eq"></div><div id="hz-dmsg"></div></div><div class="hz-rhelp" id="hz-dhelp"></div></div>
+    <div class="hz-lanes">${hzRainLane(0)}${hzRainLane(1)}</div>`;
+  hzRainRound();
+}
+function hzRainRound(){
+  const r=HZ.r; if(!r)return;
+  clearTimeout(r.tNext); r.lockT.forEach(clearTimeout);
+  r.items=[]; [0,1].forEach(p=>{document.getElementById('hz-sky'+p).innerHTML='';hzRainUnlock(p);document.getElementById('hz-lane'+p).classList.remove('win');});
+  r.a=hzNewA(r.a); r.over=false; r.spawnAcc=99999; r.since=0; r.lastSlot=-1;
+  document.getElementById('hz-dheart').innerHTML=hzWholeSVG(r.a,null);
+  document.getElementById('hz-dq').textContent=`Welche Zahl gehört zu ${r.a}? Zusammen ${hzT()}.`;
+  document.getElementById('hz-eq').textContent='';
+  document.getElementById('hz-dmsg').innerHTML='';
+  document.getElementById('hz-dhelp').innerHTML=hzHelpHTML(r.a,null);
+  r.last=performance.now(); cancelAnimationFrame(r.raf); r.raf=requestAnimationFrame(hzRainTick);
+}
+function hzRainSpawn(){
+  const r=HZ.r, T=hzT(), ok=T-r.a;
+  let v;
+  if(r.since>=2||Math.random()<.34){v=ok;r.since=0;}
+  else{const pool=hzValues().filter(x=>x!==ok); v=pool.length?pool[hzRand(pool.length)]:ok; if(v===ok)r.since=0; else r.since++;}
+  let slot; do{slot=hzRand(4);}while(slot===r.lastSlot); r.lastSlot=slot;
+  const it={id:++r.id,v,x:slot*25+3+Math.random()*4,y:-0.02,ok:v===ok,els:[]};
+  [0,1].forEach(p=>{
+    const b=document.createElement('button'); b.className='hz-fall'; b.dataset.hzf=it.id; b.dataset.p=p; b.setAttribute('aria-label',v);
+    b.style.left=it.x+'%'; b.innerHTML=hzHalfSVG('R',v);
+    document.getElementById('hz-sky'+p).appendChild(b); it.els.push(b);
+  });
+  r.items.push(it);
+}
+function hzRainTick(now){
+  const r=HZ.r; if(!r||r.stop)return;
+  let dt=Math.min(.05,(now-r.last)/1000); r.last=now;
+  if(!r.paused&&!r.over){
+    const tp=HZ_TEMPO[HZ.tempo]||HZ_TEMPO.mittel;
+    r.spawnAcc+=dt*1000;
+    if(r.spawnAcc>=tp.gap){r.spawnAcc=0;hzRainSpawn();}
+    const sky=document.getElementById('hz-sky0'); const H=sky?sky.clientHeight:400;
+    r.items=r.items.filter(it=>{
+      it.y+=tp.v*dt;
+      const px=it.y*H, hh=it.els[0].offsetHeight||80;
+      if(px-hh>H){it.els.forEach(e=>e.remove());return false;}
+      it.els.forEach(e=>e.style.transform=`translateY(${px-hh}px)`);
+      return true;
+    });
+  }
+  r.raf=requestAnimationFrame(hzRainTick);
+}
+function hzRainUnlock(p){const r=HZ.r; r.locked[p]=false; const l=document.getElementById('hz-lane'+p); if(l)l.classList.remove('locked'); const m=document.getElementById('hz-lmsg'+p); if(m)m.hidden=true;}
+function hzRainPress(p,id,btn){
+  const r=HZ.r; if(!r||r.over||r.paused||r.locked[p])return;
+  const it=r.items.find(x=>x.id===id); if(!it)return;
+  const T=hzT();
+  if(it.ok){
+    r.over=true; r.score[p]++; sbJingle(true);
+    document.getElementById('hz-pts'+p).textContent=r.score[p];
+    document.getElementById('hz-lane'+p).classList.add('win'); btn.classList.add('hit');
+    document.getElementById('hz-dheart').innerHTML=hzWholeSVG(r.a,T-r.a,{joined:true});
+    document.getElementById('hz-eq').textContent=`${r.a} + ${T-r.a} = ${T}`; document.getElementById('hz-dq').textContent='';
+    document.getElementById('hz-dhelp').innerHTML=hzHelpHTML(r.a,T-r.a);
+    const w=[0,1].find(q=>r.score[q]>=r.target);
+    if(w!==undefined){
+      document.getElementById('hz-dmsg').innerHTML=`<div class="end-box"><div class="end-title">${uhrEsc(r.names[w])} gewinnt ${r.score[0]} : ${r.score[1]}!</div><div class="row"><button class="btn-big" id="hz-dagain">Nochmal spielen</button><button class="btn-big blue" id="hz-back2">Menü</button></div></div>`;
+      if(typeof startConfetti==='function'){try{startConfetti();}catch(_){}}
+    } else {
+      const lm=document.getElementById('hz-lmsg'+p); lm.textContent='Richtig! Punkt!'; lm.hidden=false;
+      r.tNext=setTimeout(hzRainRound,2200);
+    }
+  } else {
+    r.locked[p]=true; btn.classList.add('no'); sbBeep(220,.18,.06,'sine');
+    document.getElementById('hz-lane'+p).classList.add('locked');
+    const m=document.getElementById('hz-lmsg'+p); m.textContent=`Ups! ${r.a} + ${it.v} = ${r.a+it.v}`; m.hidden=false;
+    clearTimeout(r.lockT[p]); r.lockT[p]=setTimeout(()=>hzRainUnlock(p),1300);
+  }
+}
+// ── Öffnen / Schließen / Klicks ──
+const HZ_TITLES={finden:'Verliebte Zahlen: Herz finden',memory:'Verliebte Zahlen: Herzpaare',duell:'Verliebte Zahlen',regen:'Verliebte Zahlen'};
+function hzOpen(mode){
+  HZ.mode=mode; modal.style.display='none';
+  document.getElementById('hz-screen').hidden=false;
+  document.getElementById('hz-title').textContent=HZ_TITLES[mode];
+  hzRainStop(); HZ.r=null;
+  const rain=mode==='duell'&&HZ.spiel==='regen';
+  document.getElementById('hz-main').className='hz-main'+(rain?' regen':mode==='duell'?' duell':'');
+  if(mode==='finden')hzFindStart(); else if(mode==='memory')hzMemStart(); else if(rain)hzRainStart(); else hzDuelStart();
+}
+function hzHome(){
+  hzCloseSet(true); hzRainStop();
+  if(typeof stopConfetti==='function'){try{stopConfetti();}catch(_){}}
+  document.getElementById('hz-screen').hidden=true; modal.style.display='flex';
+  showMenuPage(HZ.mode==='duell'?'mn-page1':'mn-pageV');
+}
+document.getElementById('hz-home').addEventListener('click',hzHome);
+document.querySelectorAll('[data-hzmode]').forEach(b=>b.addEventListener('click',()=>hzOpen(b.dataset.hzmode)));
+const hzMainEl=document.getElementById('hz-main');
+hzMainEl.addEventListener('click',e=>{
+  const o=e.target.closest('[data-hzopt]'); if(o&&!o.disabled){hzFindPick(+o.dataset.hzopt,o);return;}
+  const c=e.target.closest('[data-hzcard]'); if(c){hzMemPick(+c.dataset.hzcard);return;}
+  if(e.target.closest('#hz-next')){HZ.q.i++;hzFindNext();return;}
+  if(e.target.closest('#hz-again')){if(HZ.mode==='finden')hzFindStart();else hzMemStart();return;}
+  if(e.target.closest('#hz-dnext')){hzDuelRound();return;}
+  if(e.target.closest('#hz-dagain')){if(typeof stopConfetti==='function'){try{stopConfetti();}catch(_){}}if(HZ.r)hzRainStart();else hzDuelStart();return;}
+  if(e.target.closest('#hz-back2')) hzHome();
+});
+hzMainEl.addEventListener('pointerdown',e=>{
+  const f=e.target.closest('[data-hzf]'); if(f){e.preventDefault();hzRainPress(+f.dataset.p,+f.dataset.hzf,f);return;}
+  const b=e.target.closest('[data-hzd]'); if(!b)return;
+  e.preventDefault(); hzDuelPress(+b.dataset.hzd,+b.dataset.v,b);
+});
+// Einstellungen
+const HZ_PRESETS={
+  leicht:{ziel:['10'],hilfe:'an',null0:'aus',anz:3,runde:5,paare:4,tempo:'langsam'},
+  mittel:{ziel:['20','10'],hilfe:'an',null0:'an',anz:4,runde:10,paare:6,tempo:'mittel'},
+  schwer:{ziel:['100','100z','20'],hilfe:'aus',null0:'an',anz:6,runde:15,paare:8,tempo:'schnell'}
+};
+function hzApplyPreset(k){
+  const P=HZ_PRESETS[k];
+  HZ.ziel=P.ziel.find(z=>klAllow('ziel',z))||'10';
+  ['hilfe','null0','anz','runde','paare','tempo'].forEach(x=>HZ[x]=P[x]);
+  HZ.preset=k;
+}
+const hzSetEl=document.getElementById('hz-set'), hzSetOv=document.getElementById('hz-set-ov'), hzSetBody=document.getElementById('hz-set-body');
+function hzOpenSet(){if(HZ.r)HZ.r.paused=true;hzSetBody.innerHTML=lvlHTML(HZ.preset)+cgHTML(HZ_UI,HZ);HZ.changed=false;hzSetOv.hidden=false;hzSetEl.classList.add('open');}
+function hzCloseSet(silent){
+  if(!hzSetEl.classList.contains('open'))return;
+  hzSetOv.hidden=true; hzSetEl.classList.remove('open');
+  if(HZ.r)HZ.r.paused=false;
+  if(silent||!HZ.changed)return;
+  if(HZ.mode==='duell'){ const rain=HZ.spiel==='regen';
+    if(rain!==!!HZ.r){hzOpen('duell');return;}
+    if(rain){hzRainRound();return;} hzDuelRound();return; }
+  if(HZ.mode==='finden')hzFindStart(); else hzMemStart();
+}
+hzSetBody.addEventListener('click',e=>{
+  const pr=e.target.closest('[data-preset]');
+  if(pr) hzApplyPreset(pr.dataset.preset);
+  else { if(!cgClick(e,HZ_UI,HZ))return; HZ.preset=null; }
+  HZ.changed=true; const y=hzSetEl.scrollTop;
+  hzSetBody.innerHTML=lvlHTML(HZ.preset)+cgHTML(HZ_UI,HZ); hzSetEl.scrollTop=y;
+});
+document.getElementById('hz-set-btn').addEventListener('click',hzOpenSet);
+document.getElementById('hz-set-close').addEventListener('click',()=>hzCloseSet());
+document.getElementById('hz-set-ok').addEventListener('click',()=>hzCloseSet());
+hzSetOv.addEventListener('click',()=>hzCloseSet());
+function hzClassDefaults(k){HZ.preset=null;HZ.ziel=k===1?'10':'20';HZ.hilfe='an';HZ.null0='an';HZ.anz=4;}
 
 // ══ KONFETTI ══
 const CONFETTI_COLORS=['#f5e042','#e74c3c','#3498db','#2ecc71','#e91e63','#ff9800','#9c27b0','#00bcd4'];
