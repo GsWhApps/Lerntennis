@@ -715,11 +715,16 @@ button:focus-visible,[tabindex]:focus-visible{outline:3px solid #f5c400;outline-
 /* Herzregen */
 .hz-main.regen{position:relative;display:flex;flex-direction:column;align-items:stretch;gap:10px;overflow:hidden;padding:10px 14px 14px}
 .hz-main.regen > *{width:100%}
-.hz-rtop{display:flex;align-items:center;justify-content:center;gap:16px;flex:0 0 auto;min-height:min(170px,22vh)}
-.hz-rheart{width:min(150px,20vw,17vh);aspect-ratio:100/90;flex:0 0 auto}
+.hz-rtop{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;flex:0 0 auto}
+.hz-rrow{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:16px;min-height:min(130px,17vh);width:100%}
+.hz-rrow::before{content:''}
+.hz-rrow .hz-rhelp{justify-self:start;max-width:none}
+@media (max-width:900px){.hz-rrow{display:flex;flex-direction:column;gap:8px}.hz-rrow::before{display:none}}
+.hz-rheart{width:min(130px,18vw,15vh);aspect-ratio:100/90;flex:0 0 auto}
 .hz-rtxt{display:flex;flex-direction:column;align-items:center;gap:4px;min-width:0;max-width:420px}
 .hz-rtxt .hz-q{margin:0;text-align:center}
-.hz-rtxt{min-height:5.2em;justify-content:center;flex:0 0 auto}
+.hz-rtxt{min-height:76px;justify-content:center;flex:0 0 auto;text-align:center;max-width:min(760px,100%)!important}
+.hz-rtxt .hz-eq{font-size:clamp(1.8rem,4.5vw,2.5rem);min-height:0;line-height:1.2}
 .hz-main.regen #hz-dmsg:empty{display:none}
 .hz-main.regen #hz-dmsg{position:absolute;inset:0;z-index:5;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.25)}
 .hz-main.regen #hz-dmsg .end-box{margin:0;max-width:92%;background:#fff;padding:22px 26px;border-radius:24px;box-shadow:0 10px 30px rgba(0,0,0,.3);text-align:center}
@@ -799,10 +804,10 @@ button:focus-visible,[tabindex]:focus-visible{outline:3px solid #f5c400;outline-
 .geo-fakt .fb{text-align:center}
 /* Battle */
 .geo-main.battle{position:relative;flex-direction:column;gap:10px;overflow:hidden;padding:10px 14px 14px}
-.geo-rtop{display:flex;align-items:center;justify-content:center;gap:16px;flex:0 0 auto;min-height:min(180px,22vh)}
-.geo-rmap{height:min(180px,22vh);aspect-ratio:600/700;flex:0 0 auto}
+.geo-rtop{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;flex:0 0 auto}
+.geo-rmap{height:min(160px,19vh);aspect-ratio:600/700;flex:0 0 auto}
 .geo-rmap .geo-svg{width:100%;height:100%}
-.geo-main.battle .geo-q{text-align:center;max-width:520px}
+.geo-main.battle .geo-q{text-align:center;max-width:min(860px,100%);margin:0 auto;align-self:center}
 .geo-fall{position:absolute;top:0;max-width:46%;padding:9px 14px;border:none;border-radius:999px;background:#fff;color:#1a237e;cursor:pointer;
   font-family:'Grundschrift','Andika',sans-serif;font-weight:700;font-size:clamp(.95rem,2.2vw,1.25rem);line-height:1.15;
   box-shadow:0 3px 0 rgba(0,0,0,.2),0 0 0 3px #e65100 inset;will-change:transform;white-space:normal;text-align:center;-webkit-tap-highlight-color:transparent;touch-action:none}
@@ -814,7 +819,7 @@ button:focus-visible,[tabindex]:focus-visible{outline:3px solid #f5c400;outline-
 .geo-main.battle #geo-dmsg{position:absolute;inset:0;z-index:5;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.25)}
 .geo-main.battle #geo-dmsg:empty{display:none}
 .geo-main.battle #geo-dmsg .end-box{margin:0;max-width:92%;background:#fff;padding:22px 26px;border-radius:24px;box-shadow:0 10px 30px rgba(0,0,0,.3)}
-.geo-kq{text-align:center;flex:0 0 auto}
+.geo-main.battle .geo-q.geo-kq{text-align:center;flex:0 0 auto;align-self:center;max-width:min(860px,100%);margin:0 auto;background:#fff;border:3px solid var(--sand-border);border-radius:18px;padding:8px 22px;font-size:clamp(1.35rem,3vw,1.9rem)}
 .geo-kmaps{flex:1 1 auto;min-height:0;display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .geo-klane{background:#fdf8ea}
 .geo-kmap{flex:1;min-height:0;display:flex;align-items:center;justify-content:center;padding:8px}
@@ -3980,7 +3985,7 @@ function hzRainStart(){
   HZ.r={names:[st.names[0],st.names[1]],score:[0,0],target:st.targetPts,a:null,items:[],over:true,stop:false,paused:false,
     locked:[false,false],lockT:[0,0],raf:0,tNext:0,last:0,spawnAcc:0,since:0,lastSlot:-1,id:0};
   const m=document.getElementById('hz-main');
-  m.innerHTML=`<div class="hz-rtop"><div class="hz-rheart" id="hz-dheart"></div><div class="hz-rtxt"><p class="hz-q" id="hz-dq"></p><div class="hz-eq" id="hz-eq"></div><div id="hz-dmsg"></div></div><div class="hz-rhelp" id="hz-dhelp"></div></div>
+  m.innerHTML=`<div class="hz-rtop"><div class="hz-rrow"><div class="hz-rheart" id="hz-dheart"></div><div class="hz-rhelp" id="hz-dhelp"></div></div><div class="hz-rtxt"><p class="hz-q" id="hz-dq"></p><div class="hz-eq" id="hz-eq"></div><div id="hz-dmsg"></div></div></div>
     <div class="hz-lanes">${hzRainLane(0)}${hzRainLane(1)}</div>`;
   hzRainRound();
 }
